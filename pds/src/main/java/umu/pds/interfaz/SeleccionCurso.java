@@ -2,10 +2,14 @@ package umu.pds.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,6 +17,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -71,67 +77,128 @@ public class SeleccionCurso extends JFrame {
 		//cambiar icono de la ventana
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/umu/pds/resources/musculitos.png"));
 		
-		// Título
-        JLabel titulo = new JLabel("Quiero aprender:", SwingConstants.CENTER);
+	    
+		// 🔹 Panel principal
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout((LayoutManager) new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+        panelPrincipal.setBackground(Color.WHITE);
+
+        // 🔹 Panel superior con logo y nombre de la app
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setBackground(Color.WHITE);
+
+        JLabel logo = new JLabel();
+        try {
+            URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/musculitos.png");
+            BufferedImage img = ImageIO.read(imgURL);
+            logo.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        } catch (IOException | NullPointerException e) {
+            logo.setText("LOGO");
+        }
+
+        JLabel nombreApp = new JLabel("Duopingo");
+        nombreApp.setFont(new Font("Arial", Font.BOLD, 20));
+        nombreApp.setForeground(new Color(0, 150, 0)); // Verde Duolingo
+        panelSuperior.add(logo);
+        panelSuperior.add(nombreApp);
+
+        // 🔹 Texto centrado "Quiero aprender:"
+        JLabel titulo = new JLabel("Quiero aprender sobre ...  :");
         titulo.setFont(new Font("Arial", Font.BOLD, 18));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         titulo.setForeground(Color.BLACK);
 
-        // Panel para cursos
-        JPanel panelCursos = new JPanel(new GridLayout(1, 2, 10, 10));
+        // 🔹 Panel de cursos (centrado con GridLayout)
+        JPanel panelCursos = new JPanel(new GridLayout(1, 2, 20, 10));
+        panelCursos.setBackground(Color.WHITE);
 
-        // Crear primer curso (Inglés)
-        JPanel curso1 = new JPanel(new BorderLayout());
-        curso1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-        
-        JLabel img1 = new JLabel();
-        img1.setHorizontalAlignment(SwingConstants.CENTER);
+        // 🟢 Primer marco: Imagen + Nombre del curso + Botón
+        JPanel curso1 = new JPanel();
+        curso1.setLayout(new BorderLayout());
+        curso1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        curso1.setBackground(Color.WHITE);
+
+        JLabel imgLabel1 = new JLabel("", SwingConstants.CENTER);
         try {
-            URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/banderaUSA.png");
+            URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/furbo.jpg");
             BufferedImage img = ImageIO.read(imgURL);
-            img1.setIcon(new ImageIcon(img.getScaledInstance(50, 30, Image.SCALE_SMOOTH)));
+            imgLabel1.setIcon(new ImageIcon(img.getScaledInstance(320, 200, Image.SCALE_SMOOTH)));
         } catch (IOException | NullPointerException e) {
-            img1.setText("Imagen no encontrada");
+            imgLabel1.setText("Imagen no encontrada");
         }
 
-        JLabel texto1 = new JLabel("Inglés", SwingConstants.CENTER);
-        JButton btn1 = new JButton("Elegir");
-        btn1.addActionListener(e -> System.out.println("Seleccionaste: Inglés"));
+        JLabel texto1 = new JLabel("Fútbol", SwingConstants.CENTER);
+        texto1.setFont(new Font("Arial", Font.BOLD, 20));
+        texto1.setForeground(Color.BLACK);
+        JButton boton1 = new JButton("Seleccionar Curso");
+        boton1.setPreferredSize(new Dimension(60, 40));
+        boton1.setBackground(new Color(30, 144, 255));
+        boton1.setForeground(Color.WHITE);
+        boton1.setFocusPainted(false);
+		boton1.addActionListener(e -> {
+			// ocultar la ventana de selección de curso
+			   this.setVisible(false);
+			// abrir ventana de curso de fútbol
+			   VentanaPrincipal vp = new VentanaPrincipal();
+			   vp.setVisible(true);
+			
+		});
 
-        curso1.add(img1, BorderLayout.NORTH);
-        curso1.add(texto1, BorderLayout.CENTER);
-        curso1.add(btn1, BorderLayout.SOUTH);
+        JPanel panelBoton1 = new JPanel(new BorderLayout());
+        panelBoton1.setBackground(Color.WHITE);
+        panelBoton1.add(texto1, BorderLayout.NORTH);
+        panelBoton1.add(boton1, BorderLayout.SOUTH);
 
-        // Crear segundo curso (Francés)
-        JPanel curso2 = new JPanel(new BorderLayout());
-        curso2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+        curso1.add(imgLabel1, BorderLayout.CENTER);
+        curso1.add(panelBoton1, BorderLayout.SOUTH);
 
-        JLabel img2 = new JLabel();
-        img2.setHorizontalAlignment(SwingConstants.CENTER);
+        // 🔵 Segundo marco: Imagen + Nombre del curso + Botón
+        JPanel curso2 = new JPanel();
+        curso2.setLayout(new BorderLayout());
+        curso2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        curso2.setBackground(Color.WHITE);
+
+        JLabel imgLabel2 = new JLabel("", SwingConstants.CENTER);
         try {
-            URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/banderaESP.png");
+            URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/simbolo +.png");
             BufferedImage img = ImageIO.read(imgURL);
-            img2.setIcon(new ImageIcon(img.getScaledInstance(50, 30, Image.SCALE_SMOOTH)));
+            imgLabel2.setIcon(new ImageIcon(img.getScaledInstance(90, 70, Image.SCALE_SMOOTH)));
         } catch (IOException | NullPointerException e) {
-            img2.setText("Imagen no encontrada");
+            imgLabel2.setText("Imagen no encontrada");
         }
 
-        JLabel texto2 = new JLabel("Español", SwingConstants.CENTER);
-        JButton btn2 = new JButton("Elegir");
-        btn2.addActionListener(e -> System.out.println("Seleccionaste: Español"));
+        JLabel texto2 = new JLabel("Crear Nuevo Curso", SwingConstants.CENTER);
+        texto2.setFont(new Font("Arial", Font.BOLD, 20));
+        texto2.setForeground(Color.BLACK);
+        JButton boton2 = new JButton("Crear");
+        boton2.setPreferredSize(new Dimension(60, 40));
+        boton2.setBackground(new Color(30, 144, 255));
+        boton2.setForeground(Color.WHITE);
+        boton2.setFocusPainted(false);
 
-        curso2.add(img2, BorderLayout.NORTH);
-        curso2.add(texto2, BorderLayout.CENTER);
-        curso2.add(btn2, BorderLayout.SOUTH);
+        JPanel panelBoton2 = new JPanel(new BorderLayout());
+        panelBoton2.setBackground(Color.WHITE);
+        panelBoton2.add(texto2, BorderLayout.NORTH);
+        panelBoton2.add(boton2, BorderLayout.SOUTH);
 
-        // Agregar cursos al panel
+        curso2.add(imgLabel2, BorderLayout.CENTER);
+        curso2.add(panelBoton2, BorderLayout.SOUTH);
+
+        // Agregar cursos al panel de cursos
         panelCursos.add(curso1);
         panelCursos.add(curso2);
 
-        // Agregar todo a la ventana
-        this.add(titulo, BorderLayout.NORTH);
-        this.add(panelCursos, BorderLayout.CENTER);
+        // Agregar elementos al panel principal
+        panelPrincipal.add(panelSuperior);
+        panelPrincipal.add(Box.createVerticalStrut(10)); // Espacio
+        panelPrincipal.add(titulo);
+        panelPrincipal.add(Box.createVerticalStrut(10)); // Espacio
+        panelPrincipal.add(panelCursos);
 
-	    
+        // Agregar todo a la ventana
+        this.add(panelPrincipal);
+
+        
 		this.setVisible(true);
 	}
 
