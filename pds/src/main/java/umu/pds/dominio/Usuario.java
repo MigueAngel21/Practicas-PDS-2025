@@ -10,6 +10,11 @@ public class Usuario {
 	private int edad;
 	private Estadistica estadisticas;
 	private List<Curso> cursos;
+
+	public boolean comprobarContrasena(String contrasena) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }
