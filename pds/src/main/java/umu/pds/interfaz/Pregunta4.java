@@ -1,30 +1,26 @@
 package umu.pds.interfaz;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
 
-public class Pregunta1 extends JFrame {
+public class Pregunta4 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -36,7 +32,7 @@ public class Pregunta1 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Pregunta1 frame = new Pregunta1();
+					Pregunta4 frame = new Pregunta4();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,8 +44,7 @@ public class Pregunta1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Pregunta1() {
-		
+	public Pregunta4() {
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 		} catch (ClassNotFoundException e) {
@@ -68,7 +63,7 @@ public class Pregunta1 extends JFrame {
 		
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Pregunta 1");
+		setTitle("Pregunta 4");
 		setResizable(false);
 		//cambiar icono de la ventana
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/umu/pds/resources/musculitos.png"));
@@ -103,12 +98,12 @@ public class Pregunta1 extends JFrame {
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
         // Pregunta en negrita
-        JLabel lblPregunta = new JLabel("Completa la frase de Luis Rubiales : ");
+        JLabel lblPregunta = new JLabel("Completa la frase de Luis Aragones : ");
         lblPregunta.setFont(new Font("Arial", Font.BOLD, 16));
         lblPregunta.setForeground(Color.BLACK);
 
         // Frase con hueco para completar
-        JLabel lblFrase = new JLabel("Ella me dijo, eres un crack, y yo le dije, _________?");
+        JLabel lblFrase = new JLabel("Ganar, ganar y volver a ganar, y ganar y ganar, y ganar, y eso _______");
         lblFrase.setFont(new Font("Arial", Font.PLAIN, 14));
         lblFrase.setForeground(Color.BLACK);
         
@@ -118,9 +113,9 @@ public class Pregunta1 extends JFrame {
         panelOpciones.setBackground(Color.WHITE);
 
         // Botones de opción (más pequeños)
-        JButton opcion1 = new JButton("1. un abrazo");
-        JButton opcion2 = new JButton("2. un piquito");
-        JButton opcion3 = new JButton("3. un apreton de manos");
+        JButton opcion1 = new JButton("1. es el futbol, señores");
+        JButton opcion2 = new JButton("2. es la vida");
+        JButton opcion3 = new JButton("3. es el futbol, chavales");
 
         // Ajustar tamaño de los botones
         Dimension botonSize = new Dimension(100, 30);
@@ -173,8 +168,8 @@ public class Pregunta1 extends JFrame {
         	// ocultar la ventana de registro
         	this.setVisible(false);
 			// abrir la ventana principal
-        	Pregunta2 p2 = new Pregunta2();
-			p2.setVisible(true);
+        	Pregunta5 p5 = new Pregunta5();
+			p5.setVisible(true);
 		});
 
         // Agregar componentes al panel principal
