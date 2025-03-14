@@ -1,9 +1,9 @@
 package umu.pds.interfaz;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -13,7 +13,6 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,15 +20,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+
+import umu.pds.controlador.Controlador;
+import umu.pds.dominio.MultipleChoice;
 
 public class Preguntas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private Controlador controlador = Controlador.INSTANCE;
 
 	/**
 	 * Launch the application.
@@ -108,8 +107,10 @@ public class Preguntas extends JFrame {
 			// ocultar la ventana de selección de curso
 			   this.setVisible(false);
 			// abrir ventana de curso de fútbol
-			   Pregunta1 p1 = new Pregunta1();
-			   p1.setVisible(true);
+			// conseguir respuesta seleccionada
+			   MultipleChoice p = (MultipleChoice) controlador.getSiguientePregunta();
+			   PreguntaMultipleChoice pMC = new PreguntaMultipleChoice(p, 1);
+			   pMC.setVisible(true);
 		});
 		panel_1.add(continuar);
 		
