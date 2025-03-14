@@ -1,5 +1,8 @@
 package umu.pds.controlador;
 
+import umu.pds.dominio.Curso;
+import umu.pds.dominio.LibreriaCursos;
+import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.RepositorioUsuarios;
 import umu.pds.dominio.Usuario;
 
@@ -10,6 +13,8 @@ public enum Controlador {
 	
 	private Usuario usuarioActual;
 	private RepositorioUsuarios repositorioUsuarios;
+	private Curso cursoActual = new Curso(LibreriaCursos.INSTANCE.getCurso("Capitales de Europa"));
+	private Pregunta preguntaActual;
 	
 	
 	public boolean InciarSesion(String usuario, String contrasena) {
@@ -29,4 +34,20 @@ public enum Controlador {
 		return false;*/
 	}
 	
+	public void setCusoActual(Curso curso) {
+		this.cursoActual = curso;
+	}
+	
+	public Curso getCursoActual() {
+		return cursoActual;
+	}
+	
+	public Pregunta getSiguientePregunta() {
+		preguntaActual = cursoActual.getSiguientePregunta();
+		return preguntaActual;
+    }
+	
+	public void responderPregunta(int respuesta) {
+		cursoActual.responderPregunta(preguntaActual,respuesta);
+	}
 }
