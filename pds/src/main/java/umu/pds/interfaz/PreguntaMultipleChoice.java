@@ -1,6 +1,7 @@
 package umu.pds.interfaz;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -83,6 +84,9 @@ public class PreguntaMultipleChoice extends JFrame {
 		// Pregunta en negrita
 		JLabel lblPregunta = new JLabel(pregunta.getEnunciado());
 		lblPregunta.setFont(new Font("Arial", Font.BOLD, 16));
+		if(pregunta.contieneImagen()) {
+	        lblPregunta.setAlignmentX(Component.CENTER_ALIGNMENT);
+		}
 		lblPregunta.setForeground(Color.BLACK);
 
 		// Frase con hueco para completar
