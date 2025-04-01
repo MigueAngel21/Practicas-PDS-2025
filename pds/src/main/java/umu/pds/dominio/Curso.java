@@ -25,4 +25,8 @@ public class Curso {
 		return null;
 	}
 	
+	public Progreso getProgreso() {
+		return progreso;
+	}
+	
 }

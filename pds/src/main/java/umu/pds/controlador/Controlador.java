@@ -1,8 +1,11 @@
 package umu.pds.controlador;
 
+import java.util.Map;
+
 import umu.pds.dominio.Curso;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.Pregunta;
+import umu.pds.dominio.Progreso;
 import umu.pds.dominio.RepositorioUsuarios;
 import umu.pds.dominio.Usuario;
 
@@ -15,6 +18,8 @@ public enum Controlador {
 	private RepositorioUsuarios repositorioUsuarios;
 	private Curso cursoActual = new Curso(LibreriaCursos.INSTANCE.getCurso("Capitales de Europa"));
 	private Pregunta preguntaActual;
+	
+	private Map<Curso,Progreso> progresos = new java.util.HashMap<Curso,Progreso>();
 	
 	
 	public boolean InciarSesion(String usuario, String contrasena) {
@@ -49,5 +54,10 @@ public enum Controlador {
 	
 	public void responderPregunta(int respuesta) {
 		cursoActual.responderPregunta(preguntaActual,respuesta);
+	}
+	
+	public void registrarProgeso(int lastPregunta, boolean correcta) {
+		Progreso p = cursoActual.getProgreso();
+		p.update(lastPregunta, correcta);
 	}
 }
