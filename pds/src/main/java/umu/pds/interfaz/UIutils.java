@@ -7,7 +7,12 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import umu.pds.dominio.Flashcard;
+import umu.pds.dominio.MultipleChoice;
+import umu.pds.dominio.Pregunta;
 
 public class UIutils {
 
@@ -34,6 +39,16 @@ public class UIutils {
             return new ImageIcon(ImageIO.read(url).getScaledInstance(size, size, Image.SCALE_SMOOTH));
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
+        }
+	}
+	
+	public static JFrame creaPreguntaUI(Pregunta pregunta, int numPregunta) {
+		if (pregunta instanceof MultipleChoice) {
+            return new MultipleChoiceUI((MultipleChoice) pregunta, numPregunta);
+        } else if (pregunta instanceof Flashcard) {
+            return new FlashcardUI((Flashcard) pregunta, numPregunta);
+        } else {
             return null;
         }
 	}

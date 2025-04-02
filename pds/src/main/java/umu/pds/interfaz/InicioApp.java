@@ -22,6 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import umu.pds.dominio.EspecificacionCurso;
+import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
@@ -62,8 +63,10 @@ public class InicioApp {
 		Pregunta p10 = new MultipleChoice("Completa la frase de Vicente del Bosque :", "En el fútbol no siempre ganan los mejores, sino los que mejor _____", 3, 1, "compiten", "pierden", "ganan");
 		Pregunta p11 = new MultipleChoice("Responde a la siguiente pregunta :","¿Cuáles de estos jugadores no ha ganado un balón de oro?", 3, 1, "Luka Modric", "Karim Benzema", "Dani Carvajal");
 		Pregunta p12 = new MultipleChoice("¿Cuál de estos jugadores ha jugado en el Real Madrid?","", 3, 2, true, "/umu/pds/resources/Havertz.jpg", "/umu/pds/resources/Carvajal.jpg", "/umu/pds/resources/AlexanderArnold.jpg");
+		Pregunta pX = new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi");
 		List<Pregunta> preguntas = new ArrayList<Pregunta>();
 		preguntas.add(p1);
+		preguntas.add(pX);
 		preguntas.add(p2);
 		preguntas.add(p3);
 		preguntas.add(p4);
