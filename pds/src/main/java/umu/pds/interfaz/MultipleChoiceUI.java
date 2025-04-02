@@ -26,8 +26,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import umu.pds.controlador.Controlador;
 import umu.pds.dominio.MultipleChoice;
+import umu.pds.dominio.Pregunta;
 
-public class PreguntaMultipleChoice extends JFrame {
+public class MultipleChoiceUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -37,15 +38,25 @@ public class PreguntaMultipleChoice extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PreguntaMultipleChoice(MultipleChoice pregunta, int numPregunta) {
+	public MultipleChoiceUI(MultipleChoice pregunta, int numPregunta) {
 
-		// Usar solo un catch
 		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
-		} catch (Exception e) {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+
         // Configuración de la ventana
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,17 +175,15 @@ public class PreguntaMultipleChoice extends JFrame {
 			this.setVisible(false);
 			// conseguir respuesta seleccion
 			controlador.responderPregunta(respuestaSeleccionada,numPregunta);
-			MultipleChoice p = (MultipleChoice) controlador.getSiguientePregunta();
+			Pregunta p = controlador.getSiguientePregunta();
 			if (p == null) {
 				// Abrir ventana de puntuación
 				Puntos puntos = new Puntos();
 				puntos.setVisible(true);
 				return;
 			}
-			// Ponemos la respuesta seleccionada a -1 para saber que en la siguiente ventana aun no ha seleccionado ninguna respuesta
-			respuestaSeleccionada = -1;
-			PreguntaMultipleChoice pMC = new PreguntaMultipleChoice(p, numPregunta + 1);
-			pMC.setVisible(true);
+			JFrame sig = UIutils.creaPreguntaUI(p, numPregunta + 1);
+			sig.setVisible(true);
 		});
 
 		// Agregar componentes al panel principal

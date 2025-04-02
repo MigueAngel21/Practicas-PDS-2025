@@ -25,6 +25,8 @@ public enum Controlador {
 	
 	
 	public boolean InciarSesion(String usuario, String contrasena) {
+		// remove spaces from user input
+		usuario = usuario.trim();
 		System.out.println("Usuario: " + usuario + " Contraseña: " + contrasena);
 		if (usuario.equals("paco") && contrasena.equals("1234") ) {
 			return true;

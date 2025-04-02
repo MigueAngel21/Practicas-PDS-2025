@@ -109,7 +109,7 @@ public class Preguntas extends JFrame {
 			// abrir ventana de curso de fútbol
 			// conseguir respuesta seleccionada
 			   MultipleChoice p = (MultipleChoice) controlador.getSiguientePregunta();
-			   PreguntaMultipleChoice pMC = new PreguntaMultipleChoice(p, 1);
+			   MultipleChoiceUI pMC = new MultipleChoiceUI(p, 1);
 			   pMC.setVisible(true);
 		});
 		panel_1.add(continuar);
