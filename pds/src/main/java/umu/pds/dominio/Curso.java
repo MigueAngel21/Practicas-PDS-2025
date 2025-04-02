@@ -14,9 +14,18 @@ public class Curso {
 		preguntas = especificacionCurso.getPreguntas();
 	}
 	
-	public void responderPregunta(Pregunta pregunta, int respuesta) {
+	public boolean responderPregunta(MultipleChoice pregunta, int respuesta, int numPregunta) {
+		boolean ret = pregunta.responder(respuesta);
+		updateProgreso(numPregunta, ret);
 		preguntas.remove(pregunta);
+		return ret;
     }
+
+	public void responderPregunta(Flashcard preguntaActual, int numPregunta) {
+		updateProgreso(numPregunta);
+		preguntas.remove(preguntaActual);
+	}
+
 
 	public Pregunta getSiguientePregunta() {
 		if (preguntas.size() > 0) {
@@ -25,8 +34,25 @@ public class Curso {
 		return null;
 	}
 	
+	// Multiple choice
+	private void updateProgreso(int lastPregunta, boolean correcta) {
+		if (progreso == null) {
+			progreso = new Progreso(0,0,this);
+		}
+		progreso.update(lastPregunta, correcta);
+	}
+	
+	// Flashcard
+	private void updateProgreso(int lastPregunta) {
+		if (progreso == null) {
+			progreso = new Progreso(0, 0, this);
+		}
+		progreso.update(lastPregunta);
+	}
+	
 	public Progreso getProgreso() {
 		return progreso;
 	}
+
 	
 }

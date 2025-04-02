@@ -9,5 +9,9 @@ public class Flashcard extends Pregunta {
 		super(enunciado);
 		this.respuesta = respuesta;
 	}
+	
+	public String getRespuesta() {
+		return respuesta;
+	}
 
 }
