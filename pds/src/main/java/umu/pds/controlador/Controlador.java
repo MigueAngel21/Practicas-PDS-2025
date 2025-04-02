@@ -3,7 +3,9 @@ package umu.pds.controlador;
 import java.util.Map;
 
 import umu.pds.dominio.Curso;
+import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.LibreriaCursos;
+import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.Progreso;
 import umu.pds.dominio.RepositorioUsuarios;
@@ -52,12 +54,13 @@ public enum Controlador {
 		return preguntaActual;
     }
 	
-	public void responderPregunta(int respuesta) {
-		cursoActual.responderPregunta(preguntaActual,respuesta);
+	public void responderPregunta(int respuesta, int numPregunta) {
+		cursoActual.responderPregunta((MultipleChoice) preguntaActual,respuesta, numPregunta);
 	}
 	
-	public void registrarProgeso(int lastPregunta, boolean correcta) {
-		Progreso p = cursoActual.getProgreso();
-		p.update(lastPregunta, correcta);
+	public void responderPregunta(int numPregunta) {
+		cursoActual.responderPregunta((Flashcard) preguntaActual, numPregunta);
 	}
+
+	
 }

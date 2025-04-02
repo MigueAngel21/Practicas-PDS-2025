@@ -32,29 +32,21 @@ public class PreguntaMultipleChoice extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controlador controlador = Controlador.INSTANCE;
-	private int respuestaSeleccionada;
+	private int respuestaSeleccionada = -1;
 
 	/**
 	 * Create the frame.
 	 */
 	public PreguntaMultipleChoice(MultipleChoice pregunta, int numPregunta) {
 
+		// Usar solo un catch
 		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
+			UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+        // Configuración de la ventana
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Pregunta " + numPregunta);
@@ -165,11 +157,13 @@ public class PreguntaMultipleChoice extends JFrame {
 		btnContinuar.setFocusPainted(false);
 		btnContinuar.setMaximumSize(new Dimension(120, 35));
 		btnContinuar.addActionListener(e -> {
-			// ocultar la ventana de registro
+			if (respuestaSeleccionada == -1) {
+				UIutils.showErrorDialog("Debes seleccionar una respuesta");
+				return;
+			}
 			this.setVisible(false);
-			// abrir la ventana principal
 			// conseguir respuesta seleccion
-			controlador.responderPregunta(respuestaSeleccionada);
+			controlador.responderPregunta(respuestaSeleccionada,numPregunta);
 			MultipleChoice p = (MultipleChoice) controlador.getSiguientePregunta();
 			if (p == null) {
 				// Abrir ventana de puntuación
@@ -177,6 +171,8 @@ public class PreguntaMultipleChoice extends JFrame {
 				puntos.setVisible(true);
 				return;
 			}
+			// Ponemos la respuesta seleccionada a -1 para saber que en la siguiente ventana aun no ha seleccionado ninguna respuesta
+			respuestaSeleccionada = -1;
 			PreguntaMultipleChoice pMC = new PreguntaMultipleChoice(p, numPregunta + 1);
 			pMC.setVisible(true);
 		});
@@ -202,5 +198,6 @@ public class PreguntaMultipleChoice extends JFrame {
 		this.add(panelPrincipal);
 		this.setVisible(true);
 	}
+
 
 }

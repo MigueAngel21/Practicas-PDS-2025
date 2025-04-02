@@ -13,6 +13,7 @@ public class Progreso {
         this.curso = curso;
     }
 	
+	// Multiple choice
 	public void update(int lastPregunta, boolean correcta) {
 		this.lastPregunta = lastPregunta;
 		if (correcta) {
@@ -20,6 +21,11 @@ public class Progreso {
 		} else {
 			respuestasIncorrectas++;
 		}
+	}
+	
+	// Flashcard
+	public void update(int lastPregunta) {
+		this.lastPregunta = lastPregunta;
 	}
 	
 	
