@@ -3,6 +3,7 @@ package umu.pds.controlador;
 import java.util.Map;
 
 import umu.pds.dominio.Curso;
+import umu.pds.dominio.Estadistica;
 import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.MultipleChoice;
@@ -18,7 +19,7 @@ public enum Controlador {
 	
 	private Usuario usuarioActual;
 	private RepositorioUsuarios repositorioUsuarios;
-	private Curso cursoActual = new Curso(LibreriaCursos.INSTANCE.getCurso("Capitales de Europa"));
+	private Curso cursoActual; 
 	private Pregunta preguntaActual;
 	
 	private Map<Curso,Progreso> progresos = new java.util.HashMap<Curso,Progreso>();
@@ -43,6 +44,15 @@ public enum Controlador {
 		return false;*/
 	}
 	
+	public void setCursoActual(Curso curso) {
+		this.cursoActual = curso;
+	}
+	
+	// Solo para pruebas borrar más tarde
+	public void setUsuarioActual(Usuario usuario) {
+		this.usuarioActual = usuario;
+	}
+	
 	public void setCusoActual(Curso curso) {
 		this.cursoActual = curso;
 	}
@@ -62,6 +72,14 @@ public enum Controlador {
 	
 	public void responderPregunta(int numPregunta) {
 		cursoActual.responderPregunta((Flashcard) preguntaActual, numPregunta);
+	}
+	
+	public Estadistica getEstadisticas() {
+		return usuarioActual.getEstadisticas();
+	}
+	
+	public String getUsername() {
+		return usuarioActual.getNombre();
 	}
 
 	

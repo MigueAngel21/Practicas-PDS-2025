@@ -37,7 +37,7 @@ public class Curso {
 	// Multiple choice
 	private void updateProgreso(int lastPregunta, boolean correcta) {
 		if (progreso == null) {
-			progreso = new Progreso(0,0,this);
+			progreso = new Progreso(0,0,0,this);
 		}
 		progreso.update(lastPregunta, correcta);
 	}
@@ -45,7 +45,7 @@ public class Curso {
 	// Flashcard
 	private void updateProgreso(int lastPregunta) {
 		if (progreso == null) {
-			progreso = new Progreso(0, 0, this);
+			progreso = new Progreso(0,0,0,this);
 		}
 		progreso.update(lastPregunta);
 	}
@@ -53,6 +53,21 @@ public class Curso {
 	public Progreso getProgreso() {
 		return progreso;
 	}
-
+	
+	public EstrategiaApredizaje getEstrategia() {
+		return estrategia;
+	}
+	
+	public EspecificacionCurso getEspecificacionCurso() {
+        return especificacionCurso;
+    }
+	
+	public String getNombre() {
+		return especificacionCurso.getNombre();
+	}
+	
+	public int getNumPreguntas() {
+		return preguntas.size();
+	}
 	
 }

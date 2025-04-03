@@ -21,17 +21,23 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import umu.pds.controlador.Controlador;
+import umu.pds.dominio.Curso;
 import umu.pds.dominio.EspecificacionCurso;
+import umu.pds.dominio.Estadistica;
 import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
+import umu.pds.dominio.Progreso;
+import umu.pds.dominio.Usuario;
 
 
 
 public class InicioApp {
 
 	JFrame frame;
+	Controlador controlador = Controlador.INSTANCE;
 
 	/**
 	 * Launch the application.
@@ -78,8 +84,21 @@ public class InicioApp {
 		preguntas.add(p10);
 		preguntas.add(p11);
 		preguntas.add(p12);
-		EspecificacionCurso especificacion = new EspecificacionCurso("Capitales de Europa", "Aprende las capitales de los países europeos", preguntas);
+		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
 		LibreriaCursos.INSTANCE.addCurso(especificacion);
+		
+		Usuario paco = new Usuario("paco", "paco@duopingo.com", "1234", 18);
+		controlador.setUsuarioActual(paco);
+		
+		Curso curso = new Curso(especificacion);
+		controlador.setCusoActual(curso);
+		
+		Estadistica estadistica = new Estadistica(15,2);
+		Progreso progreso = new Progreso(5,2,7,curso);
+		
+		estadistica.añadirProgreso(progreso);
+		paco.updateEstadisticas(estadistica);
+		
 	}
 	
 	/**
