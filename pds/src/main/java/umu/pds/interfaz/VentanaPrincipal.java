@@ -5,21 +5,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -30,13 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import umu.pds.controlador.Controlador;
 
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Launch the application.
@@ -113,6 +102,15 @@ public class VentanaPrincipal extends JFrame {
         JButton btnPerfil = new JButton(" Perfil");
         btnPerfil.setForeground(Color.BLACK);
         btnPerfil.setBackground(Color.WHITE);
+        
+        btnPerfil.addActionListener(e -> {
+        	            // ocultar la ventana de selección de curso
+        	              this.setVisible(false);
+        	              // abrir ventana de perfil
+        	              Perfil perfil = new Perfil(controlador.getEstadisticas(), controlador.getUsername(), this);
+        	              perfil.setVisible(true);
+          });
+        
         btnPerfil.setFont(new Font("Tahoma", Font.PLAIN, 16));
         JButton btnMas = new JButton(" Más");
         btnMas.setForeground(Color.BLACK);

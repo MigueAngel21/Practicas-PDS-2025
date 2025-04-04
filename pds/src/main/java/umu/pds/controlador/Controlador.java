@@ -1,23 +1,45 @@
 package umu.pds.controlador;
 
+import java.util.Map;
+
 import umu.pds.dominio.Curso;
-import umu.pds.dominio.LibreriaCursos;
+import umu.pds.dominio.Estadistica;
+import umu.pds.dominio.Flashcard;
+import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
+import umu.pds.dominio.Progreso;
 import umu.pds.dominio.RepositorioUsuarios;
 import umu.pds.dominio.Usuario;
 
-public enum Controlador {
+public class Controlador {
 	
-	// Singleton con ENUM
-	INSTANCE;
+	// Singleton
+	private static Controlador instance = new Controlador();
 	
 	private Usuario usuarioActual;
 	private RepositorioUsuarios repositorioUsuarios;
-	private Curso cursoActual = new Curso(LibreriaCursos.INSTANCE.getCurso("Capitales de Europa"));
+	private Curso cursoActual; 
 	private Pregunta preguntaActual;
+	
+	private Map<Curso,Progreso> progresos = new java.util.HashMap<Curso,Progreso>();
+	
+	public static Controlador getUnicaInstancia() {
+		return instance;
+	}
+	
+	public Controlador() {
+		this.repositorioUsuarios = new RepositorioUsuarios();
+	}
+	
+	// Constructor para testing
+	public Controlador(RepositorioUsuarios repositorioUsuarios) {
+		this.repositorioUsuarios = repositorioUsuarios;
+	}
 	
 	
 	public boolean InciarSesion(String usuario, String contrasena) {
+		// remove spaces from user input
+		usuario = usuario.trim();
 		System.out.println("Usuario: " + usuario + " Contraseña: " + contrasena);
 		if (usuario.equals("paco") && contrasena.equals("1234") ) {
 			return true;
@@ -34,20 +56,42 @@ public enum Controlador {
 		return false;*/
 	}
 	
-	public void setCusoActual(Curso curso) {
+	public void setCursoActual(Curso curso) {
 		this.cursoActual = curso;
+		this.preguntaActual = cursoActual.getSiguientePregunta();
 	}
+	
+	// Solo para pruebas borrar más tarde
+	public void setUsuarioActual(Usuario usuario) {
+		this.usuarioActual = usuario;
+	}
+	
 	
 	public Curso getCursoActual() {
 		return cursoActual;
 	}
 	
+	// Devuelve la pregunta actual (realmente para que se muestre la siguiente tienes que antes responder)
 	public Pregunta getSiguientePregunta() {
 		preguntaActual = cursoActual.getSiguientePregunta();
 		return preguntaActual;
     }
 	
-	public void responderPregunta(int respuesta) {
-		cursoActual.responderPregunta(preguntaActual,respuesta);
+	public void responderPregunta(int respuesta, int numPregunta) {
+		cursoActual.responderPregunta((MultipleChoice) preguntaActual,respuesta, numPregunta);
 	}
+	
+	public void responderPregunta(int numPregunta) {
+		cursoActual.responderPregunta((Flashcard) preguntaActual, numPregunta);
+	}
+	
+	public Estadistica getEstadisticas() {
+		return usuarioActual.getEstadisticas();
+	}
+	
+	public String getUsername() {
+		return usuarioActual.getNombre();
+	}
+
+	
 }

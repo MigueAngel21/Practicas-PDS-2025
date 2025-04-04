@@ -21,16 +21,23 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import umu.pds.controlador.Controlador;
+import umu.pds.dominio.Curso;
 import umu.pds.dominio.EspecificacionCurso;
+import umu.pds.dominio.Estadistica;
+import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
+import umu.pds.dominio.Progreso;
+import umu.pds.dominio.Usuario;
 
 
 
 public class InicioApp {
 
 	JFrame frame;
+	Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Launch the application.
@@ -62,8 +69,10 @@ public class InicioApp {
 		Pregunta p10 = new MultipleChoice("Completa la frase de Vicente del Bosque :", "En el fútbol no siempre ganan los mejores, sino los que mejor _____", 3, 1, "compiten", "pierden", "ganan");
 		Pregunta p11 = new MultipleChoice("Responde a la siguiente pregunta :","¿Cuáles de estos jugadores no ha ganado un balón de oro?", 3, 1, "Luka Modric", "Karim Benzema", "Dani Carvajal");
 		Pregunta p12 = new MultipleChoice("¿Cuál de estos jugadores ha jugado en el Real Madrid?","", 3, 2, true, "/umu/pds/resources/Havertz.jpg", "/umu/pds/resources/Carvajal.jpg", "/umu/pds/resources/AlexanderArnold.jpg");
+		Pregunta pX = new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi");
 		List<Pregunta> preguntas = new ArrayList<Pregunta>();
 		preguntas.add(p1);
+		preguntas.add(pX);
 		preguntas.add(p2);
 		preguntas.add(p3);
 		preguntas.add(p4);
@@ -75,8 +84,21 @@ public class InicioApp {
 		preguntas.add(p10);
 		preguntas.add(p11);
 		preguntas.add(p12);
-		EspecificacionCurso especificacion = new EspecificacionCurso("Capitales de Europa", "Aprende las capitales de los países europeos", preguntas);
+		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
 		LibreriaCursos.INSTANCE.addCurso(especificacion);
+		
+		Usuario paco = new Usuario("paco", "paco@duopingo.com", "1234", 18);
+		controlador.setUsuarioActual(paco);
+		
+		Curso curso = new Curso(especificacion);
+		controlador.setCursoActual(curso);
+		
+		Estadistica estadistica = new Estadistica(15,2);
+		Progreso progreso = new Progreso(5,2,7,curso);
+		
+		estadistica.añadirProgreso(progreso);
+		paco.updateEstadisticas(estadistica);
+		
 	}
 	
 	/**

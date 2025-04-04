@@ -1,6 +1,7 @@
 package umu.pds.interfaz;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -25,18 +26,19 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import umu.pds.controlador.Controlador;
 import umu.pds.dominio.MultipleChoice;
+import umu.pds.dominio.Pregunta;
 
-public class PreguntaMultipleChoice extends JFrame {
+public class MultipleChoiceUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Controlador controlador = Controlador.INSTANCE;
-	private int respuestaSeleccionada;
+	private Controlador controlador = Controlador.getUnicaInstancia();
+	private int respuestaSeleccionada = -1;
 
 	/**
 	 * Create the frame.
 	 */
-	public PreguntaMultipleChoice(MultipleChoice pregunta, int numPregunta) {
+	public MultipleChoiceUI(MultipleChoice pregunta, int numPregunta) {
 
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
@@ -54,6 +56,8 @@ public class PreguntaMultipleChoice extends JFrame {
 			e.printStackTrace();
 		}
 
+
+        // Configuración de la ventana
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Pregunta " + numPregunta);
@@ -83,6 +87,9 @@ public class PreguntaMultipleChoice extends JFrame {
 		// Pregunta en negrita
 		JLabel lblPregunta = new JLabel(pregunta.getEnunciado());
 		lblPregunta.setFont(new Font("Arial", Font.BOLD, 16));
+		if(pregunta.contieneImagen()) {
+	        lblPregunta.setAlignmentX(Component.CENTER_ALIGNMENT);
+		}
 		lblPregunta.setForeground(Color.BLACK);
 
 		// Frase con hueco para completar
@@ -161,20 +168,22 @@ public class PreguntaMultipleChoice extends JFrame {
 		btnContinuar.setFocusPainted(false);
 		btnContinuar.setMaximumSize(new Dimension(120, 35));
 		btnContinuar.addActionListener(e -> {
-			// ocultar la ventana de registro
+			if (respuestaSeleccionada == -1) {
+				UIutils.showErrorDialog("Debes seleccionar una respuesta");
+				return;
+			}
 			this.setVisible(false);
-			// abrir la ventana principal
 			// conseguir respuesta seleccion
-			controlador.responderPregunta(respuestaSeleccionada);
-			MultipleChoice p = (MultipleChoice) controlador.getSiguientePregunta();
+			controlador.responderPregunta(respuestaSeleccionada,numPregunta);
+			Pregunta p = controlador.getSiguientePregunta();
 			if (p == null) {
 				// Abrir ventana de puntuación
 				Puntos puntos = new Puntos();
 				puntos.setVisible(true);
 				return;
 			}
-			PreguntaMultipleChoice pMC = new PreguntaMultipleChoice(p, numPregunta + 1);
-			pMC.setVisible(true);
+			JFrame sig = UIutils.creaPreguntaUI(p, numPregunta + 1);
+			sig.setVisible(true);
 		});
 
 		// Agregar componentes al panel principal
@@ -198,5 +207,6 @@ public class PreguntaMultipleChoice extends JFrame {
 		this.add(panelPrincipal);
 		this.setVisible(true);
 	}
+
 
 }

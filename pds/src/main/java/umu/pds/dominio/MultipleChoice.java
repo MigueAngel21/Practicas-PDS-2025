@@ -57,5 +57,9 @@ public class MultipleChoice extends Pregunta {
 	public boolean contieneImagen() {
 		return contieneImagen;
 	}
+
+	public boolean responder(int respuesta) {
+		return respuesta == correcta;
+	}
 	
 }
