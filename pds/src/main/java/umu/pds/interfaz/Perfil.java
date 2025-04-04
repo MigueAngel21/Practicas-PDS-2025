@@ -23,7 +23,7 @@ import javax.swing.JButton;
 
 public class Perfil extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private Controlador controlador = Controlador.INSTANCE;
+	private Controlador controlador = Controlador.getUnicaInstancia();
 	
 	public Perfil(Estadistica estadistica, String username, JFrame previous) {
 		try {

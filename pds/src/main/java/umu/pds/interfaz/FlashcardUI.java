@@ -26,7 +26,7 @@ public class FlashcardUI extends JFrame {
 	private boolean volteada = false;
 	private JPanel panelTarjeta;
 	private CardLayout cardLayout;
-	private Controlador controlador = Controlador.INSTANCE;
+	private Controlador controlador = Controlador.getUnicaInstancia();
 
 	public FlashcardUI(Flashcard pregunta, int numPregunta) {
 		try {

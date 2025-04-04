@@ -28,7 +28,7 @@ public class Preguntas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Controlador controlador = Controlador.INSTANCE;
+	private Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Launch the application.

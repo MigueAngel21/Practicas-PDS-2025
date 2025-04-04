@@ -5,17 +5,16 @@ import java.util.Map;
 import umu.pds.dominio.Curso;
 import umu.pds.dominio.Estadistica;
 import umu.pds.dominio.Flashcard;
-import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.Progreso;
 import umu.pds.dominio.RepositorioUsuarios;
 import umu.pds.dominio.Usuario;
 
-public enum Controlador {
+public class Controlador {
 	
-	// Singleton con ENUM
-	INSTANCE;
+	// Singleton
+	private static Controlador instance = new Controlador();
 	
 	private Usuario usuarioActual;
 	private RepositorioUsuarios repositorioUsuarios;
@@ -23,6 +22,19 @@ public enum Controlador {
 	private Pregunta preguntaActual;
 	
 	private Map<Curso,Progreso> progresos = new java.util.HashMap<Curso,Progreso>();
+	
+	public static Controlador getUnicaInstancia() {
+		return instance;
+	}
+	
+	public Controlador() {
+		this.repositorioUsuarios = new RepositorioUsuarios();
+	}
+	
+	// Constructor para testing
+	public Controlador(RepositorioUsuarios repositorioUsuarios) {
+		this.repositorioUsuarios = repositorioUsuarios;
+	}
 	
 	
 	public boolean InciarSesion(String usuario, String contrasena) {
@@ -46,6 +58,7 @@ public enum Controlador {
 	
 	public void setCursoActual(Curso curso) {
 		this.cursoActual = curso;
+		this.preguntaActual = cursoActual.getSiguientePregunta();
 	}
 	
 	// Solo para pruebas borrar más tarde
@@ -53,14 +66,12 @@ public enum Controlador {
 		this.usuarioActual = usuario;
 	}
 	
-	public void setCusoActual(Curso curso) {
-		this.cursoActual = curso;
-	}
 	
 	public Curso getCursoActual() {
 		return cursoActual;
 	}
 	
+	// Devuelve la pregunta actual (realmente para que se muestre la siguiente tienes que antes responder)
 	public Pregunta getSiguientePregunta() {
 		preguntaActual = cursoActual.getSiguientePregunta();
 		return preguntaActual;
