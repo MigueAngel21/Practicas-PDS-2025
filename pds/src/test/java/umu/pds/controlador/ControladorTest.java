@@ -1,0 +1,124 @@
+package umu.pds.controlador;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import umu.pds.dominio.Curso;
+import umu.pds.dominio.EspecificacionCurso;
+import umu.pds.dominio.Estadistica;
+import umu.pds.dominio.Flashcard;
+import umu.pds.dominio.MultipleChoice;
+import umu.pds.dominio.Pregunta;
+import umu.pds.dominio.RepositorioUsuarios;
+import umu.pds.dominio.Usuario;
+
+class ControladorTest {
+	private Controlador controlador;
+	private RepositorioUsuarios repositorioUsuariosMock;
+	private Usuario usuario;
+	private Curso curso;
+	private List<Pregunta> preguntas;
+
+	@BeforeEach
+	public void setUp() {
+		// Mock del repositorio de usuarios
+		repositorioUsuariosMock = Mockito.mock(RepositorioUsuarios.class);
+
+		// Crear instancias reales de Usuario y Curso
+		usuario = new Usuario("Paco", "paco@example.com", "1234", 25);
+
+		preguntas = new ArrayList<>();
+		preguntas.add(
+				new MultipleChoice("Pregunta 1", "¿Cuántas Champions tiene el Real Madrid?", 3, 1, "15", "14", "13"));
+		preguntas.add(new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi"));
+
+		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de Fútbol", "Aprende sobre fútbol",
+				preguntas);
+		curso = new Curso(especificacion);
+
+		// Instanciar el Controlador con el mock del repositorio
+		controlador = new Controlador(repositorioUsuariosMock);
+	}
+
+	@Test
+	public void testIniciarSesion_UsuarioCorrecto() {
+		when(repositorioUsuariosMock.getUsuario("paco")).thenReturn(usuario);
+
+		controlador.setUsuarioActual(usuario);
+		boolean resultado = controlador.InciarSesion("paco", "1234");
+
+		assertTrue(resultado, "El usuario debería haber iniciado sesión correctamente.");
+	}
+
+	@Test
+	public void testIniciarSesion_UsuarioIncorrecto() {
+		when(repositorioUsuariosMock.getUsuario("desconocido")).thenReturn(null);
+
+		boolean resultado = controlador.InciarSesion("desconocido", "password");
+
+		assertFalse(resultado, "El inicio de sesión debería fallar con credenciales incorrectas.");
+	}
+
+	@Test
+	public void testSetCursoActual() {
+		controlador.setCursoActual(curso);
+		assertEquals(curso, controlador.getCursoActual(), "El curso actual debería ser el asignado.");
+	}
+
+	@Test
+	public void testGetSiguientePregunta() {
+		controlador.setCursoActual(curso);
+		Pregunta siguientePregunta = controlador.getSiguientePregunta();
+
+		assertNotNull(siguientePregunta, "La pregunta no debería ser nula.");
+		assertEquals("Pregunta 1", siguientePregunta.getEnunciado(), "La primera pregunta debería coincidir.");
+	}
+
+	@Test
+	public void testResponderPregunta_MultipleChoice_Correcta() {
+		controlador.setCursoActual(curso);
+		Pregunta pregunta = controlador.getSiguientePregunta();
+
+		assertInstanceOf(MultipleChoice.class, pregunta);
+		MultipleChoice multipleChoice = (MultipleChoice) pregunta;
+
+		boolean resultado = multipleChoice.responder(1); // Respuesta correcta
+		assertTrue(resultado, "La respuesta debería ser correcta.");
+	}
+
+	@Test
+	public void testResponderPregunta_Flashcard() {
+		controlador.setCursoActual(curso);
+		controlador.responderPregunta(1,0);; // Primera pregunta (MultipleChoice)
+		Pregunta pregunta = controlador.getSiguientePregunta(); // Segunda pregunta (Flashcard)
+
+		assertInstanceOf(Flashcard.class, pregunta);
+		controlador.responderPregunta(1); // Simula la respuesta
+		assertEquals(0, curso.getNumPreguntas(), "Se han respondido todas las preguntas");
+	}
+
+	@Test
+	public void testGetEstadisticas() {
+		controlador.setUsuarioActual(usuario);
+		Estadistica estadisticas = controlador.getEstadisticas();
+
+		assertNotNull(estadisticas, "Las estadísticas del usuario no deberían ser nulas.");
+	}
+
+	@Test
+	public void testGetUsername() {
+		controlador.setUsuarioActual(usuario);
+		assertEquals("Paco", controlador.getUsername(), "El nombre de usuario debería ser Paco.");
+	}
+}

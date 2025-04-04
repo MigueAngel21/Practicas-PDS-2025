@@ -37,7 +37,7 @@ import umu.pds.dominio.Usuario;
 public class InicioApp {
 
 	JFrame frame;
-	Controlador controlador = Controlador.INSTANCE;
+	Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Launch the application.
@@ -91,7 +91,7 @@ public class InicioApp {
 		controlador.setUsuarioActual(paco);
 		
 		Curso curso = new Curso(especificacion);
-		controlador.setCusoActual(curso);
+		controlador.setCursoActual(curso);
 		
 		Estadistica estadistica = new Estadistica(15,2);
 		Progreso progreso = new Progreso(5,2,7,curso);
