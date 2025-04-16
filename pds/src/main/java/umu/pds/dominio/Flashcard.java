@@ -14,4 +14,9 @@ public class Flashcard extends Pregunta {
 		return respuesta;
 	}
 
+	@Override
+	public boolean esCorrecta(int respuesta) {
+		return respuesta == 1;
+	}
+	
 }

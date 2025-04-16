@@ -1,5 +1,6 @@
 package umu.pds.dominio;
 
+import java.util.Collections;
 import java.util.List;
 
 public class EspecificacionCurso {
@@ -23,7 +24,7 @@ public class EspecificacionCurso {
 	}
 
 	public List<Pregunta> getPreguntas() {
-		return preguntas;
+		return Collections.unmodifiableList(preguntas);
 	}
 	
 }

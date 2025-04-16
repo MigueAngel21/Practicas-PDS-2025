@@ -26,6 +26,7 @@ public class Perfil extends JFrame {
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	
 	public Perfil(Estadistica estadistica, String username, JFrame previous) {
+		getContentPane().setBackground(new Color(255, 255, 255));
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 		} catch (ClassNotFoundException e) {
@@ -39,7 +40,7 @@ public class Perfil extends JFrame {
 		}
 
 
-
+		this.setBackground(Color.WHITE);
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Perfil");
@@ -48,21 +49,25 @@ public class Perfil extends JFrame {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setText(username);
+		lblUsuario.setBackground(new Color(255, 255, 255));
+		lblUsuario.setText(username.toUpperCase());
+		lblUsuario.setForeground(Color.BLACK);
 		lblUsuario.setFont(new Font("Libertinus Sans", Font.BOLD, 24));
 		lblUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblUsuario, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 229, 125, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblTiempoDeUso = new JLabel("Tiempo De Uso:");
+		lblTiempoDeUso.setForeground(Color.BLACK);
 		lblTiempoDeUso.setFont(new Font("Libertinus Sans", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblTiempoDeUso = new GridBagConstraints();
 		gbc_lblTiempoDeUso.insets = new Insets(0, 0, 5, 5);
@@ -71,6 +76,7 @@ public class Perfil extends JFrame {
 		panel.add(lblTiempoDeUso, gbc_lblTiempoDeUso);
 		
 		JLabel lblNtiempo = new JLabel("Ntiempo");
+		lblNtiempo.setForeground(Color.BLACK);
 		lblNtiempo.setText(estadistica.getTiempoDeUso() + " minutos");
 		GridBagConstraints gbc_lblNtiempo = new GridBagConstraints();
 		gbc_lblNtiempo.insets = new Insets(0, 0, 5, 5);
@@ -79,6 +85,7 @@ public class Perfil extends JFrame {
 		panel.add(lblNtiempo, gbc_lblNtiempo);
 		
 		JLabel lblRachaDeDas = new JLabel("Racha de días:");
+		lblRachaDeDas.setForeground(Color.BLACK);
 		lblRachaDeDas.setFont(new Font("Libertinus Sans", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblRachaDeDas = new GridBagConstraints();
 		gbc_lblRachaDeDas.insets = new Insets(0, 0, 5, 5);
@@ -87,6 +94,7 @@ public class Perfil extends JFrame {
 		panel.add(lblRachaDeDas, gbc_lblRachaDeDas);
 		
 		JLabel lblNracha = new JLabel("NRacha");
+		lblNracha.setForeground(Color.BLACK);
 		lblNracha.setFont(new Font("Arial", Font.BOLD, 14));
 		lblNracha.setForeground(new Color(255, 128, 0));
 		lblNracha.setText(estadistica.getRachaDeDias() + " días");
@@ -97,6 +105,8 @@ public class Perfil extends JFrame {
 		panel.add(lblNracha, gbc_lblNracha);
 		
 		JComboBox comboBox = new JComboBox(estadistica.getProgresos().toArray());
+		comboBox.setFont(new Font("Libertinus Sans", Font.PLAIN, 14));
+		comboBox.setBackground(Color.WHITE);
 		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
@@ -109,6 +119,7 @@ public class Perfil extends JFrame {
 		Progreso p = (Progreso) comboBox.getSelectedItem();
 		
 		JLabel lblRepuestasCorrectas = new JLabel("Repuestas Correctas: ");
+		lblRepuestasCorrectas.setForeground(Color.BLACK);
 		lblRepuestasCorrectas.setFont(new Font("Libertinus Sans", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblRepuestasCorrectas = new GridBagConstraints();
 		gbc_lblRepuestasCorrectas.insets = new Insets(0, 0, 5, 5);
@@ -117,6 +128,7 @@ public class Perfil extends JFrame {
 		panel.add(lblRepuestasCorrectas, gbc_lblRepuestasCorrectas);
 		
 		JLabel lblNcorrectas = new JLabel("Ncorrectas");
+		lblNcorrectas.setForeground(Color.BLACK);
 		lblNcorrectas.setText(String.valueOf(p.getRespuestasCorrectas()));
 		GridBagConstraints gbc_lblNcorrectas = new GridBagConstraints();
 		gbc_lblNcorrectas.insets = new Insets(0, 0, 5, 5);
@@ -125,6 +137,7 @@ public class Perfil extends JFrame {
 		panel.add(lblNcorrectas, gbc_lblNcorrectas);
 		
 		JLabel lblRespuestasIncorrectas = new JLabel("Respuestas Incorrectas: ");
+		lblRespuestasIncorrectas.setForeground(Color.BLACK);
 		lblRespuestasIncorrectas.setFont(new Font("Libertinus Sans", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblRespuestasIncorrectas = new GridBagConstraints();
 		gbc_lblRespuestasIncorrectas.insets = new Insets(0, 0, 5, 5);
@@ -133,6 +146,7 @@ public class Perfil extends JFrame {
 		panel.add(lblRespuestasIncorrectas, gbc_lblRespuestasIncorrectas);
 		
 		JLabel lblNincorrectas = new JLabel("Nincorrectas");
+		lblNincorrectas.setForeground(Color.BLACK);
 		lblNincorrectas.setText(String.valueOf(p.getRespuestasIncorrectas()));
 		GridBagConstraints gbc_lblNincorrectas = new GridBagConstraints();
 		gbc_lblNincorrectas.insets = new Insets(0, 0, 5, 5);
@@ -141,6 +155,7 @@ public class Perfil extends JFrame {
 		panel.add(lblNincorrectas, gbc_lblNincorrectas);
 		
 		JLabel lblCompletado = new JLabel("Completado: ");
+		lblCompletado.setForeground(Color.BLACK);
 		lblCompletado.setFont(new Font("Libertinus Sans", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblCompletado = new GridBagConstraints();
 		gbc_lblCompletado.insets = new Insets(0, 0, 5, 5);
@@ -149,6 +164,7 @@ public class Perfil extends JFrame {
 		panel.add(lblCompletado, gbc_lblCompletado);
 		
 		JLabel lblNcompletado = new JLabel("Ncompletado");
+		lblNcompletado.setForeground(Color.BLACK);
 		lblNcompletado.setText(String.valueOf(p.getCompletitud()) + "%");
 		GridBagConstraints gbc_lblNcompletado = new GridBagConstraints();
 		gbc_lblNcompletado.insets = new Insets(0, 0, 5, 5);
@@ -157,9 +173,12 @@ public class Perfil extends JFrame {
 		panel.add(lblNcompletado, gbc_lblNcompletado);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setForeground(Color.BLACK);
+		btnSalir.setBackground(new Color(255, 255, 255));
+		btnSalir.setFont(new Font("Liberation Sans", Font.BOLD, 14));
 		GridBagConstraints gbc_btnSalir = new GridBagConstraints();
 		gbc_btnSalir.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSalir.gridx = 8;
+		gbc_btnSalir.gridx = 7;
 		gbc_btnSalir.gridy = 12;
 		panel.add(btnSalir, gbc_btnSalir);
 		

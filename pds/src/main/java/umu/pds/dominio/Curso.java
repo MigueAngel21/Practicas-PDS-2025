@@ -1,5 +1,6 @@
 package umu.pds.dominio;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Curso {
@@ -11,21 +12,16 @@ public class Curso {
 	
 	public Curso(EspecificacionCurso especificacionCurso) {
 		this.especificacionCurso = especificacionCurso;
-		preguntas = especificacionCurso.getPreguntas();
+		// Constructor de copia 
+		preguntas = new LinkedList<Pregunta>(especificacionCurso.getPreguntas());
 	}
 	
-	public boolean responderPregunta(MultipleChoice pregunta, int respuesta, int numPregunta) {
-		boolean ret = pregunta.responder(respuesta);
+	public boolean responderPregunta(Pregunta pregunta, int respuesta, int numPregunta) {
+		boolean ret = pregunta.esCorrecta(respuesta);
 		updateProgreso(numPregunta, ret);
 		preguntas.remove(pregunta);
 		return ret;
     }
-
-	public void responderPregunta(Flashcard preguntaActual, int numPregunta) {
-		updateProgreso(numPregunta);
-		preguntas.remove(preguntaActual);
-	}
-
 
 	public Pregunta getSiguientePregunta() {
 		if (preguntas.size() > 0) {
@@ -40,14 +36,6 @@ public class Curso {
 			progreso = new Progreso(0,0,0,this);
 		}
 		progreso.update(lastPregunta, correcta);
-	}
-	
-	// Flashcard
-	private void updateProgreso(int lastPregunta) {
-		if (progreso == null) {
-			progreso = new Progreso(0,0,0,this);
-		}
-		progreso.update(lastPregunta);
 	}
 	
 	public Progreso getProgreso() {

@@ -112,7 +112,7 @@ public class MultipleChoiceUI extends JFrame {
 			Dimension botonSize = new Dimension(100, 30);
 			// Botones de opción (más pequeños)
 			for (int i = 0; i < pregunta.getNumOpciones(); i++) {
-				opciones[i] = new JButton((i + 1) + ". " + pregunta.getOpciones()[i]);
+				opciones[i] = new JButton((i + 1) + ". " + pregunta.getOpciones().get(i));
 				opciones[i].setPreferredSize(botonSize);
 				panelOpciones.add(opciones[i]);
 				// Estilo
@@ -125,7 +125,7 @@ public class MultipleChoiceUI extends JFrame {
 		} else {
 			for (int i = 0; i < pregunta.getNumOpciones(); i++) {
 				try {
-					URL imgURL = Preguntas.class.getResource(pregunta.getOpciones()[i]);
+					URL imgURL = Preguntas.class.getResource(pregunta.getOpciones().get(i));
 					BufferedImage img = ImageIO.read(imgURL);
 					opciones[i] = new JButton();
 					opciones[i].setIcon(new ImageIcon(img.getScaledInstance(160, 150, Image.SCALE_SMOOTH)));

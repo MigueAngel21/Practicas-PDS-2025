@@ -37,7 +37,7 @@ public class Controlador {
 	}
 	
 	
-	public boolean InciarSesion(String usuario, String contrasena) {
+	public boolean iniciarSesion(String usuario, String contrasena) {
 		// remove spaces from user input
 		usuario = usuario.trim();
 		System.out.println("Usuario: " + usuario + " Contraseña: " + contrasena);
@@ -61,7 +61,7 @@ public class Controlador {
 		this.preguntaActual = cursoActual.getSiguientePregunta();
 	}
 	
-	// Solo para pruebas borrar más tarde
+	// TODO: Poner protected una vez tengamos persistencia 
 	public void setUsuarioActual(Usuario usuario) {
 		this.usuarioActual = usuario;
 	}
@@ -78,11 +78,7 @@ public class Controlador {
     }
 	
 	public void responderPregunta(int respuesta, int numPregunta) {
-		cursoActual.responderPregunta((MultipleChoice) preguntaActual,respuesta, numPregunta);
-	}
-	
-	public void responderPregunta(int numPregunta) {
-		cursoActual.responderPregunta((Flashcard) preguntaActual, numPregunta);
+		cursoActual.responderPregunta(preguntaActual,respuesta, numPregunta);
 	}
 	
 	public Estadistica getEstadisticas() {

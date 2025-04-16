@@ -12,4 +12,6 @@ public abstract class Pregunta {
 		return enunciado;
 	}
 	
+	abstract public boolean esCorrecta(int respuesta);
+	
 }

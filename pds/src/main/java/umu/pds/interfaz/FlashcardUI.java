@@ -56,7 +56,8 @@ public class FlashcardUI extends JFrame {
 		cardLayout = new CardLayout();
 		panelTarjeta = new JPanel(cardLayout);
 		panelTarjeta.setPreferredSize(new Dimension(500, 300));
-		panelTarjeta.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		panelTarjeta.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+		panelTarjeta.setBackground(Color.WHITE);
 
 		// Panel de pregunta
 		JPanel panelPregunta = new JPanel();
@@ -66,16 +67,18 @@ public class FlashcardUI extends JFrame {
 				"<html><div style='text-align: center; width: 400px;'>" + pregunta.getEnunciado() + "</div></html>",
 				SwingConstants.CENTER);
 		lblPregunta.setFont(new Font("Arial", Font.BOLD, 16));
+		lblPregunta.setForeground(Color.BLACK);
 		panelPregunta.add(lblPregunta);
 
 		// Panel de respuesta
 		JPanel panelRespuesta = new JPanel();
-		panelRespuesta.setBackground(Color.LIGHT_GRAY);
+		panelRespuesta.setBackground(Color.BLACK);
 		panelRespuesta.setLayout(new GridBagLayout());
 		JLabel lblRespuesta = new JLabel(
 				"<html><div style='text-align: center; width: 400px;'>" + pregunta.getRespuesta() + "</div></html>",
 				SwingConstants.CENTER);
 		lblRespuesta.setFont(new Font("Arial", Font.BOLD, 16));
+		lblRespuesta.setForeground(Color.WHITE);
 		panelRespuesta.add(lblRespuesta);
 
 		panelTarjeta.add(panelPregunta, "pregunta");
@@ -91,44 +94,68 @@ public class FlashcardUI extends JFrame {
 			}
 		});
 
-		JButton btnContinuar = new JButton("Continuar");
-		btnContinuar.setFont(new Font("Arial", Font.BOLD, 14));
-		btnContinuar.setBackground(new Color(0, 200, 0));
-		btnContinuar.setForeground(Color.WHITE);
-		btnContinuar.setBorderPainted(false);
-		btnContinuar.setFocusPainted(false);
-		btnContinuar.setMaximumSize(new Dimension(120, 35));
-		btnContinuar.addActionListener(e -> {
-			if (!volteada) {
-				UIutils.showErrorDialog("Debes voltear la flashcard antes de continuar.");
-				return;
-			}
-			this.setVisible(false);
-			// conseguir respuesta seleccion
-			controlador.responderPregunta(numPregunta);
-			Pregunta p = controlador.getSiguientePregunta();
-			if (p == null) {
-				// Abrir ventana de puntuación
-				Puntos puntos = new Puntos();
-				puntos.setVisible(true);
-				return;
-			}
-			JFrame sig = UIutils.creaPreguntaUI(p, numPregunta + 1);
-			sig.setVisible(true);
-		});
-
 		JPanel panelPrincipal = new JPanel();
-		panelPrincipal.setLayout(new GridBagLayout());
+		panelPrincipal.setBackground(Color.WHITE);
+		GridBagLayout gbl_panelPrincipal = new GridBagLayout();
+		gbl_panelPrincipal.rowHeights = new int[]{0, 0, 0};
+		gbl_panelPrincipal.rowWeights = new double[]{0.0, 1.0, 1.0};
+		gbl_panelPrincipal.columnWeights = new double[]{0.0, 1.0};
+		panelPrincipal.setLayout(gbl_panelPrincipal);
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
+		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(20, 0, 20, 0);
 		panelPrincipal.add(panelTarjeta, gbc);
 
-		gbc.gridy = 1;
-		panelPrincipal.add(btnContinuar, gbc);
-
-		add(panelPrincipal);
-		setVisible(true);
+		getContentPane().add(panelPrincipal);
+				
+				JPanel panelBtns = new JPanel();
+				panelBtns.setBackground(Color.WHITE);
+				GridBagConstraints gbc_panelBtns = new GridBagConstraints();
+				gbc_panelBtns.fill = GridBagConstraints.BOTH;
+				gbc_panelBtns.gridx = 1;
+				gbc_panelBtns.gridy = 2;
+				panelPrincipal.add(panelBtns, gbc_panelBtns);
+				panelBtns.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				
+						JButton btnBien = new JButton("Bien");
+						panelBtns.add(btnBien);
+						btnBien.setFont(new Font("Arial", Font.BOLD, 14));
+						btnBien.setBackground(new Color(0, 200, 0));
+						btnBien.setForeground(Color.WHITE);
+						btnBien.setBorderPainted(false);
+						btnBien.setFocusPainted(false);
+						btnBien.setMaximumSize(new Dimension(200, 200));
+						
+						Component horizontalStrut = Box.createHorizontalStrut(20);
+						panelBtns.add(horizontalStrut);
+						
+						JButton btnMal = new JButton("Mal");
+						btnMal.setFont(new Font("Dialog", Font.BOLD, 14));
+						btnMal.setForeground(new Color(255, 255, 255));
+						btnMal.setBorderPainted(false);
+						btnMal.setBackground(new Color(224, 27, 36));
+						panelBtns.add(btnMal);
+						btnBien.addActionListener(e -> manejarRespuesta(1, numPregunta));
+						btnMal.addActionListener(e -> manejarRespuesta(0, numPregunta));
+						setVisible(true);
 	}
+	
+	private void manejarRespuesta(int respuesta,int numPregunta) {
+		if (!volteada) {
+			UIutils.showErrorDialog("Debes voltear la flashcard antes de continuar.");
+			return;
+		}
+		this.setVisible(false);
+		controlador.responderPregunta(respuesta, numPregunta);
+		Pregunta p = controlador.getSiguientePregunta();
+		if (p == null) {
+			Puntos puntos = new Puntos();
+			puntos.setVisible(true);
+			return;
+		}
+		JFrame sig = UIutils.creaPreguntaUI(p, numPregunta + 1);
+		sig.setVisible(true);
+	}
+
 }
