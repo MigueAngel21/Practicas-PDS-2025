@@ -96,7 +96,7 @@ public class InicioApp {
 		Estadistica estadistica = new Estadistica(15,2);
 		Progreso progreso = new Progreso(5,2,7,curso);
 		
-		estadistica.añadirProgreso(progreso);
+		estadistica.addProgreso(progreso);
 		paco.updateEstadisticas(estadistica);
 		
 	}

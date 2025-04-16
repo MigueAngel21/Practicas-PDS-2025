@@ -56,7 +56,7 @@ class ControladorTest {
 		when(repositorioUsuariosMock.getUsuario("paco")).thenReturn(usuario);
 
 		controlador.setUsuarioActual(usuario);
-		boolean resultado = controlador.InciarSesion("paco", "1234");
+		boolean resultado = controlador.iniciarSesion("paco", "1234");
 
 		assertTrue(resultado, "El usuario debería haber iniciado sesión correctamente.");
 	}
@@ -65,7 +65,7 @@ class ControladorTest {
 	public void testIniciarSesion_UsuarioIncorrecto() {
 		when(repositorioUsuariosMock.getUsuario("desconocido")).thenReturn(null);
 
-		boolean resultado = controlador.InciarSesion("desconocido", "password");
+		boolean resultado = controlador.iniciarSesion("desconocido", "password");
 
 		assertFalse(resultado, "El inicio de sesión debería fallar con credenciales incorrectas.");
 	}
@@ -93,7 +93,7 @@ class ControladorTest {
 		assertInstanceOf(MultipleChoice.class, pregunta);
 		MultipleChoice multipleChoice = (MultipleChoice) pregunta;
 
-		boolean resultado = multipleChoice.responder(1); // Respuesta correcta
+		boolean resultado = multipleChoice.esCorrecta(1); // Respuesta correcta
 		assertTrue(resultado, "La respuesta debería ser correcta.");
 	}
 
@@ -104,7 +104,7 @@ class ControladorTest {
 		Pregunta pregunta = controlador.getSiguientePregunta(); // Segunda pregunta (Flashcard)
 
 		assertInstanceOf(Flashcard.class, pregunta);
-		controlador.responderPregunta(1); // Simula la respuesta
+		controlador.responderPregunta(1,1); // Simula la respuesta
 		assertEquals(0, curso.getNumPreguntas(), "Se han respondido todas las preguntas");
 	}
 

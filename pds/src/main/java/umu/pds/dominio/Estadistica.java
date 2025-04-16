@@ -1,5 +1,6 @@
 package umu.pds.dominio;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Estadistica {
@@ -27,10 +28,10 @@ public class Estadistica {
 		return rachaDeDias;
 	}
 	public List<Progreso> getProgresos() {
-		return progresos;
+		return Collections.unmodifiableList(progresos);
 	}
 	
-	public void añadirProgreso(Progreso progreso) {
+	public void addProgreso(Progreso progreso) {
 		this.progresos.add(progreso);
 	}
 	

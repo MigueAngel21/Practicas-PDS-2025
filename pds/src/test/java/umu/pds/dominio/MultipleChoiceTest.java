@@ -24,7 +24,7 @@ class MultipleChoiceTest {
         assertEquals("Pregunta 1", pregunta.getEnunciado());
         assertEquals("¿Cuántas champions league tiene el real madrid?", pregunta.getPregunta());
         assertEquals(3, pregunta.getNumOpciones());
-        assertArrayEquals(new String[]{"15", "14", "13"}, pregunta.getOpciones());
+        assertArrayEquals(new String[]{"15", "14", "13"}, pregunta.getOpciones().toArray());
         assertEquals(1, pregunta.getCorrecta());
         assertFalse(pregunta.contieneImagen());
     }
@@ -34,19 +34,19 @@ class MultipleChoiceTest {
         assertEquals("Pregunta 2", preguntaConImagen.getEnunciado());
         assertEquals("¿Cuál es el escudo del Real Madrid?", preguntaConImagen.getPregunta());
         assertEquals(3, preguntaConImagen.getNumOpciones());
-        assertArrayEquals(new String[]{"/path/escudo1.png", "/path/escudo2.png", "/path/escudo3.png"}, preguntaConImagen.getOpciones());
+        assertArrayEquals(new String[]{"/path/escudo1.png", "/path/escudo2.png", "/path/escudo3.png"}, preguntaConImagen.getOpciones().toArray());
         assertEquals(2, preguntaConImagen.getCorrecta());
         assertTrue(preguntaConImagen.contieneImagen());
     }
 
     @Test
     public void testResponderCorrecto() {
-        assertTrue(pregunta.responder(1));
+        assertTrue(pregunta.esCorrecta(1));
     }
 
     @Test
     public void testResponderIncorrecto() {
-        assertFalse(pregunta.responder(0));
-        assertFalse(pregunta.responder(2));
+        assertFalse(pregunta.esCorrecta(0));
+        assertFalse(pregunta.esCorrecta(2));
     }
 }
