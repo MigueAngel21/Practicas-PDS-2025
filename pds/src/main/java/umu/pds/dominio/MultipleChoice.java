@@ -1,15 +1,19 @@
 package umu.pds.dominio;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MultipleChoice extends Pregunta {
 
 	private int numOpciones;
-	private String[] opciones;
+	private List<String> opciones;
 	private int correcta;
 	private String pregunta;
 	private boolean contieneImagen = false;
 	
 	
-	public MultipleChoice(String enunciado, String pregunta, int numOpciones, String[] opciones, int correcta) {
+	public MultipleChoice(String enunciado, String pregunta, int numOpciones, List<String> opciones, int correcta) {
 		super(enunciado);
 		this.pregunta = pregunta;
 		this.numOpciones = numOpciones;
@@ -22,10 +26,10 @@ public class MultipleChoice extends Pregunta {
 		super(enunciado);
 		this.pregunta = pregunta;
 		this.numOpciones = numOpciones;
-		this.opciones = opciones;
 		this.correcta = correcta;
+		this.opciones = new ArrayList<String>();
 		for (int i = 0; i < numOpciones; i++) {
-			this.opciones[i] = opciones[i];
+			this.opciones.add(opciones[i]);
 		}
 	}
 	
@@ -42,8 +46,8 @@ public class MultipleChoice extends Pregunta {
 		return numOpciones;
 	}
 
-	public String[] getOpciones() {
-		return opciones;
+	public List<String> getOpciones() {
+		return Collections.unmodifiableList(opciones);
 	}
 
 	public int getCorrecta() {
@@ -58,7 +62,7 @@ public class MultipleChoice extends Pregunta {
 		return contieneImagen;
 	}
 
-	public boolean responder(int respuesta) {
+	public boolean esCorrecta(int respuesta) {
 		return respuesta == correcta;
 	}
 	

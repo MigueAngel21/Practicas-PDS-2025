@@ -49,7 +49,7 @@ class EstadisticaTest {
 
     @Test
     public void testAñadirProgreso() {
-        estadistica.añadirProgreso(progreso);
+        estadistica.addProgreso(progreso);
         assertEquals(1, estadistica.getProgresos().size());
         assertEquals(progreso, estadistica.getProgresos().get(0));
     }
@@ -57,8 +57,8 @@ class EstadisticaTest {
     @Test
     public void testMultiplesProgresos() {
         Progreso progreso2 = new Progreso(3, 1, 2, curso);
-        estadistica.añadirProgreso(progreso);
-        estadistica.añadirProgreso(progreso2);
+        estadistica.addProgreso(progreso);
+        estadistica.addProgreso(progreso2);
         
         assertEquals(2, estadistica.getProgresos().size());
         assertEquals(progreso, estadistica.getProgresos().get(0));

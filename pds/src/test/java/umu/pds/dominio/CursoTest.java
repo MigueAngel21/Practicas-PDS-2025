@@ -50,7 +50,7 @@ public class CursoTest extends TestCase {
 
 	@Test
 	public void testResponderPreguntaMultipleChoice() {
-		MultipleChoice pregunta = (MultipleChoice) preguntas.get(0);
+		Pregunta pregunta = curso.getSiguientePregunta();
 		boolean resultado = curso.responderPregunta(pregunta, 1, 0);
 
 		assertTrue(resultado); // Dependerá de la implementación interna de MultipleChoice
@@ -59,15 +59,15 @@ public class CursoTest extends TestCase {
 
 	@Test
 	public void testResponderPreguntaFlashcard() {
-		Flashcard pregunta = (Flashcard) preguntas.get(1);
-		curso.responderPregunta(pregunta, 1);
+		Pregunta pregunta = curso.getSiguientePregunta();
+		curso.responderPregunta(pregunta, 1, 0);
 
 		assertEquals(1, curso.getNumPreguntas()); // Pregunta removida
 	}
 
 	@Test
 	public void testUpdateProgreso() {
-		MultipleChoice pregunta = (MultipleChoice) preguntas.get(0);
+		Pregunta pregunta = curso.getSiguientePregunta();
 		curso.responderPregunta(pregunta, 1, 0);
 
 		assertNotNull(curso.getProgreso());
@@ -77,27 +77,28 @@ public class CursoTest extends TestCase {
     public void testResponderTodasLasPreguntas() {
         while (curso.getNumPreguntas() > 0) {
             Pregunta pregunta = curso.getSiguientePregunta();
-            if (pregunta instanceof MultipleChoice) {
-                curso.responderPregunta((MultipleChoice) pregunta, 1, 0);
-            } else if (pregunta instanceof Flashcard) {
-                curso.responderPregunta((Flashcard) pregunta, 0);
+                curso.responderPregunta(pregunta, 1, 0);
             }
-        }
+    
         assertEquals(0, curso.getNumPreguntas());
     }
     
     @Test
     public void testIntentarObtenerPreguntaCuandoNoHay() {
-        curso.responderPregunta((MultipleChoice) preguntas.get(0), 1, 0);
-        curso.responderPregunta((Flashcard) preguntas.get(0), 1);
+    	Pregunta p = curso.getSiguientePregunta();
+        curso.responderPregunta(p, 1, 0);
+        p = curso.getSiguientePregunta();
+        curso.responderPregunta(p, 1, 1);
         
         assertNull(curso.getSiguientePregunta());
     }
     
     @Test
     public void testProgresoTrasResponderPreguntas() {
-        curso.responderPregunta((MultipleChoice) preguntas.get(0), 1, 0);
-        curso.responderPregunta((Flashcard) preguntas.get(0), 1);
+    	Pregunta p = curso.getSiguientePregunta();
+        curso.responderPregunta(p, 1, 0);
+        p = curso.getSiguientePregunta();
+        curso.responderPregunta(p, 1, 1);
         
         Progreso progreso = curso.getProgreso();
         assertNotNull(progreso);
