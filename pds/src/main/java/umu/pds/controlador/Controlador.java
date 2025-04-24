@@ -1,11 +1,16 @@
 package umu.pds.controlador;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.reflections.Reflections;
 
 import umu.pds.dominio.Curso;
 import umu.pds.dominio.Estadistica;
-import umu.pds.dominio.Flashcard;
-import umu.pds.dominio.MultipleChoice;
+import umu.pds.dominio.EstrategiaApredizaje;
+import umu.pds.dominio.FactoriaEstrategias;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.Progreso;
 import umu.pds.dominio.RepositorioUsuarios;
@@ -20,6 +25,7 @@ public class Controlador {
 	private RepositorioUsuarios repositorioUsuarios;
 	private Curso cursoActual; 
 	private Pregunta preguntaActual;
+	private static final String PATHS = "umu.pds.dominio.estrategiasAprendizaje";
 	
 	private Map<Curso,Progreso> progresos = new java.util.HashMap<Curso,Progreso>();
 	
@@ -58,6 +64,7 @@ public class Controlador {
 	
 	public void setCursoActual(Curso curso) {
 		this.cursoActual = curso;
+	    this.setEstregiaAprendizaje("Secuencial");
 		this.preguntaActual = cursoActual.getSiguientePregunta();
 	}
 	
@@ -87,6 +94,22 @@ public class Controlador {
 	
 	public String getUsername() {
 		return usuarioActual.getNombre();
+	}
+	
+	public List<String> getEstrategiasAprendizaje() {
+		// Conseguir una lista con el nombre de todas las clases Estrategia
+		// Para esto vamos a usar reflexion pero como Java solo nos permite
+		// introspeccion utilizamos la libreria Reflections
+		Reflections reflections = new Reflections(PATHS);
+		Set<Class<? extends EstrategiaApredizaje>> allClasses = reflections.getSubTypesOf(EstrategiaApredizaje.class);
+		List<String> estrategias = allClasses.stream().map(c -> c.getSimpleName()).collect(Collectors.toList());
+		return estrategias;
+	}
+	
+	public void setEstregiaAprendizaje(String estrategia) {
+		EstrategiaApredizaje e = FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + estrategia);
+		cursoActual.setEstrategia(e);
+		
 	}
 
 	
