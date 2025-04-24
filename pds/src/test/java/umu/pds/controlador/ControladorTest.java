@@ -46,7 +46,7 @@ class ControladorTest {
 		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de Fútbol", "Aprende sobre fútbol",
 				preguntas);
 		curso = new Curso(especificacion);
-
+		
 		// Instanciar el Controlador con el mock del repositorio
 		controlador = new Controlador(repositorioUsuariosMock);
 	}

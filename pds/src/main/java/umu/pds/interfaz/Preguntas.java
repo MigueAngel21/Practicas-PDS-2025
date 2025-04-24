@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +24,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import umu.pds.controlador.Controlador;
 import umu.pds.dominio.MultipleChoice;
+import umu.pds.dominio.Pregunta;
 
 public class Preguntas extends JFrame {
 
@@ -108,9 +110,9 @@ public class Preguntas extends JFrame {
 			   this.setVisible(false);
 			// abrir ventana de curso de fútbol
 			// conseguir respuesta seleccionada
-			   MultipleChoice p = (MultipleChoice) controlador.getSiguientePregunta();
-			   MultipleChoiceUI pMC = new MultipleChoiceUI(p, 1);
-			   pMC.setVisible(true);
+			   Pregunta p = controlador.getSiguientePregunta();
+			   JFrame sig = UIutils.creaPreguntaUI(p, 1);
+			   sig.setVisible(true);
 		});
 		panel_1.add(continuar);
 		
@@ -162,6 +164,32 @@ public class Preguntas extends JFrame {
 		panel_4.add(texto33);
 		panel_4.add(texto4);
 		panel_4.add(texto5);
+		
+		JLabel labelNewLine = new JLabel("                                                                                                      ");
+		labelNewLine.setForeground(Color.BLACK);
+		labelNewLine.setFont(new Font("Dialog", Font.BOLD, 19));
+		panel_4.add(labelNewLine);
+		
+		JLabel lblEstrategiaDeAprendizaje = new JLabel("Estrategia de Aprendizaje:");
+		lblEstrategiaDeAprendizaje.setForeground(Color.BLACK);
+		lblEstrategiaDeAprendizaje.setFont(new Font("Dialog", Font.BOLD, 19));
+		panel_4.add(lblEstrategiaDeAprendizaje);
+		
+		JComboBox<String> comboBoxEstrategia = new JComboBox();
+		comboBoxEstrategia.setBackground(new Color(255, 255, 255));
+		comboBoxEstrategia.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 19));
+		comboBoxEstrategia.setForeground(new Color(0, 0, 0));
+		panel_4.add(comboBoxEstrategia);
+		controlador.getEstrategiasAprendizaje().forEach(e -> {
+			comboBoxEstrategia.addItem(e);
+		});
+		
+		comboBoxEstrategia.addActionListener(ev -> {
+			String estrategia = (String) comboBoxEstrategia.getSelectedItem();
+			if (!estrategia.isBlank()) {
+				controlador.setEstregiaAprendizaje(estrategia);
+			} 
+		});
 
 		
 		this.setVisible(true);

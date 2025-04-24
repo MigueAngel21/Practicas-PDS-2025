@@ -17,17 +17,14 @@ public class Curso {
 	}
 	
 	public boolean responderPregunta(Pregunta pregunta, int respuesta, int numPregunta) {
-		boolean ret = pregunta.esCorrecta(respuesta);
-		updateProgreso(numPregunta, ret);
-		preguntas.remove(pregunta);
-		return ret;
+		boolean correcta = pregunta.esCorrecta(respuesta);
+		updateProgreso(numPregunta, correcta);
+		estrategia.responderPregunta(preguntas, pregunta, correcta);
+		return correcta;
     }
 
 	public Pregunta getSiguientePregunta() {
-		if (preguntas.size() > 0) {
-			return preguntas.get(0);
-		}
-		return null;
+		return estrategia.obtenerSiguientePregunta(preguntas);
 	}
 	
 	// Multiple choice
@@ -56,6 +53,10 @@ public class Curso {
 	
 	public int getNumPreguntas() {
 		return preguntas.size();
+	}
+
+	public void setEstrategia(EstrategiaApredizaje e) {
+		this.estrategia = e;
 	}
 	
 }
