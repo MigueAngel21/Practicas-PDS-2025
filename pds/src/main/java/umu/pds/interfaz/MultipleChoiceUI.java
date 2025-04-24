@@ -145,9 +145,14 @@ public class MultipleChoiceUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JButton botonPresionado = (JButton) e.getSource();
-				// TDODO: Mejorar esto
-				respuestaSeleccionada = 0;
 
+				// Guardar la respuesta seleccionada
+				for (int i = 0; i < opciones.length; i++) {
+					if (opciones[i] == botonPresionado) {
+						respuestaSeleccionada = i;
+						break;
+					}
+				}
 				// Alternar entre habilitar y deshabilitar los botones
 				for (JButton boton : opciones) {
 					boton.setEnabled(boton == botonPresionado);

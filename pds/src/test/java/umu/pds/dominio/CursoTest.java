@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.FieldSource;
 
 import junit.framework.TestCase;
 
@@ -13,6 +15,7 @@ public class CursoTest extends TestCase {
 		private Curso curso;
 	    private EspecificacionCurso especificacion;
 	    private List<Pregunta> preguntas;
+	    private static final String PATHS = "umu.pds.dominio.estrategiasAprendizaje";
 
 	
 	@BeforeEach
@@ -24,8 +27,12 @@ public class CursoTest extends TestCase {
 
 		especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
 		curso = new Curso(especificacion);
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + "Secuencial"));
 	}
-
+	
+	static String[] estrategiasBase = { "Secuencial", "RepeticionEspaciada" };
+	static String[] estrategias = { "Secuencial", "Aleatoria", "RepeticionEspaciada" };
+	
 	@Test
 	public void testGetEspecificacionCurso() {
 		assertEquals(especificacion, curso.getEspecificacionCurso());
@@ -41,15 +48,19 @@ public class CursoTest extends TestCase {
 		assertEquals(2, curso.getNumPreguntas());
 	}
 
-	@Test
-	public void testGetSiguientePregunta() {
+	@ParameterizedTest
+	@FieldSource("estrategiasBase")
+	public void testGetSiguientePregunta(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
 		Pregunta siguiente = curso.getSiguientePregunta();
 		assertNotNull(siguiente);
 		assertEquals("Pregunta 1", siguiente.getEnunciado());
 	}
 
-	@Test
-	public void testResponderPreguntaMultipleChoice() {
+	@ParameterizedTest
+	@FieldSource("estrategiasBase")
+	public void testResponderPreguntaMultipleChoice(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
 		Pregunta pregunta = curso.getSiguientePregunta();
 		boolean resultado = curso.responderPregunta(pregunta, 1, 0);
 
@@ -57,24 +68,30 @@ public class CursoTest extends TestCase {
 		assertEquals(1, curso.getNumPreguntas()); // Pregunta removida
 	}
 
-	@Test
-	public void testResponderPreguntaFlashcard() {
+	@ParameterizedTest
+	@FieldSource("estrategiasBase")
+	public void testResponderPreguntaFlashcard(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
 		Pregunta pregunta = curso.getSiguientePregunta();
 		curso.responderPregunta(pregunta, 1, 0);
 
 		assertEquals(1, curso.getNumPreguntas()); // Pregunta removida
 	}
 
-	@Test
-	public void testUpdateProgreso() {
+	@ParameterizedTest
+	@FieldSource("estrategias")
+	public void testUpdateProgreso(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
 		Pregunta pregunta = curso.getSiguientePregunta();
 		curso.responderPregunta(pregunta, 1, 0);
 
 		assertNotNull(curso.getProgreso());
 	}
 	
-    @Test
-    public void testResponderTodasLasPreguntas() {
+	@ParameterizedTest
+	@FieldSource("estrategias")
+    public void testResponderTodasLasPreguntas(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
         while (curso.getNumPreguntas() > 0) {
             Pregunta pregunta = curso.getSiguientePregunta();
                 curso.responderPregunta(pregunta, 1, 0);
@@ -83,8 +100,10 @@ public class CursoTest extends TestCase {
         assertEquals(0, curso.getNumPreguntas());
     }
     
-    @Test
-    public void testIntentarObtenerPreguntaCuandoNoHay() {
+	@ParameterizedTest
+	@FieldSource("estrategias")
+    public void testIntentarObtenerPreguntaCuandoNoHay(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
     	Pregunta p = curso.getSiguientePregunta();
         curso.responderPregunta(p, 1, 0);
         p = curso.getSiguientePregunta();
@@ -93,8 +112,10 @@ public class CursoTest extends TestCase {
         assertNull(curso.getSiguientePregunta());
     }
     
-    @Test
-    public void testProgresoTrasResponderPreguntas() {
+	@ParameterizedTest
+	@FieldSource("estrategias")
+    public void testProgresoTrasResponderPreguntas(String estrategia) {
+		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
     	Pregunta p = curso.getSiguientePregunta();
         curso.responderPregunta(p, 1, 0);
         p = curso.getSiguientePregunta();
@@ -103,4 +124,33 @@ public class CursoTest extends TestCase {
         Progreso progreso = curso.getProgreso();
         assertNotNull(progreso);
     }
+	
+	@Test
+	public void testEstrategiaRepeticionEspaciada() {
+		curso.setEstrategia(
+				FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + "RepeticionEspaciada"));
+		Pregunta pregunta = curso.getSiguientePregunta();
+		assertNotNull(pregunta);
+		assertEquals("Pregunta 1", pregunta.getEnunciado());
+		// Fallamos la pregunta, vuelve al final de la lista
+		curso.responderPregunta(pregunta, 2, 0);
+		
+		pregunta = curso.getSiguientePregunta();
+		assertNotNull(pregunta);
+		assertEquals("¿Quién es el jugador con más balones de oro?", pregunta.getEnunciado());
+		curso.responderPregunta(pregunta, 1, 1);
+		
+		// vuelve a pregunta 1
+		
+		pregunta = curso.getSiguientePregunta();
+		assertNotNull(pregunta);
+		assertEquals("Pregunta 1", pregunta.getEnunciado());
+		curso.responderPregunta(pregunta, 1, 0);
+	
+		// no quedan más preguntas
+		pregunta = curso.getSiguientePregunta();
+		assertNull(pregunta);
+	}
+    
+    
 }
