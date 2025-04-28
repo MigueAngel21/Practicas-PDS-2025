@@ -16,51 +16,67 @@
 	</properties>
 
 	<dependencies>
+		<!-- JUnit 5 API + Parameterized Tests -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
 
-		<!--  https://mvnrepository.com/artifact/log4j/log4j  -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.jtattoo</groupId>
-			<artifactId>JTattoo</artifactId>
-			<version>1.6.13</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.jgoodies</groupId>
-			<artifactId>jgoodies-common</artifactId>
-			<version>1.8.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>5.10.0</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Integración con JUnit 5 -->
+		<!-- Engine to run JUnit 5 tests -->
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>5.10.0</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.reflections</groupId>
-			<artifactId>reflections</artifactId>
-			<version>0.10.2</version>
-		</dependency>
+
+	<!--  https://mvnrepository.com/artifact/log4j/log4j  -->
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
+	</dependency>
+
+	<dependency>
+		<groupId>com.jtattoo</groupId>
+		<artifactId>JTattoo</artifactId>
+		<version>1.6.13</version>
+	</dependency>
+
+	<dependency>
+		<groupId>com.jgoodies</groupId>
+		<artifactId>jgoodies-common</artifactId>
+		<version>1.8.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+		<version>5.10.0</version>
+		<scope>test</scope>
+	</dependency>
+
+	<!-- Integración con JUnit 5 -->
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-junit-jupiter</artifactId>
+		<version>5.10.0</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.reflections</groupId>
+		<artifactId>reflections</artifactId>
+		<version>0.10.2</version>
+	</dependency>
 
 
 	</dependencies>
