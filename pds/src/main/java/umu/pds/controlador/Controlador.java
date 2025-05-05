@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.reflections.Reflections;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import umu.pds.dominio.Curso;
 import umu.pds.dominio.Estadistica;
 import umu.pds.dominio.EstrategiaApredizaje;
@@ -33,12 +34,13 @@ public class Controlador {
 		return instance;
 	}
 	
-	public Controlador() {
+	private Controlador() {
 		this.repositorioUsuarios = new RepositorioUsuarios();
 	}
 	
 	// Constructor para testing
-	public Controlador(RepositorioUsuarios repositorioUsuarios) {
+	@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
+	protected Controlador(RepositorioUsuarios repositorioUsuarios) {
 		this.repositorioUsuarios = repositorioUsuarios;
 	}
 	
@@ -68,7 +70,7 @@ public class Controlador {
 		this.preguntaActual = cursoActual.getSiguientePregunta();
 	}
 	
-	// TODO: Poner protected una vez tengamos persistencia 
+	// TODO: Poner protected una vez tengamos persistencia y no haga falta pruebas con datos predefinidos 
 	public void setUsuarioActual(Usuario usuario) {
 		this.usuarioActual = usuario;
 	}

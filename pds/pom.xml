@@ -39,45 +39,51 @@
 			<scope>test</scope>
 		</dependency>
 
-	<!--  https://mvnrepository.com/artifact/log4j/log4j  -->
-	<dependency>
-		<groupId>log4j</groupId>
-		<artifactId>log4j</artifactId>
-		<version>1.2.17</version>
-	</dependency>
+		<!--  https://mvnrepository.com/artifact/log4j/log4j  -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
 
-	<dependency>
-		<groupId>com.jtattoo</groupId>
-		<artifactId>JTattoo</artifactId>
-		<version>1.6.13</version>
-	</dependency>
+		<dependency>
+			<groupId>com.jtattoo</groupId>
+			<artifactId>JTattoo</artifactId>
+			<version>1.6.13</version>
+		</dependency>
 
-	<dependency>
-		<groupId>com.jgoodies</groupId>
-		<artifactId>jgoodies-common</artifactId>
-		<version>1.8.1</version>
-	</dependency>
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>jgoodies-common</artifactId>
+			<version>1.8.1</version>
+		</dependency>
 
-	<dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-core</artifactId>
-		<version>5.10.0</version>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
 
-	<!-- Integración con JUnit 5 -->
+		<!-- Integración con JUnit 5 -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.10.2</version>
+		</dependency>
+		
 	<dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-junit-jupiter</artifactId>
-		<version>5.10.0</version>
-		<scope>test</scope>
+		<groupId>com.github.spotbugs</groupId>
+		<artifactId>spotbugs-annotations</artifactId>
+    	<version>4.8.3</version> <!-- Use the latest version available -->
 	</dependency>
-	<dependency>
-		<groupId>org.reflections</groupId>
-		<artifactId>reflections</artifactId>
-		<version>0.10.2</version>
-	</dependency>
-
 
 	</dependencies>
+	
 </project>
