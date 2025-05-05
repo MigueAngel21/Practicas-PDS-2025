@@ -17,6 +17,7 @@ public class Usuario {
 		this.password = password;
 		this.edad = edad;
 		this.estadisticas = new Estadistica();
+		this.cursos = new java.util.ArrayList<Curso>();
 	}
 
 	public void updateEstadisticas(Estadistica estadisticas) {

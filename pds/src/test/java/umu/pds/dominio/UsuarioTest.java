@@ -1,9 +1,6 @@
 package umu.pds.dominio;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +23,7 @@ class UsuarioTest {
         assertEquals("1234", usuario.getPassword());
         assertEquals(18, usuario.getEdad());
         assertNotNull(usuario.getEstadisticas());
-        assertNull(usuario.getCursos());
+        assertTrue(usuario.getCursos().isEmpty());
     }
 
     @Test
