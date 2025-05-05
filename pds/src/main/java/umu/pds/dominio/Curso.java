@@ -3,6 +3,7 @@ package umu.pds.dominio;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class Curso {
 	
 	private EstrategiaApredizaje estrategia;

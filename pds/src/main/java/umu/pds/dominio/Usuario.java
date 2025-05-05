@@ -2,13 +2,20 @@ package umu.pds.dominio;
 
 import java.util.List;
 
+import jakarta.persistence.*;
+
+
+@Entity
 public class Usuario {
 	
 	private String nombre;
+	@Id
 	private String email;
 	private String password;
 	private int edad;
+	@OneToOne(cascade = CascadeType.ALL)//ESTO MIRARLO
 	private Estadistica estadisticas;
+	@Transient
 	private List<Curso> cursos;
 	
 	public Usuario(String nombre, String email, String password, int edad) {

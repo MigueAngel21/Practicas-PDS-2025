@@ -20,7 +20,7 @@ import umu.pds.dominio.Usuario;
 public class Controlador {
 	
 	// Singleton
-	private static Controlador instance = new Controlador();
+	private static Controlador instance = null;
 	
 	private Usuario usuarioActual;
 	private RepositorioUsuarios repositorioUsuarios;
@@ -31,12 +31,16 @@ public class Controlador {
 	private Map<Curso,Progreso> progresos = new java.util.HashMap<Curso,Progreso>();
 	
 	public static Controlador getUnicaInstancia() {
-		return instance;
+		if (instance == null) {
+	        instance = new Controlador();
+	    }
+	    return instance;
 	}
 	
 	private Controlador() {
-		this.repositorioUsuarios = new RepositorioUsuarios();
+		this.repositorioUsuarios = RepositorioUsuarios.getUnicaInstancia();
 	}
+	
 	
 	// Constructor para testing
 	@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
@@ -47,21 +51,13 @@ public class Controlador {
 	
 	public boolean iniciarSesion(String usuario, String contrasena) {
 		// remove spaces from user input
-		usuario = usuario.trim();
-		System.out.println("Usuario: " + usuario + " Contraseña: " + contrasena);
-		if (usuario.equals("paco") && contrasena.equals("1234") ) {
-			return true;
-		} else {
-			return false;
-		}
-		
-		/*usuarioActual = repositorioUsuarios.getUsuario(usuario);
+		usuarioActual = repositorioUsuarios.getUsuario(usuario);
 		
 		if (usuarioActual != null && usuarioActual.comprobarContrasena(contrasena)) {
 			return true;
 		}
 		
-		return false;*/
+		return false;
 	}
 	
 	public void setCursoActual(Curso curso) {
@@ -88,6 +84,8 @@ public class Controlador {
 	
 	public void responderPregunta(int respuesta, int numPregunta) {
 		cursoActual.responderPregunta(preguntaActual,respuesta, numPregunta);
+		repositorioUsuarios.update(usuarioActual);
+		
 	}
 	
 	public Estadistica getEstadisticas() {

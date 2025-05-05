@@ -3,10 +3,18 @@ package umu.pds.dominio;
 import java.util.Collections;
 import java.util.List;
 
-public class Estadistica {
+import jakarta.persistence.*;
 
+@Entity
+public class Estadistica {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private long id;
+	
 	private int tiempoDeUso;
 	private int rachaDeDias;
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Progreso> progresos;
 	
 	public Estadistica() {

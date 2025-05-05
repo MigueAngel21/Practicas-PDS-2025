@@ -1,10 +1,19 @@
 package umu.pds.dominio;
 
+
+import jakarta.persistence.*;
+
+@Entity
 public class Progreso {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private long id;
 	
 	private int respuestasCorrectas;
 	private int respuestasIncorrectas;
 	private int lastPregunta;
+	@Transient
 	private Curso curso;
 
 	public Progreso(int respuestasCorrectas, int respuestasIncorrectas, int lastPregunta, Curso curso) {
