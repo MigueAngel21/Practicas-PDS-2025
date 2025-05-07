@@ -3,7 +3,12 @@ package umu.pds.dominio;
 import java.util.Collections;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Estadistica {
@@ -38,8 +43,15 @@ public class Estadistica {
 	public List<Progreso> getProgresos() {
 		return Collections.unmodifiableList(progresos);
 	}
-	
+
 	public void addProgreso(Progreso progreso) {
+		// Si el progreso ya existe, actualiza el existente
+		for (int i = 0; i < progresos.size(); i++) {
+			if(progresos.get(i).isSameCurso(progreso)) {
+				progresos.set(i, progreso);
+				return;
+			}
+		}
 		this.progresos.add(progreso);
 	}
 	

@@ -89,8 +89,8 @@ public class InicioApp {
 		JsonExport.export(especificacion);
 		controlador.cargarCursosJSON("cursos");
 		
-		Curso curso = new Curso(especificacion);
-		controlador.setCursoActual(curso);
+		//Curso curso = new Curso(especificacion);
+		//controlador.setCursoActual(curso);
 		
 		
 	}

@@ -1,9 +1,8 @@
 package umu.pds.dominio;
 
-import java.util.List;
+import java.util.Map;
 
 public interface EstrategiaApredizaje {
-    Pregunta obtenerSiguientePregunta(List<Pregunta> preguntas, Progreso progreso);
+    Pregunta obtenerSiguientePregunta(Map<Integer, Pregunta> preguntas, Progreso progreso);
     
-    void responderPregunta(List<Pregunta> preguntas, Pregunta pregunta, boolean correcta);
 };

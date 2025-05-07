@@ -35,6 +35,10 @@ public class Usuario {
 		this.estadisticas = estadisticas;
 	}
 	
+	public void updateEstadisticas(Progreso progreso) {
+		this.estadisticas.addProgreso(progreso);
+	}
+	
 	public boolean comprobarContrasena(String contrasena) {
 		return this.password.equals(contrasena);
 	}
@@ -62,6 +66,7 @@ public class Usuario {
 	public List<Curso> getCursos() {
 		return cursos;
 	}
+
 	
 
 

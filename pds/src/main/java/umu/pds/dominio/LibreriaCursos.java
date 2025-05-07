@@ -4,13 +4,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LibreriaCursos {
 
 	private static LibreriaCursos instance = null;
-	List<EspecificacionCurso> cursos = new ArrayList<EspecificacionCurso>();
+	Map<String, EspecificacionCurso> cursosMap = new java.util.HashMap<String, EspecificacionCurso>();
 
 	
 	private LibreriaCursos() {
@@ -25,14 +26,16 @@ public class LibreriaCursos {
 	}
 	
 	public void addCurso(EspecificacionCurso curso) {
-		cursos.add(curso);
+		if (cursosMap.containsKey(curso.getNombre())) {
+			throw new IllegalArgumentException("El curso ya existe");
+		}
+		cursosMap.put(curso.getNombre(), curso);
+		//cursos.add(curso);
 	}
 
-	public EspecificacionCurso getCurso(String nombre) {
-		for (EspecificacionCurso curso : cursos) {
-			if (curso.getNombre().equals(nombre)) {
-				return curso;
-			}
+	public EspecificacionCurso getEspecificacionCurso(String nombre) {
+		if (cursosMap.containsKey(nombre)) {
+			return cursosMap.get(nombre);
 		}
 		return null;
 	}
@@ -43,7 +46,7 @@ public class LibreriaCursos {
 		try {
 			for (Path file : java.nio.file.Files.newDirectoryStream(java.nio.file.Paths.get(path))) {
 				EspecificacionCurso curso = objectMapper.readValue(file.toFile(), EspecificacionCurso.class);
-				cursos.add(curso);
+				cursosMap.put(curso.getNombre(), curso);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,7 +54,10 @@ public class LibreriaCursos {
 	}
 
 	public List<EspecificacionCurso> getCursos() {
+		List<EspecificacionCurso> cursos = new ArrayList<EspecificacionCurso>(cursosMap.values());
+		Collections.sort(cursos, (a, b) -> a.getNombre().compareTo(b.getNombre()));
 		return Collections.unmodifiableList(cursos);
 	}
+
 
 }

@@ -19,6 +19,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,6 +36,7 @@ public class SeleccionCurso extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static Controlador controlador = Controlador.getUnicaInstancia();
+	private String SelectedEstrategia = "Secuencial";
 
 	/**
 	 * Create the frame.
@@ -117,7 +119,7 @@ public class SeleccionCurso extends JFrame {
 
         JLabel texto1 = new JLabel("Fútbol", SwingConstants.CENTER);
         texto1.setFont(new Font("Arial", Font.BOLD, 20));
-        texto1.setForeground(Color.BLACK);*/
+        texto1.setForeground(Color.BLACK);
         JButton boton1 = new JButton("Seleccionar Curso");
         boton1.setPreferredSize(new Dimension(60, 40));
         boton1.setBackground(new Color(30, 144, 255));
@@ -135,7 +137,7 @@ public class SeleccionCurso extends JFrame {
         JPanel panelBoton1 = new JPanel(new BorderLayout());
         panelBoton1.setBackground(Color.WHITE);
     //    panelBoton1.add(texto1, BorderLayout.NORTH);
-        panelBoton1.add(boton1, BorderLayout.SOUTH);
+        panelBoton1.add(boton1, BorderLayout.SOUTH);*/
 
     //    curso1.add(imgLabel1, BorderLayout.CENTER);
     //    curso1.add(panelBoton1, BorderLayout.SOUTH);
@@ -149,7 +151,7 @@ public class SeleccionCurso extends JFrame {
 			boton.addActionListener(e -> {
 				// ocultar la ventana de selección de curso
 				this.setVisible(false);
-				controlador.setCursoActual(curso);
+				controlador.setCursoActual(curso,SelectedEstrategia);
 				VentanaPrincipal vp = new VentanaPrincipal();
 				vp.setVisible(true);
 
@@ -175,9 +177,13 @@ public class SeleccionCurso extends JFrame {
 			texto.setFont(new Font("Arial", Font.BOLD, 20));
 			texto.setForeground(Color.BLACK);
 			
-			panelBoton1.add(texto, BorderLayout.NORTH);
+			JPanel panelBoton = new JPanel(new BorderLayout());
+			panelBoton.setBackground(Color.WHITE);
+			
+			panelBoton.add(texto, BorderLayout.NORTH);
+			panelBoton.add(boton);
 			cursoPanel.add(imgLabel, BorderLayout.CENTER);
-			cursoPanel.add(panelBoton1, BorderLayout.SOUTH);
+			cursoPanel.add(panelBoton, BorderLayout.SOUTH);
 			panelCursos.add(cursoPanel);
 		}
 			
@@ -219,13 +225,38 @@ public class SeleccionCurso extends JFrame {
 
         // Agregar elementos al panel principal
         panelPrincipal.add(panelSuperior);
+        
+        JLabel lblNewLabel = new JLabel("                                                                                                                                                                                                                                  ");
+        panelSuperior.add(lblNewLabel);
+        
+        JLabel lblEstrategiaDeAprendizaje = new JLabel("Estrategia de Aprendizaje:");
+		lblEstrategiaDeAprendizaje.setForeground(Color.BLACK);
+		lblEstrategiaDeAprendizaje.setFont(new Font("Dialog", Font.BOLD, 19));
+        panelSuperior.add(lblEstrategiaDeAprendizaje);
+        
+        JComboBox<String> comboBoxEstrategia = new JComboBox();
+		comboBoxEstrategia.setBackground(new Color(255, 255, 255));
+        panelSuperior.add(comboBoxEstrategia);
+		comboBoxEstrategia.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 19));
+		comboBoxEstrategia.setForeground(new Color(0, 0, 0));
         panelPrincipal.add(Box.createVerticalStrut(10)); // Espacio
         panelPrincipal.add(titulo);
         panelPrincipal.add(Box.createVerticalStrut(10)); // Espacio
         panelPrincipal.add(panelCursos);
+        
+       controlador.getEstrategiasAprendizaje().forEach(e -> {
+			comboBoxEstrategia.addItem(e);
+		});
+		
+		comboBoxEstrategia.addActionListener(ev -> {
+			String estrategia = (String) comboBoxEstrategia.getSelectedItem();
+			if (!estrategia.isBlank()) {
+				SelectedEstrategia = estrategia;
+			} 
+		});
 
         // Agregar todo a la ventana
-        this.add(panelPrincipal);
+        getContentPane().add(panelPrincipal);
 
         
 		this.setVisible(true);

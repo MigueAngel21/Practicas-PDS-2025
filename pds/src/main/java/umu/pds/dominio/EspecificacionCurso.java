@@ -3,6 +3,7 @@ package umu.pds.dominio;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EspecificacionCurso {
@@ -41,6 +42,11 @@ public class EspecificacionCurso {
 
 	public String getImagen() {
 		return imagen;
+	}
+
+	@JsonIgnore
+	public int getNumPreguntas() {
+		return preguntas.size();
 	}
 	
 }

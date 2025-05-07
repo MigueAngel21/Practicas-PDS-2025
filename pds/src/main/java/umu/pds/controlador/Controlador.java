@@ -60,24 +60,37 @@ public class Controlador {
 		usuarioActual = repositorioUsuarios.getUsuario(usuario);
 		
 		if (usuarioActual != null && usuarioActual.comprobarContrasena(contrasena)) {
+			// Rellenar mapa de progresos
+			// TODO: Violar
+			List<Progreso> progresos = usuarioActual.getEstadisticas().getProgresos();
+			for (Progreso progreso : progresos) {
+				// Como el curso no persiste en BD tenemos que crearlo con el nombre y la estrategia
+				EspecificacionCurso especificacion = LibreriaCursos.getInstance().getEspecificacionCurso(progreso.getNombreCurso());
+				EstrategiaApredizaje estrategia = FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + progreso.getEstrategia());
+				Curso curso = new Curso(especificacion,estrategia,progreso);
+				this.progresos.put(curso, progreso);
+				progreso.setCurso(curso);
+			}
 			return true;
 		}
 		
-		// Rellenar mapa de progresos
-		List<Curso> cursos = usuarioActual.getCursos();
 		
 		return false;
 	}
 	
 	public void setCursoActual(Curso curso) {
 		this.cursoActual = curso;
-	    this.setEstregiaAprendizaje("Secuencial");
 	}
 	
-	public void setCursoActual(EspecificacionCurso curso) {
-		// TODO: Comprobar que el curso existe
-		this.cursoActual = new Curso(curso);
-		this.setEstregiaAprendizaje("Secuencial");
+	public void setCursoActual(EspecificacionCurso curso, String estrategia) {
+		EstrategiaApredizaje e = FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + estrategia);
+		Curso c = new Curso(curso,e);
+		if (progresos.containsKey(c)) {
+			cursoActual = progresos.get(c).getCurso();
+		} else {
+			cursoActual = c;
+			progresos.put(cursoActual, new Progreso(cursoActual));
+		}
 	}
 	
 	// TODO: Poner protected una vez tengamos persistencia y no haga falta pruebas con datos predefinidos 
@@ -85,6 +98,12 @@ public class Controlador {
 		this.usuarioActual = usuario;
 	}
 	
+	public int getLastPregunta() {
+		if (cursoActual.getProgreso() == null) {
+			return 1;
+		}
+		return cursoActual.getProgreso().getLastPregunta();
+	}
 	
 	public Curso getCursoActual() {
 		return cursoActual;
@@ -93,17 +112,24 @@ public class Controlador {
 	// Devuelve la pregunta actual (realmente para que se muestre la siguiente tienes que antes responder)
 	public Pregunta getSiguientePregunta() {
 		preguntaActual = cursoActual.getSiguientePregunta(progresos.get(cursoActual));
+		if (preguntaActual == null) {
+			resetearCurso();
+		}
 		return preguntaActual;
     }
 	
-	public void responderPregunta(int respuesta, int numPregunta) {
+	private void resetearCurso() {
+		cursoActual.resetearCurso();
+	}
+
+	public void responderPregunta(int respuesta) {
+		int numPregunta = cursoActual.getIndexPregunta(preguntaActual);
 		cursoActual.responderPregunta(preguntaActual,respuesta, numPregunta);
 		// Actualizamos el progreso del curso
 		Progreso progreso = cursoActual.getProgreso();
 		progresos.put(cursoActual, progreso);
 		// Actualizamos la estadistica del usuario
-		Estadistica estadisticas = usuarioActual.getEstadisticas();
-		estadisticas.addProgreso(progreso);
+		usuarioActual.updateEstadisticas(progreso);
 		repositorioUsuarios.update(usuarioActual);
 	}
 	
@@ -125,11 +151,6 @@ public class Controlador {
 		return estrategias;
 	}
 	
-	public void setEstregiaAprendizaje(String estrategia) {
-		EstrategiaApredizaje e = FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + estrategia);
-		cursoActual.setEstrategia(e);
-		
-	}
 
 	public void registrarUsuario(String nombre, String email, char[] contraseña, String edad) {
 		int edadInt = Integer.parseInt(edad);

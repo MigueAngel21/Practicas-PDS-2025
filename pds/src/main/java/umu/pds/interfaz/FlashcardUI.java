@@ -47,6 +47,8 @@ public class FlashcardUI extends JFrame {
 
 
 
+		// On close stop app
+		
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Pregunta " + numPregunta);
@@ -147,7 +149,7 @@ public class FlashcardUI extends JFrame {
 			return;
 		}
 		this.setVisible(false);
-		controlador.responderPregunta(respuesta, numPregunta);
+		controlador.responderPregunta(respuesta);
 		Pregunta p = controlador.getSiguientePregunta();
 		if (p == null) {
 			Puntos puntos = new Puntos();

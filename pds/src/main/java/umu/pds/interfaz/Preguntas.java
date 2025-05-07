@@ -110,8 +110,9 @@ public class Preguntas extends JFrame {
 			   this.setVisible(false);
 			// abrir ventana de curso de fútbol
 			// conseguir respuesta seleccionada
+			   int lastPregunta = controlador.getLastPregunta();
 			   Pregunta p = controlador.getSiguientePregunta();
-			   JFrame sig = UIutils.creaPreguntaUI(p, 1);
+			   JFrame sig = UIutils.creaPreguntaUI(p, lastPregunta);
 			   sig.setVisible(true);
 		});
 		panel_1.add(continuar);
@@ -169,28 +170,6 @@ public class Preguntas extends JFrame {
 		labelNewLine.setForeground(Color.BLACK);
 		labelNewLine.setFont(new Font("Dialog", Font.BOLD, 19));
 		panel_4.add(labelNewLine);
-		
-		JLabel lblEstrategiaDeAprendizaje = new JLabel("Estrategia de Aprendizaje:");
-		lblEstrategiaDeAprendizaje.setForeground(Color.BLACK);
-		lblEstrategiaDeAprendizaje.setFont(new Font("Dialog", Font.BOLD, 19));
-		panel_4.add(lblEstrategiaDeAprendizaje);
-		
-		JComboBox<String> comboBoxEstrategia = new JComboBox();
-		comboBoxEstrategia.setBackground(new Color(255, 255, 255));
-		comboBoxEstrategia.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 19));
-		comboBoxEstrategia.setForeground(new Color(0, 0, 0));
-		panel_4.add(comboBoxEstrategia);
-		controlador.getEstrategiasAprendizaje().forEach(e -> {
-			comboBoxEstrategia.addItem(e);
-		});
-		
-		comboBoxEstrategia.addActionListener(ev -> {
-			String estrategia = (String) comboBoxEstrategia.getSelectedItem();
-			if (!estrategia.isBlank()) {
-				controlador.setEstregiaAprendizaje(estrategia);
-			} 
-		});
-
 		
 		this.setVisible(true);
 	}

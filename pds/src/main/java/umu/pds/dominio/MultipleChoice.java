@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MultipleChoice extends Pregunta {
 
 	private int numOpciones;
 	private List<String> opciones;
 	private int correcta;
 	private String pregunta;
+	@JsonProperty("contieneImagen")
 	private boolean contieneImagen = false;
 	
 	

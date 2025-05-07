@@ -1,7 +1,16 @@
 package umu.pds.dominio;
 
 
-import jakarta.persistence.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Progreso {
@@ -10,41 +19,37 @@ public class Progreso {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
-	private int respuestasCorrectas;
-	private int respuestasIncorrectas;
+	@ElementCollection
+	List<Integer> respuestasCorrectas;
+	@ElementCollection
+	List<Integer> respuestasIncorrectas;
 	private int lastPregunta;
-	private String ficheroCurso;
+	// Necesarios para la conexion entre JSON y JPA
+	private String nombreCurso;
+	private String estretegia;
 	@Transient
 	private Curso curso;
 
-	public Progreso(int respuestasCorrectas, int respuestasIncorrectas, int lastPregunta, Curso curso) {
-        this.respuestasCorrectas = respuestasCorrectas;
-        this.respuestasIncorrectas = respuestasIncorrectas;
-        this.lastPregunta = lastPregunta;
-        this.curso = curso;
-    }
-	
 	public Progreso(Curso curso) {
-		this.respuestasCorrectas = 0;
-		this.respuestasIncorrectas = 0;
+		this.respuestasCorrectas = new LinkedList<Integer>();
+		this.respuestasIncorrectas = new LinkedList<Integer>();
 		this.lastPregunta = 0;
 		this.curso = curso;
+		this.estretegia = curso.getEstrategia().getClass().getSimpleName();
+		this.nombreCurso = curso.getNombre();
 	}
 	
 	// Constructor por defecto para JPA
 	public Progreso() {
-		this.respuestasCorrectas = 0;
-		this.respuestasIncorrectas = 0;
-		this.lastPregunta = 0;
 	}
 	
 	// Multiple choice
 	public void update(int lastPregunta, boolean correcta) {
 		this.lastPregunta = lastPregunta;
 		if (correcta) {
-			respuestasCorrectas++;
-		} else {
-			respuestasIncorrectas++;
+			respuestasCorrectas.add(lastPregunta);
+        } else {
+            respuestasIncorrectas.add(lastPregunta);
 		}
 	}
 	
@@ -54,11 +59,11 @@ public class Progreso {
 	}
 
 	public int getRespuestasCorrectas() {
-		return respuestasCorrectas;
+		return respuestasCorrectas.size();
 	}
 
 	public int getRespuestasIncorrectas() {
-		return respuestasIncorrectas;
+		return respuestasIncorrectas.size();
 	}
 
 	public int getLastPregunta() {
@@ -77,6 +82,33 @@ public class Progreso {
 		return (lastPregunta) * 100 / curso.getNumPreguntas();
 	}
 	
+	public String getNombreCurso() {
+		return nombreCurso;
+	}
+	
+	public String getEstrategia() {
+		return estretegia;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public boolean isSameCurso(Progreso progreso) {
+		return this.estretegia.equals(progreso.getEstrategia()) && this.nombreCurso.equals(progreso.getNombreCurso());
+	}
+
+	public void resetear() {
+        this.lastPregunta = 0;
+	}
+	
+	public List<Integer> getRespuestasCorrectasList() {
+		return Collections.unmodifiableList(respuestasCorrectas);
+	}
+	
+	public List<Integer> getRespuestasIncorrectasList() {
+		return Collections.unmodifiableList(respuestasIncorrectas);
+	}
 
 	
 }

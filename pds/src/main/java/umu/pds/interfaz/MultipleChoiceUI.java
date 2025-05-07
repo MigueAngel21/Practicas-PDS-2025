@@ -179,7 +179,7 @@ public class MultipleChoiceUI extends JFrame {
 			}
 			this.setVisible(false);
 			// conseguir respuesta seleccion
-			controlador.responderPregunta(respuestaSeleccionada,numPregunta);
+			controlador.responderPregunta(respuestaSeleccionada);
 			Pregunta p = controlador.getSiguientePregunta();
 			if (p == null) {
 				// Abrir ventana de puntuación
