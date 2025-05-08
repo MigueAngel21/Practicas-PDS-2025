@@ -32,7 +32,7 @@ public class Secuencial implements EstrategiaApredizaje {
 	@Override
 	public Pregunta obtenerSiguientePregunta(Map<Integer, Pregunta> preguntas, Progreso progreso) {
 
-		int last = 0;
+		int last = 1;
 		if (progreso != null) {
 			last = progreso.getLastPregunta();
 		}

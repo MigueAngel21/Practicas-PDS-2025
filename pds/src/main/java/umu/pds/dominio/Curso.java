@@ -31,7 +31,7 @@ public class Curso {
 	}
 
 	public Integer getIndexPregunta(Pregunta pregunta) {
-		return mapIndexPreguntas.get(pregunta);
+		return mapIndexPreguntas.get(pregunta)+1;
 	}
 
 	public boolean responderPregunta(Pregunta pregunta, int respuesta, int numPregunta) {

@@ -17,6 +17,9 @@ public class Aleatoria implements EstrategiaApredizaje {
 			progreso.getRespuestasCorrectasList().stream().forEach(index -> {
 				preguntas.remove(index);
 			});
+			progreso.getRespuestasIncorrectasList().stream().forEach(index -> {
+				preguntas.remove(index);
+			});
 		}
 	}
 	
@@ -30,6 +33,8 @@ public class Aleatoria implements EstrategiaApredizaje {
 		if (preguntas.size() > 0) {
             int randomIndex = (int) (Math.random() * preguntas.size());
             Pregunta pregunta = preguntas.get(randomIndex);
+            // Eliminar la pregunta seleccionada de la lista
+            preguntas.remove(randomIndex);
             return pregunta;
         }
         return null;

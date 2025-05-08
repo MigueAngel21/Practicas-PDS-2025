@@ -33,7 +33,7 @@ public class Progreso {
 	public Progreso(Curso curso) {
 		this.respuestasCorrectas = new LinkedList<Integer>();
 		this.respuestasIncorrectas = new LinkedList<Integer>();
-		this.lastPregunta = 0;
+		this.lastPregunta = 1;
 		this.curso = curso;
 		this.estretegia = curso.getEstrategia().getClass().getSimpleName();
 		this.nombreCurso = curso.getNombre();
