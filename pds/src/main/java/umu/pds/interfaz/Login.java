@@ -129,8 +129,8 @@ public class Login extends JFrame {
 				// abrir la ventana principal
 				SeleccionCurso window = new SeleccionCurso(controlador.getLibreriaCursos());
 				window.setVisible(true);
-			}else {
-                UIutils.showErrorDialog("Usuario o contraseña incorrecto");
+			} else {
+				UIutils.showErrorDialog("Usuario o contraseña incorrecto");
 			}
 		});
 
@@ -151,6 +151,20 @@ public class Login extends JFrame {
 		btnGoogle.setMaximumSize(fieldSize);
 		panel.add(Box.createVerticalStrut(15));
 		panel.add(btnGoogle);
+
+		btnGoogle.addActionListener(e -> {
+			controlador.setOAuthProvider("Google");
+			boolean exito = controlador.thirdPartyIniciarSesion();
+			if (exito) {
+				// ocultar la ventana de registro
+				this.setVisible(false);
+				// abrir la ventana principal
+				SeleccionCurso window = new SeleccionCurso(controlador.getLibreriaCursos());
+				window.setVisible(true);
+			} else {
+				UIutils.showErrorDialog("Error al iniciar sesión con Google");
+			}
+		});
 
 		// Botón Vovler
 		JButton btnVolver = new JButton(" VOLVER");

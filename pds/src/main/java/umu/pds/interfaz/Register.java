@@ -154,7 +154,13 @@ public class Register extends JFrame {
         registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         registerButton.addActionListener(e -> {
         	// ocultar la ventana de registro
-        	controlador.registrarUsuario(nameField.getText(), emailField.getText(), passField.getPassword(), ageField.getText());
+        	try {
+        		controlador.registrarUsuario(nameField.getText(), emailField.getText(), passField.getPassword(), ageField.getText());
+			} catch (Exception e1) {
+				UIutils.showErrorDialog("Ese email ya está en uso");
+				return;
+			}
+        	UIutils.showInfoDialog("Usuario registrado correctamente");
         	this.setVisible(false);
 			// abrir la ventana principal
         	InicioApp window = new InicioApp();

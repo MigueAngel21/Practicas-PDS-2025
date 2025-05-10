@@ -53,4 +53,11 @@ public class UIutils {
         }
 	}
 
+	public static void showInfoDialog(String string) {
+		JOptionPane optionPane = new JOptionPane(string, JOptionPane.INFORMATION_MESSAGE);
+		JDialog dialog = optionPane.createDialog("Info");
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
+	}
+
   }
