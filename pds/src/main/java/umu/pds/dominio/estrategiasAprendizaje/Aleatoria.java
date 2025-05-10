@@ -1,5 +1,6 @@
 package umu.pds.dominio.estrategiasAprendizaje;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,10 @@ public class Aleatoria implements EstrategiaApredizaje {
 
 	String id = "aleatoria";
 	boolean firstTime = true;
+	Map<Integer, Pregunta> preguntasBckup;
 	
 	private void setUp(Map<Integer, Pregunta> preguntas, Progreso progreso) {
+		preguntasBckup = new java.util.HashMap<>(preguntas);
 		if (progreso != null) {
 			progreso.getRespuestasCorrectasList().stream().forEach(index -> {
 				preguntas.remove(index);
@@ -31,13 +34,24 @@ public class Aleatoria implements EstrategiaApredizaje {
 		}
 		// Seleccionar una pregunta aleatoria
 		if (preguntas.size() > 0) {
-            int randomIndex = (int) (Math.random() * preguntas.size());
-            Pregunta pregunta = preguntas.get(randomIndex);
+			// Obtener un índice aleatorio del 1 al tamaño de la lista (exclusivo)
+			List<Integer> keys = new ArrayList<>(preguntas.keySet());
+			int randomIndex = (int) (Math.random() * preguntas.size());
+			Integer randomKey = keys.get(randomIndex);
+
+            Pregunta pregunta = preguntas.get(randomKey);
             // Eliminar la pregunta seleccionada de la lista
-            preguntas.remove(randomIndex);
+            preguntas.remove(randomKey);
             return pregunta;
         }
+		// Si no hay preguntas disponibles, devolver null y recargar las preguntas
+		preguntasBckup.forEach((index, pregunta) -> { preguntas.put(index, pregunta); });
         return null;
+	}
+	
+	@Override
+	public void responderPregunta(Map<Integer, Pregunta> preguntas, Pregunta pregunta, boolean correcta) {
+		return;
 	}
 
 

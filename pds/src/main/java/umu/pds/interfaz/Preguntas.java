@@ -32,21 +32,6 @@ public class Preguntas extends JFrame {
 	private JPanel contentPane;
 	private Controlador controlador = Controlador.getUnicaInstancia();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Preguntas frame = new Preguntas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.

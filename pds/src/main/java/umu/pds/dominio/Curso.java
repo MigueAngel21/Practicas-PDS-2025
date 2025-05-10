@@ -34,10 +34,11 @@ public class Curso {
 		return mapIndexPreguntas.get(pregunta)+1;
 	}
 
-	public boolean responderPregunta(Pregunta pregunta, int respuesta, int numPregunta) {
+	public boolean responderPregunta(Pregunta pregunta, int respuesta ) {
 		boolean correcta = pregunta.esCorrecta(respuesta);
+		int numPregunta = getIndexPregunta(pregunta);
 		updateProgreso(numPregunta + 1, correcta);
-		// estrategia.responderPregunta(preguntas, pregunta, correcta);
+		estrategia.responderPregunta(mapPreguntas, pregunta, correcta);
 		return correcta;
 	}
 
@@ -104,4 +105,11 @@ public class Curso {
 		this.progreso.resetear();
 	}
 
+	public int getLastPregunta() {
+		if (progreso.getLastPregunta() >= mapPreguntas.size()) {
+			this.resetearCurso();
+		}
+		return progreso.getLastPregunta();
+	}
+	
 }

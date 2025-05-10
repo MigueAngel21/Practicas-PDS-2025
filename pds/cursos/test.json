@@ -1,0 +1,22 @@
+{
+  "nombre" : "Curso de Test",
+  "descripcion" : "Aprende sobre informática y programación",
+  "preguntas" : [ {
+    "tipo" : "multipleChoice",
+    "enunciado" : "Test",
+    "numOpciones" : 5,
+    "opciones" : [ "test", "test", "test", "test", "test" ],
+    "correcta" : 0,
+    "pregunta" : "Test",
+    "contieneImagen" : false
+  },{
+    "tipo" : "multipleChoice",
+    "enunciado" : "Test",
+    "numOpciones" : 2,
+    "opciones" : [ "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/800px-ISO_C%2B%2B_Logo.svg.png", "https://miro.medium.com/v2/resize:fit:500/1*vmFSpk9xtpxAHkH7cmt-3Q.png"],
+    "correcta" : 0,
+    "pregunta" : "",
+    "contieneImagen" : true
+  }],
+  "imagen" : "https://cpmr-islands.org/wp-content/uploads/sites/4/2019/07/Test-Logo-Small-Black-transparent-1-600x600.png"
+}

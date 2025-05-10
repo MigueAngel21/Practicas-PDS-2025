@@ -85,6 +85,10 @@ public class Controlador {
 			// estrategia
 			EspecificacionCurso especificacion = LibreriaCursos.getInstance()
 					.getEspecificacionCurso(progreso.getNombreCurso());
+			// Puede ser que se haya borrado el curso
+			if (especificacion == null) {
+				continue;
+			}
 			EstrategiaApredizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
 					.crearEstrategia(PATHS + '.' + progreso.getEstrategia());
 			Curso curso = new Curso(especificacion, estrategia, progreso);
@@ -150,7 +154,7 @@ public class Controlador {
 		if (cursoActual.getProgreso() == null) {
 			return 1;
 		}
-		return cursoActual.getProgreso().getLastPregunta();
+		return cursoActual.getLastPregunta();
 	}
 
 	public Curso getCursoActual() {
@@ -172,8 +176,7 @@ public class Controlador {
 	}
 
 	public void responderPregunta(int respuesta) {
-		int numPregunta = cursoActual.getIndexPregunta(preguntaActual);
-		cursoActual.responderPregunta(preguntaActual, respuesta, numPregunta);
+		cursoActual.responderPregunta(preguntaActual, respuesta);
 		// Actualizamos el progreso del curso
 		Progreso progreso = cursoActual.getProgreso();
 		progresos.put(cursoActual, progreso);

@@ -36,7 +36,7 @@ public class Secuencial implements EstrategiaApredizaje {
 		if (progreso != null) {
 			last = progreso.getLastPregunta();
 		}
-		if (last >= preguntas.size()) {
+		if (last > preguntas.size()) {
 			return null;
 		}
 		Pregunta pregunta = preguntas.get(last);
@@ -44,4 +44,9 @@ public class Secuencial implements EstrategiaApredizaje {
 	}
 
 
+	@Override
+	public void responderPregunta(Map<Integer, Pregunta> preguntas, Pregunta pregunta, boolean correcta) {
+		return;
+	}
+	
 }

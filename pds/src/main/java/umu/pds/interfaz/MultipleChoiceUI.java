@@ -126,6 +126,10 @@ public class MultipleChoiceUI extends JFrame {
 			for (int i = 0; i < pregunta.getNumOpciones(); i++) {
 				try {
 					URL imgURL = Preguntas.class.getResource(pregunta.getOpciones().get(i));
+					// Si no se encuentra la imagen en el recurso, intentar cargarla desde una URL
+					if (imgURL == null) {
+						imgURL = new URL(pregunta.getOpciones().get(i));
+					}
 					BufferedImage img = ImageIO.read(imgURL);
 					opciones[i] = new JButton();
 					opciones[i].setIcon(new ImageIcon(img.getScaledInstance(160, 150, Image.SCALE_SMOOTH)));

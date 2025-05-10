@@ -49,7 +49,7 @@ public class LibreriaCursos {
 				cursosMap.put(curso.getNombre(), curso);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Error al cargar el curso, revisa el formateo");
 		}
 	}
 

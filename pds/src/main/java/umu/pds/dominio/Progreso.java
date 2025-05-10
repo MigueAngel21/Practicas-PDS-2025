@@ -24,6 +24,8 @@ public class Progreso {
 	@ElementCollection
 	List<Integer> respuestasIncorrectas;
 	private int lastPregunta;
+	private int correctas;
+	private int incorrectas;
 	// Necesarios para la conexion entre JSON y JPA
 	private String nombreCurso;
 	private String estretegia;
@@ -48,22 +50,19 @@ public class Progreso {
 		this.lastPregunta = lastPregunta;
 		if (correcta) {
 			respuestasCorrectas.add(lastPregunta);
+			correctas++;
         } else {
             respuestasIncorrectas.add(lastPregunta);
+            incorrectas++;
 		}
 	}
 	
-	// Flashcard
-	public void update(int lastPregunta) {
-		this.lastPregunta = lastPregunta;
-	}
-
 	public int getRespuestasCorrectas() {
-		return respuestasCorrectas.size();
+		return correctas;
 	}
 
 	public int getRespuestasIncorrectas() {
-		return respuestasIncorrectas.size();
+		return incorrectas;
 	}
 
 	public int getLastPregunta() {
@@ -99,7 +98,9 @@ public class Progreso {
 	}
 
 	public void resetear() {
-        this.lastPregunta = 0;
+        this.lastPregunta = 1;
+        this.respuestasCorrectas.clear();
+        this.respuestasIncorrectas.clear();
 	}
 	
 	public List<Integer> getRespuestasCorrectasList() {

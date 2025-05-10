@@ -164,9 +164,11 @@ public class SeleccionCurso extends JFrame {
         	
         	JLabel imgLabel = new JLabel("", SwingConstants.CENTER);
 			try {
-				//URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/furbo.jpg");
-				System.out.println(curso.getImagen());
 				URL imgURL = SeleccionCurso.class.getResource(curso.getImagen());
+				// Entonces es una URL web no un recurso
+				if (imgURL == null) {
+					imgURL = new URL(curso.getImagen());
+				}
 				BufferedImage img = ImageIO.read(imgURL);
 				imgLabel.setIcon(new ImageIcon(img.getScaledInstance(320, 200, Image.SCALE_SMOOTH)));
 			} catch (IOException | NullPointerException e) {
@@ -188,41 +190,6 @@ public class SeleccionCurso extends JFrame {
 		}
 			
  
-        // 🔵 Segundo marco: Imagen + Nombre del curso + Botón
-        JPanel curso2 = new JPanel();
-        curso2.setLayout(new BorderLayout());
-        curso2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
-        curso2.setBackground(Color.WHITE);
-
-        JLabel imgLabel2 = new JLabel("", SwingConstants.CENTER);
-        try {
-            URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/simbolo +.png");
-            BufferedImage img = ImageIO.read(imgURL);
-            imgLabel2.setIcon(new ImageIcon(img.getScaledInstance(90, 70, Image.SCALE_SMOOTH)));
-        } catch (IOException | NullPointerException e) {
-            imgLabel2.setText("Imagen no encontrada");
-        }
-
-        JLabel texto2 = new JLabel("Crear Nuevo Curso", SwingConstants.CENTER);
-        texto2.setFont(new Font("Arial", Font.BOLD, 20));
-        texto2.setForeground(Color.BLACK);
-        JButton boton2 = new JButton("Crear");
-        boton2.setPreferredSize(new Dimension(60, 40));
-        boton2.setBackground(new Color(30, 144, 255));
-        boton2.setForeground(Color.WHITE);
-        boton2.setFocusPainted(false);
-
-        JPanel panelBoton2 = new JPanel(new BorderLayout());
-        panelBoton2.setBackground(Color.WHITE);
-        panelBoton2.add(texto2, BorderLayout.NORTH);
-        panelBoton2.add(boton2, BorderLayout.SOUTH);
-
-        curso2.add(imgLabel2, BorderLayout.CENTER);
-        curso2.add(panelBoton2, BorderLayout.SOUTH);
-
-        // Agregar cursos al panel de cursos
-        panelCursos.add(curso2);
-
         // Agregar elementos al panel principal
         panelPrincipal.add(panelSuperior);
         

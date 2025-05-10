@@ -10,9 +10,11 @@ public class RepeticionEspaciada implements EstrategiaApredizaje {
 	
 	String id = "repeticion_espaciada";
 	boolean firstTime = true;
+	Map<Integer, Pregunta> preguntasBckup;
 	
 	private void setUp(Map<Integer, Pregunta> preguntas, Progreso progreso) {
 		// Borrar las correctas
+		preguntasBckup = new java.util.HashMap<>(preguntas);
 		if (progreso != null) {
 			progreso.getRespuestasCorrectasList().stream().forEach(index -> {
 				preguntas.remove(index);
@@ -37,7 +39,11 @@ public class RepeticionEspaciada implements EstrategiaApredizaje {
 		if (progreso != null) {
 			last = progreso.getLastPregunta();
 		}
-		if (last >= preguntas.size()) {
+		if (preguntas.size() == 0) {
+			preguntasBckup.forEach((index, pregunta) -> {
+				preguntas.put(index, pregunta);
+			});
+			firstTime = true;
 			return null;
 		}
 
@@ -47,5 +53,18 @@ public class RepeticionEspaciada implements EstrategiaApredizaje {
 	}
 
 	
+	@Override
+	public void responderPregunta(Map<Integer, Pregunta> preguntas, Pregunta pregunta, boolean correcta) {
+		if(!correcta) {
+			preguntas.put(preguntas.size()+1, pregunta);
+		}
+        // remove the question from the map (first occurrence only)
+		for (Map.Entry<Integer, Pregunta> entry : preguntas.entrySet()) {
+			if (entry.getValue().equals(pregunta)) {
+				preguntas.remove(entry.getKey());
+				break;
+			}
+		}
+	}
 
 }
