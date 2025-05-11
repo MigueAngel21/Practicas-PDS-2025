@@ -1,9 +1,11 @@
 package umu.pds.controlador;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -17,11 +19,13 @@ import org.mockito.Mockito;
 import umu.pds.dominio.Curso;
 import umu.pds.dominio.EspecificacionCurso;
 import umu.pds.dominio.Estadistica;
+import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.RepositorioUsuarios;
 import umu.pds.dominio.Usuario;
+import umu.pds.dominio.estrategiasAprendizaje.Secuencial;
 
 class ControladorTest {
 	private Controlador controlador;
@@ -44,18 +48,19 @@ class ControladorTest {
 		preguntas.add(new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi"));
 
 		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de Fútbol", "Aprende sobre fútbol",
-				preguntas);
-		curso = new Curso(especificacion);
-		
+				"imagen", preguntas);
+		EstrategiaAprendizaje estrategia = new Secuencial();
+		curso = new Curso(especificacion, estrategia);
+
 		// Instanciar el Controlador con el mock del repositorio
 		controlador = new Controlador(repositorioUsuariosMock);
+		controlador.setUsuarioActual(usuario);
 	}
 
 	@Test
 	public void testIniciarSesion_UsuarioCorrecto() {
 		when(repositorioUsuariosMock.getUsuario("paco")).thenReturn(usuario);
 
-		controlador.setUsuarioActual(usuario);
 		boolean resultado = controlador.iniciarSesion("paco", "1234");
 
 		assertTrue(resultado, "El usuario debería haber iniciado sesión correctamente.");
@@ -100,12 +105,17 @@ class ControladorTest {
 	@Test
 	public void testResponderPregunta_Flashcard() {
 		controlador.setCursoActual(curso);
-		controlador.responderPregunta(1,0);; // Primera pregunta (MultipleChoice)
 		Pregunta pregunta = controlador.getSiguientePregunta(); // Segunda pregunta (Flashcard)
+		controlador.responderPregunta(1);
+		assertInstanceOf(MultipleChoice.class, pregunta);
+		pregunta = controlador.getSiguientePregunta(); // Pregunta siguiente
+		; // Primera pregunta (MultipleChoice)
 
 		assertInstanceOf(Flashcard.class, pregunta);
-		controlador.responderPregunta(1,1); // Simula la respuesta
-		assertEquals(0, curso.getNumPreguntas(), "Se han respondido todas las preguntas");
+		controlador.responderPregunta(1); // Simula la respuesta
+		pregunta = controlador.getSiguientePregunta(); // Pregunta siguiente
+
+		assertNull(pregunta);
 	}
 
 	@Test
@@ -120,5 +130,16 @@ class ControladorTest {
 	public void testGetUsername() {
 		controlador.setUsuarioActual(usuario);
 		assertEquals("Paco", controlador.getUsername(), "El nombre de usuario debería ser Paco.");
+	}
+	
+	@Test
+	public void estrategiaNoExiste() {
+		// Crear un curso con una estrategia no válida
+		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de Fútbol", "Aprende sobre fútbol",
+				"imagen", preguntas);
+		
+		assertThrows(NullPointerException.class, () -> {
+			controlador.setCursoActual(especificacion, "EstrategiaInvalida");
+		});
 	}
 }

@@ -28,7 +28,7 @@ public class Progreso {
 	private int incorrectas;
 	// Necesarios para la conexion entre JSON y JPA
 	private String nombreCurso;
-	private String estretegia;
+	private String estrategia;
 	@Transient
 	private Curso curso;
 
@@ -37,7 +37,7 @@ public class Progreso {
 		this.respuestasIncorrectas = new LinkedList<Integer>();
 		this.lastPregunta = 1;
 		this.curso = curso;
-		this.estretegia = curso.getEstrategia().getClass().getSimpleName();
+		this.estrategia = curso.getEstrategia().getClass().getSimpleName();
 		this.nombreCurso = curso.getNombre();
 	}
 	
@@ -78,7 +78,7 @@ public class Progreso {
 	}
 	
 	public int getCompletitud() {
-		return (lastPregunta) * 100 / curso.getNumPreguntas();
+		return ((correctas + incorrectas)*100 / curso.getNumPreguntas());
 	}
 	
 	public String getNombreCurso() {
@@ -86,7 +86,7 @@ public class Progreso {
 	}
 	
 	public String getEstrategia() {
-		return estretegia;
+		return estrategia;
 	}
 
 	public void setCurso(Curso curso) {
@@ -94,7 +94,7 @@ public class Progreso {
 	}
 
 	public boolean isSameCurso(Progreso progreso) {
-		return this.estretegia.equals(progreso.getEstrategia()) && this.nombreCurso.equals(progreso.getNombreCurso());
+		return this.estrategia.equals(progreso.getEstrategia()) && this.nombreCurso.equals(progreso.getNombreCurso());
 	}
 
 	public void resetear() {

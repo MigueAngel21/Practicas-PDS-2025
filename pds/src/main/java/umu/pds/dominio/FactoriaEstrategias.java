@@ -13,11 +13,10 @@ public class FactoriaEstrategias {
 		return instance;
 	}
 
-	public EstrategiaApredizaje crearEstrategia(String tipo) {
+	public EstrategiaAprendizaje crearEstrategia(String tipo) {
 		try {
-			return (EstrategiaApredizaje) Class.forName(tipo).getDeclaredConstructor().newInstance();
+			return (EstrategiaAprendizaje) Class.forName(tipo).getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}

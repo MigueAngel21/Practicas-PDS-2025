@@ -3,11 +3,11 @@ package umu.pds.dominio.estrategiasAprendizaje;
 import java.util.Map;
 import java.util.Objects;
 
-import umu.pds.dominio.EstrategiaApredizaje;
+import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.Progreso;
 
-public class Secuencial implements EstrategiaApredizaje {
+public class Secuencial implements EstrategiaAprendizaje {
 
 	// add ID
 	String id = "secuencial";

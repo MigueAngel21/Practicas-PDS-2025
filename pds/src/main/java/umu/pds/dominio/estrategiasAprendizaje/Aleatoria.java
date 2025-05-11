@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import umu.pds.dominio.EstrategiaApredizaje;
+import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.Progreso;
 
-public class Aleatoria implements EstrategiaApredizaje {
+public class Aleatoria implements EstrategiaAprendizaje {
 
 	String id = "aleatoria";
 	boolean firstTime = true;
@@ -45,7 +45,7 @@ public class Aleatoria implements EstrategiaApredizaje {
             return pregunta;
         }
 		// Si no hay preguntas disponibles, devolver null y recargar las preguntas
-		preguntasBckup.forEach((index, pregunta) -> { preguntas.put(index, pregunta); });
+		// preguntasBckup.forEach((index, pregunta) -> { preguntas.put(index, pregunta); });
         return null;
 	}
 	

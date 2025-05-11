@@ -21,25 +21,19 @@ class ProgresoTest {
         preguntas.add(new MultipleChoice("Pregunta 1", "¿Cuántas champions league tiene el real madrid?", 3, 1, "15", "14", "13"));
         preguntas.add(new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi"));
         
-        especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
-        curso = new Curso(especificacion);
+        especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", "imagen", preguntas);
+        // Crear una estrategia de aprendizaje ficticia
+		EstrategiaAprendizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
+				.crearEstrategia("umu.pds.dominio.estrategiasAprendizaje.Secuencial");
+        curso = new Curso(especificacion, estrategia);
         progreso = new Progreso(curso);
-    }
-
-    @Test
-    public void testConstructorConValoresIniciales() {
-        Progreso p = new Progreso(5, 2, 3, curso);
-        assertEquals(5, p.getRespuestasCorrectas());
-        assertEquals(2, p.getRespuestasIncorrectas());
-        assertEquals(3, p.getLastPregunta());
-        assertEquals(curso, p.getCurso());
     }
 
     @Test
     public void testConstructorPorDefecto() {
         assertEquals(0, progreso.getRespuestasCorrectas());
         assertEquals(0, progreso.getRespuestasIncorrectas());
-        assertEquals(0, progreso.getLastPregunta());
+        assertEquals(1, progreso.getLastPregunta());
         assertEquals(curso, progreso.getCurso());
     }
 
@@ -61,7 +55,7 @@ class ProgresoTest {
 
     @Test
     public void testUpdateFlashcard() {
-        progreso.update(2);
+        progreso.update(2, true);
         assertEquals(2, progreso.getLastPregunta());
     }
 

@@ -21,7 +21,7 @@ public class Usuario {
 	@Nullable
 	private String provider_id;
 	private int edad;
-	@OneToOne(cascade = CascadeType.ALL)//ESTO MIRARLO
+	@OneToOne(cascade = CascadeType.ALL)
 	private Estadistica estadisticas;
 	@Transient
 	private List<Curso> cursos;

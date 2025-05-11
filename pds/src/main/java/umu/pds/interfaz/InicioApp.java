@@ -57,49 +57,12 @@ public class InicioApp {
 	}
 
 	
-	private void añadirDatosDePrueba() {
-		Pregunta p1 = new MultipleChoice("Completa la frase de Luis Rubiales : ","Ella me dijo, eres un crack, y yo le dije, _________?", 3, 1, "un abrazo", "un piquito", "un apreton de manos");
-		Pregunta p2 = new MultipleChoice("Responde a la siguiente pregunta :","¿Cuántas champions league tiene el real madrid?", 3, 0, "15", "14", "13");
-		Pregunta p3 = new MultipleChoice("Cuál es el escudo del Real Madrid", "", 3, 0, true, "/umu/pds/resources/escudoRealMadrid.png", "/umu/pds/resources/escudoAtleticoMadrid.jpg", "/umu/pds/resources/escudoRayoVall.jpg"); 
-		Pregunta p4 = new MultipleChoice("Completa la frase de Luis Aragones :", "Ganar, ganar y volver a ganar, y ganar y ganar, y ganar, y eso _______", 3, 0, "es el futbol, señores", "es la vida", "es el futbol, chavales");
-		Pregunta p5 = new MultipleChoice("Responde a la siguiente pregunta :","¿Quién es el jugador de la selección española con mas partidos jugados?:", 3, 1, "Iker Casillas", "Sergio Ramos", "Andres Iniesta");
-		Pregunta p6 = new MultipleChoice("¿Cuál de los tres equipos pertenece a la comunidad valenciana?","", 3, 0, true, "/umu/pds/resources/escudoVillareal.png", "/umu/pds/resources/escudoGirona.png", "/umu/pds/resources/escudoMurcia.png");
-		Pregunta p7 = new MultipleChoice("Completa la frase de Josep Mourinho : ", "Si te gusta la presión, estás en el club adecuado. Si no, vete _____", 3, 2, "a tomar viento", "al banquillo", "al circo");
-		Pregunta p8 = new MultipleChoice("Responde a la siguiente pregunta :","¿Cuántas eurocopas ha ganado la selección española de futbol?", 3, 1, "3", "4", "5");
-		Pregunta p9 = new MultipleChoice("¿Cuál de los siguientes estadios de futbol es el Santiago Bernabeu?","", 3, 2, true, "/umu/pds/resources/estadioDaLuz.jpg", "/umu/pds/resources/estadioWembley.jpg", "/umu/pds/resources/estadioBernabeu.jpg");
-		Pregunta p10 = new MultipleChoice("Completa la frase de Vicente del Bosque :", "En el fútbol no siempre ganan los mejores, sino los que mejor _____", 3, 1, "compiten", "pierden", "ganan");
-		Pregunta p11 = new MultipleChoice("Responde a la siguiente pregunta :","¿Cuáles de estos jugadores no ha ganado un balón de oro?", 3, 2, "Luka Modric", "Karim Benzema", "Dani Carvajal");
-		Pregunta p12 = new MultipleChoice("¿Cuál de estos jugadores ha jugado en el Real Madrid?","", 3, 1, true, "/umu/pds/resources/Havertz.jpg", "/umu/pds/resources/Carvajal.jpg", "/umu/pds/resources/AlexanderArnold.jpg");
-		Pregunta pX = new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi");
-		List<Pregunta> preguntas = new ArrayList<Pregunta>();
-		preguntas.add(p1);
-		preguntas.add(pX);
-		preguntas.add(p2);
-		preguntas.add(p3);
-		preguntas.add(p4);
-		preguntas.add(p5);
-		preguntas.add(p6);
-		preguntas.add(p7);
-		preguntas.add(p8);
-		preguntas.add(p9);
-		preguntas.add(p10);
-		preguntas.add(p11);
-		preguntas.add(p12);
-		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol","/umu/pds/resources/furbo.jpg",preguntas);
-		JsonExport.export(especificacion);
-		controlador.cargarCursosJSON("cursos");
-		
-		//Curso curso = new Curso(especificacion);
-		//controlador.setCursoActual(curso);
-		
-		
-	}
 	
 	/**
 	 * Create the application.
 	 */
 	public InicioApp() {
-		añadirDatosDePrueba();
+		controlador.cargarCursosJSON("cursos");
 		initialize();
 	}
 

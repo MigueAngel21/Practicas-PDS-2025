@@ -25,13 +25,6 @@ public class LibreriaCursos {
 		return instance;
 	}
 	
-	public void addCurso(EspecificacionCurso curso) {
-		if (cursosMap.containsKey(curso.getNombre())) {
-			throw new IllegalArgumentException("El curso ya existe");
-		}
-		cursosMap.put(curso.getNombre(), curso);
-		//cursos.add(curso);
-	}
 
 	public EspecificacionCurso getEspecificacionCurso(String nombre) {
 		if (cursosMap.containsKey(nombre)) {

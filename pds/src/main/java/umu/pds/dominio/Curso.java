@@ -8,13 +8,13 @@ import java.util.stream.IntStream;
 
 public class Curso {
 
-	private EstrategiaApredizaje estrategia;
+	private EstrategiaAprendizaje estrategia;
 	private EspecificacionCurso especificacionCurso;
 	private Progreso progreso;
 	private Map<Integer, Pregunta> mapPreguntas;
 	private Map<Pregunta, Integer> mapIndexPreguntas;
 
-	public Curso(EspecificacionCurso especificacionCurso, EstrategiaApredizaje estrategia) {
+	public Curso(EspecificacionCurso especificacionCurso, EstrategiaAprendizaje estrategia) {
 		this.especificacionCurso = especificacionCurso;
 		this.estrategia = estrategia;
 		// Preguntas
@@ -23,12 +23,14 @@ public class Curso {
 				.collect(Collectors.toMap(i -> i, i -> preguntasList.get(i - 1)));
 		mapIndexPreguntas = IntStream.range(0, preguntasList.size()).boxed()
 				.collect(Collectors.toMap(preguntasList::get, i -> i));
+		this.progreso = new Progreso(this);
 	}
 
-	public Curso(EspecificacionCurso especificacionCurso, EstrategiaApredizaje estrategia, Progreso progreso) {
+	public Curso(EspecificacionCurso especificacionCurso, EstrategiaAprendizaje estrategia, Progreso progreso) {
 		this(especificacionCurso, estrategia);
 		this.progreso = progreso;
 	}
+	
 
 	public Integer getIndexPregunta(Pregunta pregunta) {
 		return mapIndexPreguntas.get(pregunta)+1;
@@ -58,7 +60,7 @@ public class Curso {
 		return progreso;
 	}
 
-	public EstrategiaApredizaje getEstrategia() {
+	public EstrategiaAprendizaje getEstrategia() {
 		return estrategia;
 	}
 
@@ -74,7 +76,7 @@ public class Curso {
 		return mapPreguntas.size();
 	}
 
-	public void setEstrategia(EstrategiaApredizaje e) {
+	public void setEstrategia(EstrategiaAprendizaje e) {
 		this.estrategia = e;
 	}
 

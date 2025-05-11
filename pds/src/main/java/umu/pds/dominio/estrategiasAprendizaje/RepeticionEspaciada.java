@@ -2,11 +2,11 @@ package umu.pds.dominio.estrategiasAprendizaje;
 
 import java.util.Map;
 
-import umu.pds.dominio.EstrategiaApredizaje;
+import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.Progreso;
 
-public class RepeticionEspaciada implements EstrategiaApredizaje {
+public class RepeticionEspaciada implements EstrategiaAprendizaje {
 	
 	String id = "repeticion_espaciada";
 	boolean firstTime = true;

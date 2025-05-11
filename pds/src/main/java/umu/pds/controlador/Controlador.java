@@ -11,7 +11,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import umu.pds.dominio.Curso;
 import umu.pds.dominio.EspecificacionCurso;
 import umu.pds.dominio.Estadistica;
-import umu.pds.dominio.EstrategiaApredizaje;
+import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.FactoriaEstrategias;
 import umu.pds.dominio.GoogleOAuthAdapter;
 import umu.pds.dominio.LibreriaCursos;
@@ -35,6 +35,7 @@ public class Controlador {
 
 	private Map<Curso, Progreso> progresos = new java.util.HashMap<Curso, Progreso>();
 
+	
 	public static Controlador getUnicaInstancia() {
 		if (instance == null) {
 			instance = new Controlador();
@@ -89,7 +90,7 @@ public class Controlador {
 			if (especificacion == null) {
 				continue;
 			}
-			EstrategiaApredizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
+			EstrategiaAprendizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
 					.crearEstrategia(PATHS + '.' + progreso.getEstrategia());
 			Curso curso = new Curso(especificacion, estrategia, progreso);
 			this.progresos.put(curso, progreso);
@@ -134,7 +135,7 @@ public class Controlador {
 	}
 
 	public void setCursoActual(EspecificacionCurso curso, String estrategia) {
-		EstrategiaApredizaje e = FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + estrategia);
+		EstrategiaAprendizaje e = FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + estrategia);
 		Curso c = new Curso(curso, e);
 		if (progresos.containsKey(c)) {
 			cursoActual = progresos.get(c).getCurso();
@@ -198,7 +199,7 @@ public class Controlador {
 		// Para esto vamos a usar reflexion pero como Java solo nos permite
 		// introspeccion utilizamos la libreria Reflections
 		Reflections reflections = new Reflections(PATHS);
-		Set<Class<? extends EstrategiaApredizaje>> allClasses = reflections.getSubTypesOf(EstrategiaApredizaje.class);
+		Set<Class<? extends EstrategiaAprendizaje>> allClasses = reflections.getSubTypesOf(EstrategiaAprendizaje.class);
 		List<String> estrategias = allClasses.stream().map(c -> c.getSimpleName()).collect(Collectors.toList());
 		return estrategias;
 	}

@@ -24,9 +24,12 @@ class EstadisticaTest {
         preguntas.add(new MultipleChoice("Pregunta 1", "¿Cuántas champions league tiene el real madrid?", 3, 1, "15", "14", "13"));
         preguntas.add(new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi"));
         
-        especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
-        curso = new Curso(especificacion);
-        progreso = new Progreso(5, 2, 3, curso);
+        especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol","imagen", preguntas);
+        // Crear una estrategia de aprendizaje ficticia
+		EstrategiaAprendizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
+				.crearEstrategia("umu.pds.dominio.estrategiasAprendizaje.Secuencial");
+        curso = new Curso(especificacion, estrategia);
+        progreso = new Progreso(curso);
         estadistica = new Estadistica(10, 3);
     }
 
@@ -56,13 +59,13 @@ class EstadisticaTest {
 
     @Test
     public void testMultiplesProgresos() {
-        Progreso progreso2 = new Progreso(3, 1, 2, curso);
+        Progreso progreso2 = new Progreso(curso);
         estadistica.addProgreso(progreso);
+        // Sobreescribimos el progreso
         estadistica.addProgreso(progreso2);
         
-        assertEquals(2, estadistica.getProgresos().size());
-        assertEquals(progreso, estadistica.getProgresos().get(0));
-        assertEquals(progreso2, estadistica.getProgresos().get(1));
+        assertEquals(1, estadistica.getProgresos().size());
+        assertEquals(progreso2, estadistica.getProgresos().get(0));
     }
 
 }

@@ -1,7 +1,11 @@
 package umu.pds.dominio;
 
-import jakarta.persistence.*;
-import umu.pds.controlador.Controlador;
+import java.util.List;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 
 public class RepositorioUsuarios {
@@ -32,14 +36,14 @@ public class RepositorioUsuarios {
 		entityManager.getTransaction().commit();
 	}
 	
-	/*
+	
 	public void remove(Usuario usuario) {
 		entityManager.getTransaction().begin();
 		Usuario managed = entityManager.contains(usuario) ? usuario : entityManager.merge(usuario);
 		entityManager.remove(managed);
 		entityManager.getTransaction().commit();
 	}
-	*/
+	
 	
 	public void update(Usuario usuario) {
 		entityManager.getTransaction().begin();
@@ -59,6 +63,14 @@ public class RepositorioUsuarios {
         entityManager.getTransaction().commit();
         return usuarioEncontrado;
     }
+	
+	public List<Usuario> getAllUsuarios() {
+		entityManager.getTransaction().begin();
+		Query query = entityManager.createQuery("SELECT u FROM Usuario u");
+		List<Usuario> usuarios = query.getResultList();
+		entityManager.getTransaction().commit();
+		return usuarios;
+	}
 	
 	
 }

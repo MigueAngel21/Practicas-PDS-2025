@@ -34,7 +34,7 @@ class UsuarioTest {
 
     @Test
     public void testComprobarContrasena() {
-        assertFalse(usuario.comprobarContrasena("1234")); // Método aún no implementado
-        assertFalse(usuario.comprobarContrasena("incorrecta"));
+        assertTrue(usuario.comprobarLogin("1234")); // Método aún no implementado
+        assertFalse(usuario.comprobarLogin("incorrecta"));
     }
 }

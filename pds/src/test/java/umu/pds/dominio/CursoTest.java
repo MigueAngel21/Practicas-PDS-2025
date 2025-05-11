@@ -1,6 +1,10 @@
 package umu.pds.dominio;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +29,10 @@ public class CursoTest{
 				"14", "13"));
 		preguntas.add(new Flashcard("¿Quién es el jugador con más balones de oro?", "Lionel Messi"));
 
-		especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
-		curso = new Curso(especificacion);
-		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + "Secuencial"));
+		especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", "imagen", preguntas);
+		EstrategiaAprendizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
+				.crearEstrategia(PATHS + "." + "Secuencial");
+		curso = new Curso(especificacion, estrategia);
 	}
 
 	static String[] estrategiasBase() {
@@ -57,7 +62,8 @@ public class CursoTest{
 	@MethodSource("estrategiasBase")
 	public void testGetSiguientePregunta(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		Pregunta siguiente = curso.getSiguientePregunta();
+		Progreso p = curso.getProgreso();
+		Pregunta siguiente = curso.getSiguientePregunta(p);
 		assertNotNull(siguiente);
 		assertEquals("Pregunta 1", siguiente.getEnunciado());
 	}
@@ -66,29 +72,33 @@ public class CursoTest{
 	@MethodSource("estrategiasBase")
 	public void testResponderPreguntaMultipleChoice(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		Pregunta pregunta = curso.getSiguientePregunta();
-		boolean resultado = curso.responderPregunta(pregunta, 1, 0);
+		Progreso p = curso.getProgreso();
+		Pregunta pregunta = curso.getSiguientePregunta(p);
+		boolean resultado = curso.responderPregunta(pregunta, 1);
 
 		assertTrue(resultado); // Dependerá de la implementación interna de MultipleChoice
-		assertEquals(1, curso.getNumPreguntas()); // Pregunta removida
+		assertInstanceOf(MultipleChoice.class, pregunta);
 	}
 
 	@ParameterizedTest
 	@MethodSource("estrategiasBase")
 	public void testResponderPreguntaFlashcard(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		Pregunta pregunta = curso.getSiguientePregunta();
-		curso.responderPregunta(pregunta, 1, 0);
-
-		assertEquals(1, curso.getNumPreguntas()); // Pregunta removida
+		Progreso p = curso.getProgreso();
+		Pregunta pregunta = curso.getSiguientePregunta(p);
+		curso.responderPregunta(pregunta, 1);
+		pregunta = curso.getSiguientePregunta(p);
+		
+		assertInstanceOf(Flashcard.class, pregunta);
 	}
 
 	@ParameterizedTest
 	@MethodSource("estrategias")
 	public void testUpdateProgreso(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		Pregunta pregunta = curso.getSiguientePregunta();
-		curso.responderPregunta(pregunta, 1, 0);
+		Progreso p = curso.getProgreso();
+		Pregunta pregunta = curso.getSiguientePregunta(p);
+		curso.responderPregunta(pregunta, 1);
 
 		assertNotNull(curso.getProgreso());
 	}
@@ -97,34 +107,39 @@ public class CursoTest{
 	@MethodSource("estrategias")
 	public void testResponderTodasLasPreguntas(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		while (curso.getNumPreguntas() > 0) {
-			Pregunta pregunta = curso.getSiguientePregunta();
-			curso.responderPregunta(pregunta, 1, 0);
+		Progreso p = curso.getProgreso();
+		Pregunta pregunta = curso.getSiguientePregunta(p);
+		while (pregunta != null) {
+			curso.responderPregunta(pregunta, 1);
+			pregunta = curso.getSiguientePregunta(p);
 		}
 
-		assertEquals(0, curso.getNumPreguntas());
+		pregunta = curso.getSiguientePregunta(p);
+		assertNull(pregunta);
 	}
 
 	@ParameterizedTest
 	@MethodSource("estrategias")
 	public void testIntentarObtenerPreguntaCuandoNoHay(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		Pregunta p = curso.getSiguientePregunta();
-		curso.responderPregunta(p, 1, 0);
-		p = curso.getSiguientePregunta();
-		curso.responderPregunta(p, 1, 1);
+		Progreso prog = curso.getProgreso();
+		Pregunta p = curso.getSiguientePregunta(prog);
+		curso.responderPregunta(p, 1);
+		p = curso.getSiguientePregunta(prog);
+		curso.responderPregunta(p, 1);
 
-		assertNull(curso.getSiguientePregunta());
+		assertNull(curso.getSiguientePregunta(prog));
 	}
 
 	@ParameterizedTest
 	@MethodSource("estrategias")
 	public void testProgresoTrasResponderPreguntas(String estrategia) {
 		curso.setEstrategia(FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + estrategia));
-		Pregunta p = curso.getSiguientePregunta();
-		curso.responderPregunta(p, 1, 0);
-		p = curso.getSiguientePregunta();
-		curso.responderPregunta(p, 1, 1);
+		Progreso prog = curso.getProgreso();
+		Pregunta p = curso.getSiguientePregunta(prog);
+		curso.responderPregunta(p, 1);
+		p = curso.getSiguientePregunta(prog);
+		curso.responderPregunta(p, 1);
 
 		Progreso progreso = curso.getProgreso();
 		assertNotNull(progreso);
@@ -134,27 +149,29 @@ public class CursoTest{
 	public void testEstrategiaRepeticionEspaciada() {
 		curso.setEstrategia(
 				FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + "." + "RepeticionEspaciada"));
-		Pregunta pregunta = curso.getSiguientePregunta();
+		Progreso prog = curso.getProgreso();
+		Pregunta pregunta = curso.getSiguientePregunta(prog);
 		assertNotNull(pregunta);
 		assertEquals("Pregunta 1", pregunta.getEnunciado());
 		// Fallamos la pregunta, vuelve al final de la lista
-		curso.responderPregunta(pregunta, 2, 0);
+		curso.responderPregunta(pregunta, 2);
 
-		pregunta = curso.getSiguientePregunta();
+		pregunta = curso.getSiguientePregunta(prog);
 		assertNotNull(pregunta);
 		assertEquals("¿Quién es el jugador con más balones de oro?", pregunta.getEnunciado());
-		curso.responderPregunta(pregunta, 1, 1);
+		curso.responderPregunta(pregunta, 1);
 
 		// vuelve a pregunta 1
 
-		pregunta = curso.getSiguientePregunta();
+		pregunta = curso.getSiguientePregunta(prog);
 		assertNotNull(pregunta);
 		assertEquals("Pregunta 1", pregunta.getEnunciado());
-		curso.responderPregunta(pregunta, 1, 0);
+		curso.responderPregunta(pregunta, 1);
 
 		// no quedan más preguntas
-		pregunta = curso.getSiguientePregunta();
+		pregunta = curso.getSiguientePregunta(prog);
 		assertNull(pregunta);
 	}
+	
 
 }
