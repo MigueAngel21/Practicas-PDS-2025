@@ -38,6 +38,10 @@ public class MultipleChoice extends Pregunta {
 		this.contieneImagen = contieneImagen;
 	}
 	
+	public MultipleChoice() {
+		super();
+	}
+	
 	public String getPregunta() {
 		return pregunta;
 	}

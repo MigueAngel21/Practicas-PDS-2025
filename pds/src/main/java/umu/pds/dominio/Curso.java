@@ -3,12 +3,14 @@ package umu.pds.dominio;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Curso {
 	
 	private EstrategiaApredizaje estrategia;
 	private EspecificacionCurso especificacionCurso;
-	private Progreso progreso = null;
+	private Progreso progreso;
 	private List<Pregunta> preguntas;
 	
 	public Curso(EspecificacionCurso especificacionCurso) {
@@ -24,8 +26,8 @@ public class Curso {
 		return correcta;
     }
 
-	public Pregunta getSiguientePregunta() {
-		return estrategia.obtenerSiguientePregunta(preguntas);
+	public Pregunta getSiguientePregunta(Progreso progreso) {
+		return estrategia.obtenerSiguientePregunta(preguntas, progreso);
 	}
 	
 	// Multiple choice

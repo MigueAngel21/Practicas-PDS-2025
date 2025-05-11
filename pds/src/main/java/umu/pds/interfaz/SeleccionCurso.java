@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -27,33 +25,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
+
+import umu.pds.controlador.Controlador;
+import umu.pds.dominio.EspecificacionCurso;
+import umu.pds.dominio.LibreriaCursos;
 
 public class SeleccionCurso extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SeleccionCurso frame = new SeleccionCurso();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Create the frame.
 	 */
-	public SeleccionCurso() {
+	public SeleccionCurso(LibreriaCursos libreriaCursos) {
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 		} catch (ClassNotFoundException e) {
@@ -112,8 +98,10 @@ public class SeleccionCurso extends JFrame {
         JPanel panelCursos = new JPanel(new GridLayout(1, 2, 20, 10));
         panelCursos.setBackground(Color.WHITE);
 
+        // por cada curso en la libreria de cursos
+       
         // 🟢 Primer marco: Imagen + Nombre del curso + Botón
-        JPanel curso1 = new JPanel();
+        /*JPanel curso1 = new JPanel();
         curso1.setLayout(new BorderLayout());
         curso1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
         curso1.setBackground(Color.WHITE);
@@ -129,7 +117,7 @@ public class SeleccionCurso extends JFrame {
 
         JLabel texto1 = new JLabel("Fútbol", SwingConstants.CENTER);
         texto1.setFont(new Font("Arial", Font.BOLD, 20));
-        texto1.setForeground(Color.BLACK);
+        texto1.setForeground(Color.BLACK);*/
         JButton boton1 = new JButton("Seleccionar Curso");
         boton1.setPreferredSize(new Dimension(60, 40));
         boton1.setBackground(new Color(30, 144, 255));
@@ -146,12 +134,54 @@ public class SeleccionCurso extends JFrame {
 
         JPanel panelBoton1 = new JPanel(new BorderLayout());
         panelBoton1.setBackground(Color.WHITE);
-        panelBoton1.add(texto1, BorderLayout.NORTH);
+    //    panelBoton1.add(texto1, BorderLayout.NORTH);
         panelBoton1.add(boton1, BorderLayout.SOUTH);
 
-        curso1.add(imgLabel1, BorderLayout.CENTER);
-        curso1.add(panelBoton1, BorderLayout.SOUTH);
+    //    curso1.add(imgLabel1, BorderLayout.CENTER);
+    //    curso1.add(panelBoton1, BorderLayout.SOUTH);
 
+        for (EspecificacionCurso curso : libreriaCursos.getCursos()) {
+        	JButton boton = new JButton("Seleccionar Curso");
+        	boton.setPreferredSize(new Dimension(60, 40));
+        	boton.setBackground(new Color(30, 144, 255));
+        	boton.setForeground(Color.WHITE);
+        	boton.setFocusPainted(false);
+			boton.addActionListener(e -> {
+				// ocultar la ventana de selección de curso
+				this.setVisible(false);
+				controlador.setCursoActual(curso);
+				VentanaPrincipal vp = new VentanaPrincipal();
+				vp.setVisible(true);
+
+			});
+        	
+        	JPanel cursoPanel = new JPanel();
+        	cursoPanel.setLayout(new BorderLayout());
+        	cursoPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        	cursoPanel.setBackground(Color.WHITE);
+        	
+        	JLabel imgLabel = new JLabel("", SwingConstants.CENTER);
+			try {
+				//URL imgURL = SeleccionCurso.class.getResource("/umu/pds/resources/furbo.jpg");
+				System.out.println(curso.getImagen());
+				URL imgURL = SeleccionCurso.class.getResource(curso.getImagen());
+				BufferedImage img = ImageIO.read(imgURL);
+				imgLabel.setIcon(new ImageIcon(img.getScaledInstance(320, 200, Image.SCALE_SMOOTH)));
+			} catch (IOException | NullPointerException e) {
+				imgLabel.setText("Imagen no encontrada");
+			}
+			
+			JLabel texto = new JLabel(curso.getNombre(), SwingConstants.CENTER);
+			texto.setFont(new Font("Arial", Font.BOLD, 20));
+			texto.setForeground(Color.BLACK);
+			
+			panelBoton1.add(texto, BorderLayout.NORTH);
+			cursoPanel.add(imgLabel, BorderLayout.CENTER);
+			cursoPanel.add(panelBoton1, BorderLayout.SOUTH);
+			panelCursos.add(cursoPanel);
+		}
+			
+ 
         // 🔵 Segundo marco: Imagen + Nombre del curso + Botón
         JPanel curso2 = new JPanel();
         curso2.setLayout(new BorderLayout());
@@ -185,7 +215,6 @@ public class SeleccionCurso extends JFrame {
         curso2.add(panelBoton2, BorderLayout.SOUTH);
 
         // Agregar cursos al panel de cursos
-        panelCursos.add(curso1);
         panelCursos.add(curso2);
 
         // Agregar elementos al panel principal

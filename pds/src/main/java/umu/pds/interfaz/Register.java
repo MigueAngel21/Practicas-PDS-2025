@@ -19,12 +19,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
+
+import umu.pds.controlador.Controlador;
 
 public class Register extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private static Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Launch the application.
@@ -152,6 +154,7 @@ public class Register extends JFrame {
         registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         registerButton.addActionListener(e -> {
         	// ocultar la ventana de registro
+        	controlador.registrarUsuario(nameField.getText(), emailField.getText(), passField.getPassword(), ageField.getText());
         	this.setVisible(false);
 			// abrir la ventana principal
         	InicioApp window = new InicioApp();

@@ -10,6 +10,11 @@ public class Flashcard extends Pregunta {
 		this.respuesta = respuesta;
 	}
 	
+	public Flashcard() {
+		super();
+		this.respuesta = "";
+	}
+	
 	public String getRespuesta() {
 		return respuesta;
 	}

@@ -127,7 +127,7 @@ public class Login extends JFrame {
 				// ocultar la ventana de registro
 				this.setVisible(false);
 				// abrir la ventana principal
-				SeleccionCurso window = new SeleccionCurso();
+				SeleccionCurso window = new SeleccionCurso(controlador.getLibreriaCursos());
 				window.setVisible(true);
 			}else {
                 UIutils.showErrorDialog("Usuario o contraseña incorrecto");

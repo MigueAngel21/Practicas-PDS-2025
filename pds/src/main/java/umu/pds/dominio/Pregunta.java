@@ -1,11 +1,20 @@
 package umu.pds.dominio;
 
-public abstract class Pregunta {
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
+@JsonSubTypes({ @JsonSubTypes.Type(value = Flashcard.class, name = "flashcard"),
+		@JsonSubTypes.Type(value = MultipleChoice.class, name = "multipleChoice"),
+})
+public abstract class Pregunta { 
 	private String enunciado;
 	
 	public Pregunta(String enunciado) {
 		this.enunciado = enunciado;
+	}
+	
+	public Pregunta() {
 	}
 
 	public String getEnunciado() {
@@ -13,5 +22,4 @@ public abstract class Pregunta {
 	}
 	
 	abstract public boolean esCorrecta(int respuesta);
-	
 }

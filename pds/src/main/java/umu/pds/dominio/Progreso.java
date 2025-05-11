@@ -13,6 +13,7 @@ public class Progreso {
 	private int respuestasCorrectas;
 	private int respuestasIncorrectas;
 	private int lastPregunta;
+	private String ficheroCurso;
 	@Transient
 	private Curso curso;
 
@@ -28,6 +29,13 @@ public class Progreso {
 		this.respuestasIncorrectas = 0;
 		this.lastPregunta = 0;
 		this.curso = curso;
+	}
+	
+	// Constructor por defecto para JPA
+	public Progreso() {
+		this.respuestasCorrectas = 0;
+		this.respuestasIncorrectas = 0;
+		this.lastPregunta = 0;
 	}
 	
 	// Multiple choice

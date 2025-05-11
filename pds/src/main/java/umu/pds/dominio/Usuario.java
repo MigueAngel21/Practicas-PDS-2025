@@ -27,13 +27,16 @@ public class Usuario {
 		this.cursos = new java.util.ArrayList<Curso>();
 	}
 
+	public Usuario() {
+		
+	}
+	
 	public void updateEstadisticas(Estadistica estadisticas) {
 		this.estadisticas = estadisticas;
 	}
 	
 	public boolean comprobarContrasena(String contrasena) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.password.equals(contrasena);
 	}
 
 	public String getNombre() {

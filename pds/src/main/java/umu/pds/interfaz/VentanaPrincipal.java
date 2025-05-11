@@ -95,7 +95,7 @@ public class VentanaPrincipal extends JFrame {
 			// ocultar la ventana de selección de curso
 			   this.setVisible(false);
 			// abrir ventana de curso de fútbol
-			   SeleccionCurso sc = new SeleccionCurso();
+			   SeleccionCurso sc = new SeleccionCurso(controlador.getLibreriaCursos());
 			   sc.setVisible(true);
 			
 		});

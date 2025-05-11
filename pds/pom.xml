@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<jakarta.persistence.version>3.1.0</jakarta.persistence.version>
 		<hibernate.version>6.2.0.Final</hibernate.version>
 		<sqlite.version>3.39.2</sqlite.version>
@@ -82,13 +82,13 @@
 			<artifactId>reflections</artifactId>
 			<version>0.10.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-annotations</artifactId>
-	    	<version>4.8.3</version> <!-- Use the latest version available -->
+			<version>4.8.3</version> <!-- Use the latest version available -->
 		</dependency>
-		
+
 		<!-- JPA API -->
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
@@ -105,19 +105,25 @@
 
 		<!-- SQLite JDBC Driver -->
 		<dependency>
-		    <groupId>org.xerial</groupId>
-		    <artifactId>sqlite-jdbc</artifactId>
-		    <version>3.49.1.0</version>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.49.1.0</version>
 			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Para hacer funcionar SQLite con Hibernate -->
 		<dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-community-dialects</artifactId>
-            <version>6.2.7.Final</version>
-    	</dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-community-dialects</artifactId>
+			<version>6.2.7.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.16.0</version>
+		</dependency>
 
 	</dependencies>
-	
+
 </project>

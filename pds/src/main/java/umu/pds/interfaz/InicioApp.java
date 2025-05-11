@@ -26,6 +26,7 @@ import umu.pds.dominio.Curso;
 import umu.pds.dominio.EspecificacionCurso;
 import umu.pds.dominio.Estadistica;
 import umu.pds.dominio.Flashcard;
+import umu.pds.dominio.JsonExport;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
@@ -84,20 +85,13 @@ public class InicioApp {
 		preguntas.add(p10);
 		preguntas.add(p11);
 		preguntas.add(p12);
-		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol", preguntas);
-		LibreriaCursos.INSTANCE.addCurso(especificacion);
-		
-		Usuario paco = new Usuario("paco", "paco@duopingo.com", "1234", 18);
-		controlador.setUsuarioActual(paco);
+		EspecificacionCurso especificacion = new EspecificacionCurso("Curso de fútbol", "Aprende sobre fútbol","/umu/pds/resources/furbo.jpg",preguntas);
+		JsonExport.export(especificacion);
+		controlador.cargarCursosJSON("cursos");
 		
 		Curso curso = new Curso(especificacion);
 		controlador.setCursoActual(curso);
 		
-		Estadistica estadistica = new Estadistica(15,2);
-		Progreso progreso = new Progreso(5,2,7,curso);
-		
-		estadistica.addProgreso(progreso);
-		paco.updateEstadisticas(estadistica);
 		
 	}
 	
