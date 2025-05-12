@@ -3,12 +3,12 @@
 Proyecto de la asignatura PDS 2024-2025
 
 Hecho por:
-  Daniel Antonio Martínez Sánchez
-  Miguel Ángel Marín Valero
-  Benjamín Manchado Gómez
+  * Daniel Antonio Martínez Sánchez
+  * Miguel Ángel Marín Valero
+  * Benjamín Manchado Gómez
 
 Profesor:
-  Jesús Sánchez Cuadrado
+  * Jesús Sánchez Cuadrado
 
 ## Casos de Uso y Modelado de dominio
 
@@ -44,4 +44,6 @@ También hemos añadido al repositorio de github a través de github actions una
 
 ## Covertura de los test
 
+Tenemos una convertura que consideramos bastante alta, un 79% en el dominio, y +90% en las estrategias de aprendizaje y el controlador. La cobertura del dominio es realmente más de la que podría pensarse ya que la clase encargada del login con google no podemos probarla con Junit (ya que requiere interacción con el nevagdor, quizás se podría con Selenium), muchas clases tiene el 100% de cobertura (Usuario, Progreso, Estadistica) y otras muchas clases coberturas bastante altas.
 
+Hemos puesto bastante esfuerzo en los test ya que creemos que era una de las partes más importantes del proyecto, hemos usado mockito para en las pruebas de integración del controlador hacer mocks de la BD y del servicio de OAuth2 (aunque también tenemos test que se ejecutan sobre la propia DB) y también hemos usado test parametrizados para poder con menos código probar todas las estrategias en un solo test.
