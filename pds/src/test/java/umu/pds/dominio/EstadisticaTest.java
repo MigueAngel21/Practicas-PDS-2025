@@ -68,4 +68,22 @@ class EstadisticaTest {
         assertEquals(progreso2, estadistica.getProgresos().get(0));
     }
 
+    @Test 
+    public void testMultiplesProgesosDiferentes() {
+		Progreso progreso2 = new Progreso(curso);
+		Curso curso2 = new Curso(
+                new EspecificacionCurso("Curso de historia", "Aprende sobre historia", "imagen", preguntas),
+                curso.getEstrategia());
+		Progreso progreso3 = new Progreso(curso2);
+		estadistica.addProgreso(progreso);
+		estadistica.addProgreso(progreso2);
+		estadistica.addProgreso(progreso3);
+
+		assertEquals(2, estadistica.getProgresos().size());
+		assertEquals(progreso2, estadistica.getProgresos().get(0));
+		assertEquals(progreso3, estadistica.getProgresos().get(1));
+		assertEquals(curso, progreso2.getCurso());
+		assertEquals(curso2, progreso3.getCurso());
+    }
+    
 }

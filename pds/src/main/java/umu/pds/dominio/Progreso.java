@@ -1,6 +1,5 @@
 package umu.pds.dominio;
 
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,11 +13,11 @@ import jakarta.persistence.Transient;
 
 @Entity
 public class Progreso {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
-	
+
 	@ElementCollection
 	List<Integer> respuestasCorrectas;
 	@ElementCollection
@@ -40,23 +39,25 @@ public class Progreso {
 		this.estrategia = curso.getEstrategia().getClass().getSimpleName();
 		this.nombreCurso = curso.getNombre();
 	}
-	
+
 	// Constructor por defecto para JPA
 	public Progreso() {
 	}
-	
+
+
 	// Multiple choice
 	public void update(int lastPregunta, boolean correcta) {
+		// lastPregunta es la pregunta por la que nos hemos quedado, lastPregunta-1 es la pregunta que hemos respondido
 		this.lastPregunta = lastPregunta;
 		if (correcta) {
-			respuestasCorrectas.add(lastPregunta);
+			respuestasCorrectas.add(lastPregunta-1);
 			correctas++;
-        } else {
-            respuestasIncorrectas.add(lastPregunta);
-            incorrectas++;
+		} else {
+			respuestasIncorrectas.add(lastPregunta-1);
+			incorrectas++;
 		}
 	}
-	
+
 	public int getRespuestasCorrectas() {
 		return correctas;
 	}
@@ -72,19 +73,19 @@ public class Progreso {
 	public Curso getCurso() {
 		return curso;
 	}
-	
+
 	public String toString() {
 		return curso.getNombre();
 	}
-	
+
 	public int getCompletitud() {
-		return ((correctas + incorrectas)*100 / curso.getNumPreguntas());
+		return ((correctas + incorrectas) * 100 / curso.getNumPreguntas());
 	}
-	
+
 	public String getNombreCurso() {
 		return nombreCurso;
 	}
-	
+
 	public String getEstrategia() {
 		return estrategia;
 	}
@@ -98,18 +99,17 @@ public class Progreso {
 	}
 
 	public void resetear() {
-        this.lastPregunta = 1;
-        this.respuestasCorrectas.clear();
-        this.respuestasIncorrectas.clear();
+		this.lastPregunta = 1;
+		this.respuestasCorrectas.clear();
+		this.respuestasIncorrectas.clear();
 	}
-	
+
 	public List<Integer> getRespuestasCorrectasList() {
 		return Collections.unmodifiableList(respuestasCorrectas);
 	}
-	
+
 	public List<Integer> getRespuestasIncorrectasList() {
 		return Collections.unmodifiableList(respuestasIncorrectas);
 	}
 
-	
 }

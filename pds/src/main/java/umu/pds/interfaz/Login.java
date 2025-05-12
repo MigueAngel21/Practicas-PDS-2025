@@ -122,6 +122,8 @@ public class Login extends JFrame {
 				UIutils.showErrorDialog("Por favor, rellene todos los campos");
 				return;
 			}
+			// Borrar espacios
+			correo = correo.trim();
 			boolean exito = controlador.iniciarSesion(correo, contrasena);
 			if (exito) {
 				// ocultar la ventana de registro

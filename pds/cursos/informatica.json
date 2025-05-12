@@ -21,6 +21,38 @@
     "tipo" : "flashcard",
     "enunciado" : "¿Qué es un algoritmo?",
     "respuesta" : "Un algoritmo es una secuencia de pasos o instrucciones que se siguen para resolver un problema o realizar una tarea específica."
+  },{
+    "tipo" : "multipleChoice",
+    "enunciado" : "¿Qué es un bucle?",
+    "numOpciones" : 3,
+    "opciones" : [ "Una estructura de control que permite repetir un bloque de código", "Una función que se llama a sí misma", "Un tipo de variable"],
+    "correcta" : 0,
+    "pregunta" : "",
+    "contieneImagen" : false
+  },{
+    "tipo" : "multipleChoice",
+    "enunciado" : "¿Qué es una variable?",
+    "numOpciones" : 3,
+    "opciones" : [ "Un espacio en memoria para almacenar datos", "Una función que se llama a sí misma", "Un tipo de bucle"],
+    "correcta" : 0,
+    "pregunta" : "",
+    "contieneImagen" : false
+  },{
+    "tipo" : "multipleChoice",
+    "enunciado" : "¿Qué es un compilador?",
+    "numOpciones" : 3,
+    "opciones" : [ "Un programa que traduce código fuente a código máquina", "Un programa que ejecuta código fuente", "Un programa que depura código fuente"],
+    "correcta" : 0,
+    "pregunta" : "",
+    "contieneImagen" : false
+  },{
+    "tipo" : "multipleChoice",
+    "enunciado" : "¿Qué es un sistema operativo?",
+    "numOpciones" : 3,
+    "opciones" : [ "Un software que gestiona el hardware y software de un ordenador", "Un software que permite crear aplicaciones", "Un software que se utiliza para navegar por Internet"],
+    "correcta" : 0,
+    "pregunta" : "",
+    "contieneImagen" : false
   }],
   "imagen" : "https://static.kent.ac.uk/nexus/ems/50.jpg"
 }

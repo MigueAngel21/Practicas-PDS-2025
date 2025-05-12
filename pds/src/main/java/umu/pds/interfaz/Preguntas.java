@@ -36,7 +36,7 @@ public class Preguntas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Preguntas() {
+	public Preguntas(int NumPreguntas) {
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 		} catch (ClassNotFoundException e) {
@@ -118,16 +118,16 @@ public class Preguntas extends JFrame {
 		panel_2.add(panel_4, BorderLayout.CENTER);
 		panel_4.setBackground(Color.WHITE);
 		
-		JLabel texto = new JLabel("Hay 12 preguntas para responder, las cuales pueden ser de varios tipos.");			
+		JLabel texto = new JLabel("Hay " + NumPreguntas + " preguntas para responder, las cuales pueden ser de varios tipos.");			
 		texto.setFont(new Font("Arial", Font.BOLD, 19));
 		texto.setForeground(Color.BLACK);
-		JLabel texto1 = new JLabel("Responder correctamente a una pregunta te otorgará 10 punto.");			
+		JLabel texto1 = new JLabel("Responder correctamente a una pregunta te otorgará puntos.");			
 		texto1.setFont(new Font("Arial", Font.BOLD, 19));
 		texto1.setForeground(Color.BLACK);
-		JLabel texto2 = new JLabel("Responder incorrectamente te restará 5 punto,");			
+		JLabel texto2 = new JLabel("Puedes revisar el registro de tus preguntas en Perfil,");			
 		texto2.setFont(new Font("Arial", Font.BOLD, 19));
 		texto2.setForeground(Color.BLACK);
-		JLabel texto22 = new JLabel("pero podras volver a contestarla al final.");			
+		JLabel texto22 = new JLabel("Dependiendo de la estrategia de apredizaje la experiencia será distinta.");			
 		texto22.setFont(new Font("Arial", Font.BOLD, 19));
 		texto22.setForeground(Color.BLACK);
 		JLabel texto3 = new JLabel("Realizar el test cada dia aumentara tu racha de dias consecutivos,");			

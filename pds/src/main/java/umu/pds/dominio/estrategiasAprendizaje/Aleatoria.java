@@ -3,6 +3,7 @@ package umu.pds.dominio.estrategiasAprendizaje;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.Pregunta;
@@ -10,7 +11,7 @@ import umu.pds.dominio.Progreso;
 
 public class Aleatoria implements EstrategiaAprendizaje {
 
-	String id = "aleatoria";
+	static final String id = "aleatoria";
 	boolean firstTime = true;
 	Map<Integer, Pregunta> preguntasBckup;
 	
@@ -53,6 +54,25 @@ public class Aleatoria implements EstrategiaAprendizaje {
 	public void responderPregunta(Map<Integer, Pregunta> preguntas, Pregunta pregunta, boolean correcta) {
 		return;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Aleatoria other = (Aleatoria) obj;
+		return Objects.equals(id, other.id);
+	}
+	
+	
 
 
 }

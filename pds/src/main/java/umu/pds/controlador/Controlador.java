@@ -1,5 +1,6 @@
 package umu.pds.controlador;
 
+import java.awt.GraphicsConfiguration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,8 +36,7 @@ public class Controlador {
 
 	private Map<Curso, Progreso> progresos = new java.util.HashMap<Curso, Progreso>();
 
-	
-	public static Controlador getUnicaInstancia() {
+	public static synchronized Controlador getUnicaInstancia() {
 		if (instance == null) {
 			instance = new Controlador();
 		}
@@ -64,6 +64,12 @@ public class Controlador {
 	protected Controlador(RepositorioUsuarios repositorioUsuarios) {
 		this.repositorioUsuarios = repositorioUsuarios;
 	}
+	
+	@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
+	protected Controlador(RepositorioUsuarios repositorioUsuarios, OAuthProvider provider) {
+		this.repositorioUsuarios = repositorioUsuarios;
+		this.provider = provider;
+	}
 
 	public boolean iniciarSesion(String usuario, String contrasena) {
 		// remove spaces from user input
@@ -79,8 +85,7 @@ public class Controlador {
 	}
 
 	private void loadUserData() {
-		// TODO: fix
-		List<Progreso> progresos = usuarioActual.getEstadisticas().getProgresos();
+		List<Progreso> progresos = usuarioActual.getProgresos();
 		for (Progreso progreso : progresos) {
 			// Como el curso no persiste en BD tenemos que crearlo con el nombre y la
 			// estrategia
@@ -130,7 +135,7 @@ public class Controlador {
 		return true;
 	}
 
-	public void setCursoActual(Curso curso) {
+	protected void setCursoActual(Curso curso) {
 		this.cursoActual = curso;
 	}
 
@@ -145,9 +150,7 @@ public class Controlador {
 		}
 	}
 
-	// TODO: Poner protected una vez tengamos persistencia y no haga falta pruebas
-	// con datos predefinidos
-	public void setUsuarioActual(Usuario usuario) {
+	protected void setUsuarioActual(Usuario usuario) {
 		this.usuarioActual = usuario;
 	}
 
@@ -186,7 +189,24 @@ public class Controlador {
 		repositorioUsuarios.update(usuarioActual);
 	}
 
+	private void hydrateProgreso(Estadistica estadistica) {
+		for (Progreso progreso : estadistica.getProgresos()) {
+			if (progreso.getCurso() == null) {
+				EspecificacionCurso especificacion = LibreriaCursos.getInstance()
+						.getEspecificacionCurso(progreso.getNombreCurso());
+				EstrategiaAprendizaje estrategia = FactoriaEstrategias.getUnicaInstancia()
+						.crearEstrategia(PATHS + '.' + progreso.getEstrategia());
+				Curso curso = new Curso(especificacion, estrategia, progreso);
+				this.progresos.put(curso, progreso);
+				progreso.setCurso(curso);
+			}
+		}
+	}
+
+	// Como el curso es transient no se guarda en la base de datos y necesitamos
+	// asegurarnos que no es null cuando queramos mostrarlo
 	public Estadistica getEstadisticas() {
+		hydrateProgreso(usuarioActual.getEstadisticas());
 		return usuarioActual.getEstadisticas();
 	}
 
@@ -216,6 +236,18 @@ public class Controlador {
 
 	public LibreriaCursos getLibreriaCursos() {
 		return LibreriaCursos.getInstance();
+	}
+
+	public EstrategiaAprendizaje getEstrategia(String estrategia) {
+		return FactoriaEstrategias.getUnicaInstancia().crearEstrategia(PATHS + '.' + estrategia);
+	}
+
+	public EspecificacionCurso getEspecificacionCurso(String curso) {
+		return LibreriaCursos.getInstance().getEspecificacionCurso(curso);
+	}
+
+	public int getNumPreguntas() {
+		return cursoActual.getNumPreguntas();
 	}
 
 }

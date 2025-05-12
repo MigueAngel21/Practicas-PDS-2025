@@ -25,24 +25,8 @@ import umu.pds.controlador.Controlador;
 public class Register extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private static Controlador controlador = Controlador.getUnicaInstancia();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register frame = new Register();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -63,14 +47,14 @@ public class Register extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("DUOPINGO");
 		setResizable(false);
-		//cambiar icono de la ventana
+		// cambiar icono de la ventana
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/umu/pds/resources/musculitos.png"));
-		
+
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 		} catch (ClassNotFoundException e) {
@@ -86,125 +70,126 @@ public class Register extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		setBounds(420, 160, 732, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("DUOPINGO");
 		setResizable(false);
-		//cambiar icono de la ventana
+		// cambiar icono de la ventana
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/umu/pds/resources/musculitos.png"));
-		
+
 		// Crear el panel principal con BoxLayout
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(Color.WHITE);
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(Color.WHITE);
 
-        // Agregar el título
-        JLabel titleLabel = new JLabel("Crea tu perfil");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        titleLabel.setForeground(Color.BLACK);
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(titleLabel);
+		// Agregar el título
+		JLabel titleLabel = new JLabel("Crea tu perfil");
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+		titleLabel.setForeground(Color.BLACK);
+		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(titleLabel);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
 
-        // Campo de edad
-        JTextField ageField = new JTextField("Edad");
-        ageField.setPreferredSize(new Dimension(250, 40));
-        ageField.setMaximumSize(new Dimension(250, 40));
-        panel.add(ageField);
+		// Campo de edad
+		JTextField ageField = new JTextField("Edad");
+		ageField.setPreferredSize(new Dimension(250, 40));
+		ageField.setMaximumSize(new Dimension(250, 40));
+		panel.add(ageField);
 
-        JLabel ageInfo = new JLabel("Agregar tu edad te garantiza una experiencia adaptada en Duopingo.");
-        ageInfo.setFont(new Font("Arial", Font.PLAIN, 10));
-        ageInfo.setForeground(Color.GRAY);
-        ageInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(ageInfo);
+		JLabel ageInfo = new JLabel("Agregar tu edad te garantiza una experiencia adaptada en Duopingo.");
+		ageInfo.setFont(new Font("Arial", Font.PLAIN, 10));
+		ageInfo.setForeground(Color.GRAY);
+		ageInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(ageInfo);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
 
-        // Campo de nombre opcional
-        JTextField nameField = new JTextField("Nombre");
-        nameField.setPreferredSize(new Dimension(250, 40));
-        nameField.setMaximumSize(new Dimension(250, 40));
-        panel.add(nameField);
+		// Campo de nombre opcional
+		JTextField nameField = new JTextField("Nombre");
+		nameField.setPreferredSize(new Dimension(250, 40));
+		nameField.setMaximumSize(new Dimension(250, 40));
+		panel.add(nameField);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
 
-        // Campo de correo
-        JTextField emailField = new JTextField("Correo");
-        emailField.setPreferredSize(new Dimension(250, 40));
-        emailField.setMaximumSize(new Dimension(250, 40));
-        panel.add(emailField);
+		// Campo de correo
+		JTextField emailField = new JTextField("Correo");
+		emailField.setPreferredSize(new Dimension(250, 40));
+		emailField.setMaximumSize(new Dimension(250, 40));
+		panel.add(emailField);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
 
-        // Campo de contraseña
-        JPasswordField passField = new JPasswordField();
-        passField.setPreferredSize(new Dimension(250, 40));
-        passField.setMaximumSize(new Dimension(250, 40));
-        panel.add(passField);
+		// Campo de contraseña
+		JPasswordField passField = new JPasswordField();
+		passField.setPreferredSize(new Dimension(250, 40));
+		passField.setMaximumSize(new Dimension(250, 40));
+		panel.add(passField);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
 
-        // Botón de crear cuenta
-        JButton registerButton = new JButton("CREAR CUENTA");
-        registerButton.setBackground(new Color(33, 150, 243)); // Azul de Duolingo
-        registerButton.setForeground(Color.WHITE);
-        registerButton.setFocusPainted(false);
-        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        registerButton.addActionListener(e -> {
-        	// ocultar la ventana de registro
-        	try {
-        		controlador.registrarUsuario(nameField.getText(), emailField.getText(), passField.getPassword(), ageField.getText());
+		// Botón de crear cuenta
+		JButton registerButton = new JButton("CREAR CUENTA");
+		registerButton.setBackground(new Color(33, 150, 243)); // Azul de Duolingo
+		registerButton.setForeground(Color.WHITE);
+		registerButton.setFocusPainted(false);
+		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		registerButton.addActionListener(e -> {
+			// ocultar la ventana de registro
+			try {
+				controlador.registrarUsuario(nameField.getText().trim(), emailField.getText().trim(),
+						passField.getPassword(), ageField.getText().trim());
 			} catch (Exception e1) {
 				UIutils.showErrorDialog("Ese email ya está en uso");
 				return;
 			}
-        	UIutils.showInfoDialog("Usuario registrado correctamente");
-        	this.setVisible(false);
+			UIutils.showInfoDialog("Usuario registrado correctamente");
+			this.setVisible(false);
 			// abrir la ventana principal
-        	InicioApp window = new InicioApp();
+			InicioApp window = new InicioApp();
 			window.frame.setVisible(true);
 		});
-        panel.add(registerButton);
+		panel.add(registerButton);
 
-        panel.add(Box.createRigidArea(new Dimension(20, 20))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(20, 20))); // Espaciado
 
-        // Línea separadora
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setMaximumSize(new Dimension(250, 10));
-        panel.add(separator);
+		// Línea separadora
+		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+		separator.setMaximumSize(new Dimension(250, 10));
+		panel.add(separator);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
 
-        // Botón de Facebook
-        JButton fbButton = new JButton("VOLVER");
-        fbButton.setPreferredSize(new Dimension(70, 40));
-        JPanel socialPanel = new JPanel();
-        socialPanel.add(fbButton);
-        socialPanel.setBackground(Color.WHITE);
-        fbButton.addActionListener(e -> {
-        	// ocultar la ventana de registro
-        	this.setVisible(false);
+		// Botón de Facebook
+		JButton fbButton = new JButton("VOLVER");
+		fbButton.setPreferredSize(new Dimension(70, 40));
+		JPanel socialPanel = new JPanel();
+		socialPanel.add(fbButton);
+		socialPanel.setBackground(Color.WHITE);
+		fbButton.addActionListener(e -> {
+			// ocultar la ventana de registro
+			this.setVisible(false);
 			// abrir la ventana principal
-        	InicioApp window = new InicioApp();
+			InicioApp window = new InicioApp();
 			window.frame.setVisible(true);
-			
+
 		});
-        panel.add(socialPanel);
+		panel.add(socialPanel);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado
 
-        // Términos y condiciones
-        JLabel termsLabel = new JLabel("Al registrarte en Duolingo, aceptas nuestros Términos y Política de privacidad.");
-        termsLabel.setFont(new Font("Arial", Font.PLAIN, 10));
-        termsLabel.setForeground(Color.GRAY);
-        termsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(termsLabel);
+		// Términos y condiciones
+		JLabel termsLabel = new JLabel(
+				"Al registrarte en Duolingo, aceptas nuestros Términos y Política de privacidad.");
+		termsLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+		termsLabel.setForeground(Color.GRAY);
+		termsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(termsLabel);
 
-        this.add(panel);
-		
-		
+		this.add(panel);
+
 		this.setVisible(true);
 	}
 

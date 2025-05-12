@@ -22,7 +22,7 @@ public class RepositorioUsuarios {
 	}
 	
 	
-	public static RepositorioUsuarios getUnicaInstancia() {
+	public static synchronized RepositorioUsuarios getUnicaInstancia() {
 		if (instance == null) {
 			instance = new RepositorioUsuarios();
 		}

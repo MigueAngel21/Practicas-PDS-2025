@@ -10,7 +10,7 @@ import umu.pds.dominio.Progreso;
 public class Secuencial implements EstrategiaAprendizaje {
 
 	// add ID
-	String id = "secuencial";
+	static final String id = "secuencial";
 
 	@Override
 	public int hashCode() {

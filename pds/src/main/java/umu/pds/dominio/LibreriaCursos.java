@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import umu.pds.interfaz.UIutils;
+
 public class LibreriaCursos {
 
 	private static LibreriaCursos instance = null;
@@ -18,7 +20,7 @@ public class LibreriaCursos {
 
 	}
 	
-	public static LibreriaCursos getInstance() {
+	public static synchronized LibreriaCursos getInstance() {
 		if (instance == null) {
 			instance = new LibreriaCursos();
 		}
@@ -36,13 +38,16 @@ public class LibreriaCursos {
 	public void cargarCursos(String path) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		// For every JSON file in path
+		Path file = null;
 		try {
-			for (Path file : java.nio.file.Files.newDirectoryStream(java.nio.file.Paths.get(path))) {
-				EspecificacionCurso curso = objectMapper.readValue(file.toFile(), EspecificacionCurso.class);
+			for (Path f : java.nio.file.Files.newDirectoryStream(java.nio.file.Paths.get(path))) {
+				file = f;
+				EspecificacionCurso curso = objectMapper.readValue(f.toFile(), EspecificacionCurso.class);
 				cursosMap.put(curso.getNombre(), curso);
 			}
 		} catch (Exception e) {
 			System.err.println("Error al cargar el curso, revisa el formateo");
+			UIutils.showErrorDialog("El curso:  " + file + "   no se ha podido cargar");
 		}
 	}
 

@@ -84,6 +84,10 @@ public class Usuario {
 	public List<Curso> getCursos() {
 		return cursos;
 	}
+	
+	public List<Progreso> getProgresos() {
+		return estadisticas.getProgresos();
+	}
 
 	
 

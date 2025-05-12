@@ -142,4 +142,40 @@ class ControladorTest {
 			controlador.setCursoActual(especificacion, "EstrategiaInvalida");
 		});
 	}
+	
+	@Test
+	public void testGetEstrategiasAprendizaje() {
+		List<String> estrategias = controlador.getEstrategiasAprendizaje();
+		assertNotNull(estrategias, "La lista de estrategias no debería ser nula.");
+		assertEquals(3, estrategias.size());
+		for (String estrategia : estrategias) {
+			assertFalse(estrategia.isEmpty(), "El nombre de la estrategia no debería estar vacío.");
+		}
+	}
+	
+	@Test
+	public void testGetLastPregunta() {
+		controlador.setCursoActual(curso);
+		Pregunta pregunta = controlador.getSiguientePregunta();
+		controlador.responderPregunta(1); // Simula la respuesta
+		int lastPregunta = controlador.getLastPregunta();
+		assertEquals(2, lastPregunta, "El número de la última pregunta debería ser 2.");
+	}
+	
+	@Test
+	public void testGetLastPreguntaSinProgreso() {
+		controlador.setCursoActual(curso);
+		int lastPregunta = controlador.getLastPregunta();
+		assertEquals(1, lastPregunta, "El número de la última pregunta debería ser 1 si no hay progreso.");
+	}
+	
+	@Test
+	public void testSetOAuthProvider() {
+		// Comprobamos que google funciona pero otros no
+		controlador.setOAuthProvider("Google");
+		assertThrows(IllegalArgumentException.class, () -> {
+			controlador.setOAuthProvider("InvalidProvider");
+		});
+	}
+	
 }

@@ -1,6 +1,7 @@
 package umu.pds.dominio.estrategiasAprendizaje;
 
 import java.util.Map;
+import java.util.Objects;
 
 import umu.pds.dominio.EstrategiaAprendizaje;
 import umu.pds.dominio.Pregunta;
@@ -8,7 +9,9 @@ import umu.pds.dominio.Progreso;
 
 public class RepeticionEspaciada implements EstrategiaAprendizaje {
 	
-	String id = "repeticion_espaciada";
+
+	static final String id = "repeticion_espaciada";
+	int count = 1;
 	boolean firstTime = true;
 	Map<Integer, Pregunta> preguntasBckup;
 	
@@ -19,12 +22,11 @@ public class RepeticionEspaciada implements EstrategiaAprendizaje {
 			progreso.getRespuestasCorrectasList().stream().forEach(index -> {
 				preguntas.remove(index);
 			});
-			// Insertar las incorrectas al final
-			progreso.getRespuestasIncorrectasList().stream().forEach(index -> {
-				Pregunta pregunta = preguntas.get(index);
-				preguntas.remove(index);
-				preguntas.put(preguntas.size(), pregunta);
-			});
+			 for (int i = 0; i < progreso.getRespuestasIncorrectasList().size(); i++) {
+			 	Pregunta pregunta = preguntas.get(progreso.getRespuestasIncorrectasList().get(i));
+			 	preguntas.remove(progreso.getRespuestasIncorrectasList().get(i));
+			 	preguntas.put(preguntasBckup.size()+(i+1), pregunta);
+			 }
 		}
 	}
 
@@ -56,9 +58,10 @@ public class RepeticionEspaciada implements EstrategiaAprendizaje {
 	@Override
 	public void responderPregunta(Map<Integer, Pregunta> preguntas, Pregunta pregunta, boolean correcta) {
 		if(!correcta) {
-			preguntas.put(preguntas.size()+1, pregunta);
+			preguntas.put(preguntasBckup.size()+count, pregunta);
+			count++;
 		}
-        // remove the question from the map (first occurrence only)
+		 //  Borramos la primera ocurrencia ya que no es buena idea tener dos values con la misma key
 		for (Map.Entry<Integer, Pregunta> entry : preguntas.entrySet()) {
 			if (entry.getValue().equals(pregunta)) {
 				preguntas.remove(entry.getKey());
@@ -66,5 +69,23 @@ public class RepeticionEspaciada implements EstrategiaAprendizaje {
 			}
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RepeticionEspaciada other = (RepeticionEspaciada) obj;
+		return Objects.equals(id, other.id);
+	}
+
 
 }

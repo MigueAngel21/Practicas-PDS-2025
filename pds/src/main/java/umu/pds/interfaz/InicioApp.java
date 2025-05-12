@@ -8,8 +8,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,16 +20,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import umu.pds.controlador.Controlador;
-import umu.pds.dominio.Curso;
-import umu.pds.dominio.EspecificacionCurso;
-import umu.pds.dominio.Estadistica;
-import umu.pds.dominio.Flashcard;
-import umu.pds.dominio.JsonExport;
-import umu.pds.dominio.LibreriaCursos;
-import umu.pds.dominio.MultipleChoice;
-import umu.pds.dominio.Pregunta;
-import umu.pds.dominio.Progreso;
-import umu.pds.dominio.Usuario;
 
 
 

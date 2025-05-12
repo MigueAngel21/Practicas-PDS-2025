@@ -36,10 +36,10 @@ public class Curso {
 		return mapIndexPreguntas.get(pregunta)+1;
 	}
 
-	public boolean responderPregunta(Pregunta pregunta, int respuesta ) {
+	public boolean responderPregunta(Pregunta pregunta, int respuesta) {
 		boolean correcta = pregunta.esCorrecta(respuesta);
 		int numPregunta = getIndexPregunta(pregunta);
-		updateProgreso(numPregunta + 1, correcta);
+		updateProgreso(numPregunta+1, correcta);
 		estrategia.responderPregunta(mapPreguntas, pregunta, correcta);
 		return correcta;
 	}
@@ -108,7 +108,7 @@ public class Curso {
 	}
 
 	public int getLastPregunta() {
-		if (progreso.getLastPregunta() >= mapPreguntas.size()) {
+		if (progreso.getLastPregunta() > mapPreguntas.size()) {
 			this.resetearCurso();
 		}
 		return progreso.getLastPregunta();
