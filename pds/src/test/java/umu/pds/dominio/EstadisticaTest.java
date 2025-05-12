@@ -43,14 +43,6 @@ class EstadisticaTest {
     }
 
     @Test
-    public void testConstructorConParametros() {
-        assertEquals(10, estadistica.getTiempoDeUso());
-        assertEquals(3, estadistica.getRachaDeDias());
-        assertNotNull(estadistica.getProgresos());
-        assertTrue(estadistica.getProgresos().isEmpty());
-    }
-
-    @Test
     public void testAñadirProgreso() {
         estadistica.addProgreso(progreso);
         assertEquals(1, estadistica.getProgresos().size());

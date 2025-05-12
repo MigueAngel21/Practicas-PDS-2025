@@ -169,14 +169,7 @@ public class Controlador {
 	// tienes que antes responder)
 	public Pregunta getSiguientePregunta() {
 		preguntaActual = cursoActual.getSiguientePregunta(progresos.get(cursoActual));
-		if (preguntaActual == null) {
-			resetearCurso();
-		}
 		return preguntaActual;
-	}
-
-	private void resetearCurso() {
-		cursoActual.resetearCurso();
 	}
 
 	public void responderPregunta(int respuesta) {

@@ -34,6 +34,10 @@ class ControladorTestBD {
 	static String[] estrategias() {
 		return new String[] { "Secuencial", "Aleatoria", "RepeticionEspaciada" };
 	};
+	
+	static String[] estrategiasNoRepeticion() {
+		return new String[] { "Secuencial", "Aleatoria" };
+	};
 
 	@Test
 	void testAñadirUsuarios() {
@@ -155,5 +159,63 @@ class ControladorTestBD {
 		// No tienen que quedar más preguntas
 		assertNull(p);
 	}
+	
+	
+	@ParameterizedTest
+	@MethodSource("estrategiasNoRepeticion")
+	void testRehacerCurso(String estrategia) {
+		EspecificacionCurso esp = LibreriaCursos.getInstance().getEspecificacionCurso("Curso de fútbol");
+		controlador.setCursoActual(esp, estrategia);
+
+		Pregunta p = controlador.getSiguientePregunta();
+		while (p != null) {
+			controlador.responderPregunta(1);
+			p = controlador.getSiguientePregunta();
+		}
+
+		// Una vez terminado el curso lo hacemos entero otra vez
+		assertNull(p);
+
+		p = controlador.getSiguientePregunta();
+		// Debe de haberse reseteado
+		assertNotNull(p);
+		while (p != null) {
+			controlador.responderPregunta(1);
+			p = controlador.getSiguientePregunta();
+		}
+	}
+
+	@Test
+	void testRehacerCursoRepeticionEspaciada() {
+		EspecificacionCurso esp = LibreriaCursos.getInstance().getEspecificacionCurso("Curso de fútbol");
+		controlador.setCursoActual(esp, "RepeticionEspaciada");
+
+		int[] correctas = { 1, 1, 0, 0, 0, 1, 0, 2, 1, 2, 1, 2, 1 };
+
+		Pregunta p = controlador.getSiguientePregunta();
+		int i = 0;
+		while (p != null) {
+			controlador.responderPregunta(correctas[i]);
+			p = controlador.getSiguientePregunta();
+			i++;
+		}
+
+		// Una vez terminado el curso lo hacemos entero otra vez
+		assertNull(p);
+
+		p = controlador.getSiguientePregunta();
+		assertNotNull(p);
+
+	    i = 0;
+		while (p != null) {
+			controlador.responderPregunta(correctas[i]);
+			p = controlador.getSiguientePregunta();
+			i++;
+		}
+		
+		assertNull(p);
+
+	}
+
 
 }

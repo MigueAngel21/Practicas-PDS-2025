@@ -49,6 +49,7 @@ public class Usuario {
 	}
 	
 	public void updateEstadisticas(Progreso progreso) {
+		this.estadisticas.calcularTiempoDeUso();
 		this.estadisticas.addProgreso(progreso);
 	}
 	

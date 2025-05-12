@@ -45,7 +45,11 @@ public class Curso {
 	}
 
 	public Pregunta getSiguientePregunta(Progreso progreso) {
-		return estrategia.obtenerSiguientePregunta(mapPreguntas, progreso);
+		Pregunta p =  estrategia.obtenerSiguientePregunta(mapPreguntas, progreso);
+		if (p == null) {
+			resetearCurso();
+		}
+		return p;
 	}
 
 	// Multiple choice

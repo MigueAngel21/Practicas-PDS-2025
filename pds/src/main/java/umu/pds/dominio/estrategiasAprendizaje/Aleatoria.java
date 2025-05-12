@@ -46,7 +46,7 @@ public class Aleatoria implements EstrategiaAprendizaje {
             return pregunta;
         }
 		// Si no hay preguntas disponibles, devolver null y recargar las preguntas
-		// preguntasBckup.forEach((index, pregunta) -> { preguntas.put(index, pregunta); });
+		preguntasBckup.forEach((index, pregunta) -> { preguntas.put(index, pregunta); });
         return null;
 	}
 	

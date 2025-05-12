@@ -115,7 +115,8 @@ public class CursoTest{
 		}
 
 		pregunta = curso.getSiguientePregunta(p);
-		assertNull(pregunta);
+		// Curso reseteado
+		assertNotNull(pregunta);
 	}
 
 	@ParameterizedTest

@@ -97,6 +97,9 @@ public class Preguntas extends JFrame {
 			// conseguir respuesta seleccionada
 			   int lastPregunta = controlador.getLastPregunta();
 			   Pregunta p = controlador.getSiguientePregunta();
+			   if(p == null) {
+				   p = controlador.getSiguientePregunta();
+			   }
 			   JFrame sig = UIutils.creaPreguntaUI(p, lastPregunta);
 			   sig.setVisible(true);
 		});

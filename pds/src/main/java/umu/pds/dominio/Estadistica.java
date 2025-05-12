@@ -1,5 +1,7 @@
 package umu.pds.dominio;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Estadistica {
@@ -17,15 +20,18 @@ public class Estadistica {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
-	private int tiempoDeUso;
+	private long tiempoDeUso;
 	private int rachaDeDias;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Progreso> progresos;
+	@Transient
+	private Instant startTime;
 	
 	public Estadistica() {
 		this.tiempoDeUso = 0;
 		this.rachaDeDias = 0;
 		this.progresos = new java.util.ArrayList<Progreso>();
+		this.startTime = Instant.now();
 	}
 	
 	public Estadistica(int tiempoDeUso, int rachaDeDias) {
@@ -34,8 +40,8 @@ public class Estadistica {
 		this.progresos = new java.util.ArrayList<Progreso>();
 	}
 	
-	public int getTiempoDeUso() {
-		return tiempoDeUso;
+	public long getTiempoDeUso() {
+		return (long) Math.floor(tiempoDeUso/60);
 	}
 	public int getRachaDeDias() {
 		return rachaDeDias;
@@ -53,6 +59,11 @@ public class Estadistica {
 			}
 		}
 		this.progresos.add(progreso);
+	}
+	
+	public void calcularTiempoDeUso() {
+		this.tiempoDeUso = this.tiempoDeUso + Duration.between(startTime, Instant.now()).toSeconds();
+		this.startTime = Instant.now();
 	}
 	
 }
