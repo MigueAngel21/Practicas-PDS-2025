@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -31,7 +32,10 @@ public class RepositorioUsuarios {
 		return instance;
 	}
 	
-	@VisibleForTesting
+	@VisibleForTesting // Soles una anotación (no hace nada)
+	@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
+	// Necesitamos que sea publico ya que lo llamamos desde los test del controlador que estan en otro paquete
+	// Si movemos el controlador de paquete entonces perderiamos los constructores protected del controlador
 	public RepositorioUsuarios(EntityManagerFactory emf, EntityManager entityManager) {
 		this.emf = emf;
 		this.entityManager = entityManager;

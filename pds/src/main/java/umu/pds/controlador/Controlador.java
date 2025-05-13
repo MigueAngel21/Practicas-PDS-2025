@@ -1,9 +1,9 @@
 package umu.pds.controlador;
 
-import java.awt.GraphicsConfiguration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.reflections.Reflections;
@@ -35,10 +35,12 @@ public class Controlador {
 	private OAuthProvider provider;
 
 	private Map<Curso, Progreso> progresos = new java.util.HashMap<Curso, Progreso>();
-	
-	// Para saber los puntos que nos da el curso actual (el progreso se resetea para que se puedan repetir cursos)
-	private int nCorrectas = 0;
-	private int nIncorrectas = 0;
+
+	// Para saber los puntos que nos da el curso actual (el progreso se resetea para
+	// que se puedan repetir cursos)
+	// AtomicInteger es para que sea thread safe (sugerido por SpotBugs)
+	private final AtomicInteger nCorrectas = new AtomicInteger(0);
+	private final AtomicInteger nIncorrectas = new AtomicInteger(0);
 
 	public static synchronized Controlador getUnicaInstancia() {
 		if (instance == null) {
@@ -68,7 +70,7 @@ public class Controlador {
 	protected Controlador(RepositorioUsuarios repositorioUsuarios) {
 		this.repositorioUsuarios = repositorioUsuarios;
 	}
-	
+
 	@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
 	protected Controlador(RepositorioUsuarios repositorioUsuarios, OAuthProvider provider) {
 		this.repositorioUsuarios = repositorioUsuarios;
@@ -179,9 +181,9 @@ public class Controlador {
 	public void responderPregunta(int respuesta) {
 		boolean correcta = cursoActual.responderPregunta(preguntaActual, respuesta);
 		if (correcta) {
-			nCorrectas++;
+			nCorrectas.incrementAndGet();
 		} else {
-			nIncorrectas++;
+			nIncorrectas.incrementAndGet();
 		}
 		usuarioActual.updatePuntos(correcta);
 		// Actualizamos el progreso del curso
@@ -256,12 +258,12 @@ public class Controlador {
 	public int getPuntos() {
 		return usuarioActual.getPuntos();
 	}
-	
+
 	// Importante: Este metodo tiene que llamarlo la UI al acabar un curso SIEMPRE
 	public int getPuntosLastCurso() {
-		int puntos =  usuarioActual.calcularPuntos(nCorrectas, nIncorrectas);
-		nCorrectas = 0;
-		nIncorrectas = 0;
+		int puntos = usuarioActual.calcularPuntos(nCorrectas.get(), nIncorrectas.get());
+		nCorrectas.set(0);
+		nIncorrectas.set(0);
 		return puntos;
 	}
 

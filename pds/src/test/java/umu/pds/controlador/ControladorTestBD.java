@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -31,6 +32,7 @@ class ControladorTestBD {
 	private RepositorioUsuarios repositorioUsuarios;
 
 	@BeforeEach
+	@SuppressFBWarnings("NP_NULL_ON_SOME_PATH_EXCEPTION")
 	void setUp() {
 
 	    // Crear archivo temporal
