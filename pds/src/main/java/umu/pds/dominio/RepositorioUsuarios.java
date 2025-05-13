@@ -2,6 +2,8 @@ package umu.pds.dominio;
 
 import java.util.List;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -27,6 +29,12 @@ public class RepositorioUsuarios {
 			instance = new RepositorioUsuarios();
 		}
 		return instance;
+	}
+	
+	@VisibleForTesting
+	public RepositorioUsuarios(EntityManagerFactory emf, EntityManager entityManager) {
+		this.emf = emf;
+		this.entityManager = entityManager;
 	}
 	
 	

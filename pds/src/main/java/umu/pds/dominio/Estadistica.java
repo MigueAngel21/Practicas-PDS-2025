@@ -16,12 +16,19 @@ import jakarta.persistence.Transient;
 @Entity
 public class Estadistica {
 	
+	// Constantes
+	@Transient
+	public static final int PUNTOS_CORRECTA = 10;
+	@Transient
+	public static final int PUNTOS_INCORRECTA = 5;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
 	private long tiempoDeUso;
 	private int rachaDeDias;
+	private int puntos;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Progreso> progresos;
 	@Transient
@@ -30,15 +37,11 @@ public class Estadistica {
 	public Estadistica() {
 		this.tiempoDeUso = 0;
 		this.rachaDeDias = 0;
+		this.puntos = 0;
 		this.progresos = new java.util.ArrayList<Progreso>();
 		this.startTime = Instant.now();
 	}
 	
-	public Estadistica(int tiempoDeUso, int rachaDeDias) {
-		this.tiempoDeUso = tiempoDeUso;
-		this.rachaDeDias = rachaDeDias;
-		this.progresos = new java.util.ArrayList<Progreso>();
-	}
 	
 	public long getTiempoDeUso() {
 		return (long) Math.floor(tiempoDeUso/60);
@@ -64,6 +67,24 @@ public class Estadistica {
 	public void calcularTiempoDeUso() {
 		this.tiempoDeUso = this.tiempoDeUso + Duration.between(startTime, Instant.now()).toSeconds();
 		this.startTime = Instant.now();
+	}
+
+
+	public void updatePuntos(boolean correcta) {
+		if(correcta) {
+			puntos += PUNTOS_CORRECTA;
+		} else {
+			puntos += PUNTOS_INCORRECTA;
+		}
+	}
+	
+	public int getPuntos() {
+		return puntos;
+	}
+
+
+	public int calcularPuntos(int correctas, int incorrectas) {
+		return (correctas * PUNTOS_CORRECTA) + (incorrectas * PUNTOS_INCORRECTA);
 	}
 	
 }

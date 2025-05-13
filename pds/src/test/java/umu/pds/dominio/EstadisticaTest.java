@@ -30,7 +30,7 @@ class EstadisticaTest {
 				.crearEstrategia("umu.pds.dominio.estrategiasAprendizaje.Secuencial");
         curso = new Curso(especificacion, estrategia);
         progreso = new Progreso(curso);
-        estadistica = new Estadistica(10, 3);
+        estadistica = new Estadistica();
     }
 
     @Test

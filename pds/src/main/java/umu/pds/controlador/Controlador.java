@@ -35,6 +35,10 @@ public class Controlador {
 	private OAuthProvider provider;
 
 	private Map<Curso, Progreso> progresos = new java.util.HashMap<Curso, Progreso>();
+	
+	// Para saber los puntos que nos da el curso actual (el progreso se resetea para que se puedan repetir cursos)
+	private int nCorrectas = 0;
+	private int nIncorrectas = 0;
 
 	public static synchronized Controlador getUnicaInstancia() {
 		if (instance == null) {
@@ -173,7 +177,13 @@ public class Controlador {
 	}
 
 	public void responderPregunta(int respuesta) {
-		cursoActual.responderPregunta(preguntaActual, respuesta);
+		boolean correcta = cursoActual.responderPregunta(preguntaActual, respuesta);
+		if (correcta) {
+			nCorrectas++;
+		} else {
+			nIncorrectas++;
+		}
+		usuarioActual.updatePuntos(correcta);
 		// Actualizamos el progreso del curso
 		Progreso progreso = cursoActual.getProgreso();
 		progresos.put(cursoActual, progreso);
@@ -241,6 +251,18 @@ public class Controlador {
 
 	public int getNumPreguntas() {
 		return cursoActual.getNumPreguntas();
+	}
+
+	public int getPuntos() {
+		return usuarioActual.getPuntos();
+	}
+	
+	// Importante: Este metodo tiene que llamarlo la UI al acabar un curso SIEMPRE
+	public int getPuntosLastCurso() {
+		int puntos =  usuarioActual.calcularPuntos(nCorrectas, nIncorrectas);
+		nCorrectas = 0;
+		nIncorrectas = 0;
+		return puntos;
 	}
 
 }

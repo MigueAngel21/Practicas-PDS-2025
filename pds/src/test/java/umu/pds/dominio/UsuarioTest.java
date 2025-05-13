@@ -13,7 +13,7 @@ class UsuarioTest {
     @BeforeEach
     public void setUp() {
         usuario = new Usuario("Paco", "paco@duopingo.com", "1234", 18);
-        estadistica = new Estadistica(10, 5);
+        estadistica = new Estadistica();
     }
 
     @Test
@@ -37,4 +37,5 @@ class UsuarioTest {
         assertTrue(usuario.comprobarLogin("1234")); // Método aún no implementado
         assertFalse(usuario.comprobarLogin("incorrecta"));
     }
+    
 }

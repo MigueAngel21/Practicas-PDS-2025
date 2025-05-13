@@ -1,18 +1,30 @@
 package umu.pds.controlador;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import umu.pds.dominio.EspecificacionCurso;
 import umu.pds.dominio.LibreriaCursos;
 import umu.pds.dominio.Pregunta;
 import umu.pds.dominio.RepositorioUsuarios;
 
-// Para que los test funcioen en necesario que no exista BD (o que la que exista haya sido creada por los propios test porque estará vacia)
+// Estos test se apoyan 
 class ControladorTestBD {
 
 	private Controlador controlador;
@@ -21,8 +33,30 @@ class ControladorTestBD {
 	@BeforeEach
 	void setUp() {
 
-		controlador = Controlador.getUnicaInstancia();
-		repositorioUsuarios = RepositorioUsuarios.getUnicaInstancia();
+	    // Crear archivo temporal
+		File tempDb = null;
+		try {
+			tempDb = File.createTempFile("test-db-", ".sqlite");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    tempDb.deleteOnExit(); // Se borra automáticamente al cerrar la JVM (opcional)
+
+	    // Usar ese archivo como base de datos y así no interferir con la base de datos de verdad
+	    String jdbcUrl = "jdbc:sqlite:" + tempDb.getAbsolutePath();
+
+        Map<String, String> overrideProps = new HashMap<>();
+        overrideProps.put("jakarta.persistence.jdbc.url", jdbcUrl);
+        overrideProps.put("hibernate.hbm2ddl.auto", "create-drop");
+        overrideProps.put("hibernate.dialect", "org.hibernate.community.dialect.SQLiteDialect");
+
+       
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistencia", overrideProps);
+        EntityManager entityManager = emf.createEntityManager();
+        
+		repositorioUsuarios = new RepositorioUsuarios(emf, entityManager);
+		// Es mejor crear un nuevo controlador en vez de usar la unica instacia cada vez para que se resetee el estado del controlador entre test y test
+		controlador = new Controlador(repositorioUsuarios);
 		// borrar todo
 		repositorioUsuarios.getAllUsuarios().forEach(usuario -> repositorioUsuarios.remove(usuario));
 		controlador.cargarCursosJSON("cursos");
@@ -176,13 +210,17 @@ class ControladorTestBD {
 		// Una vez terminado el curso lo hacemos entero otra vez
 		assertNull(p);
 
+		assertEquals(controlador.getPuntosLastCurso(), 95);
 		p = controlador.getSiguientePregunta();
 		// Debe de haberse reseteado
 		assertNotNull(p);
+		assertEquals(controlador.getPuntos(), 95);
 		while (p != null) {
 			controlador.responderPregunta(1);
 			p = controlador.getSiguientePregunta();
 		}
+		assertEquals(controlador.getPuntosLastCurso(), 95);
+		assertEquals(controlador.getPuntos(), 190);
 	}
 
 	@Test
@@ -203,8 +241,10 @@ class ControladorTestBD {
 		// Una vez terminado el curso lo hacemos entero otra vez
 		assertNull(p);
 
+		assertEquals(controlador.getPuntosLastCurso(),130);
 		p = controlador.getSiguientePregunta();
 		assertNotNull(p);
+		assertEquals(controlador.getPuntos(),130);
 
 	    i = 0;
 		while (p != null) {
@@ -214,6 +254,8 @@ class ControladorTestBD {
 		}
 		
 		assertNull(p);
+		assertEquals(controlador.getPuntos(),260);
+		assertEquals(controlador.getPuntosLastCurso(),130);
 
 	}
 

@@ -90,7 +90,17 @@ public class Usuario {
 		return estadisticas.getProgresos();
 	}
 
-	
+	public void updatePuntos(boolean correcta) {
+		estadisticas.updatePuntos(correcta);
+	}
+
+	public int getPuntos() {
+		return estadisticas.getPuntos();
+	}
+
+	public int calcularPuntos(int correctas, int incorrectas) {
+		return estadisticas.calcularPuntos(correctas, incorrectas);
+	}
 
 
 }

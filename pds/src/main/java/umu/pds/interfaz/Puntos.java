@@ -3,9 +3,11 @@ package umu.pds.interfaz;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,34 +22,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+
+import umu.pds.controlador.Controlador;
 
 
 public class Puntos extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Puntos frame = new Puntos();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Controlador controlador = Controlador.getUnicaInstancia();
 
 	/**
 	 * Create the frame.
@@ -170,7 +153,9 @@ public class Puntos extends JFrame {
 		gbc_verticalStrut_2.gridy = 5;
 		panel_4.add(verticalStrut_2, gbc_verticalStrut_2);
 		
-		JLabel puntos = new JLabel("6");
+		int pts = controlador.getPuntosLastCurso();
+		String ptsStr = String.valueOf(pts);
+		JLabel puntos = new JLabel(ptsStr);
 		puntos.setForeground(new Color(0, 128, 255));
 		puntos.setFont(new Font("Arial", Font.BOLD, 25));
 		GridBagConstraints gbc_puntos = new GridBagConstraints();

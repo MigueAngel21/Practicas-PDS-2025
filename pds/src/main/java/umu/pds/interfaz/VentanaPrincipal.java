@@ -156,7 +156,9 @@ public class VentanaPrincipal extends JFrame {
         panelDerecho.setPreferredSize(new Dimension(100, this.getHeight()));
         panelDerecho.setBackground(Color.WHITE);
 
-        JLabel puntos = new JLabel(" 200");
+        int pts = controlador.getPuntos();
+        String ptsStr = String.valueOf(pts);
+        JLabel puntos = new JLabel(ptsStr);
         puntos.setFont(new Font("Arial", Font.BOLD, 20));
         puntos.setForeground(Color.BLUE);
         puntos.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/pds/resources/joya-puntos.png")));

@@ -13,6 +13,7 @@ public class Curso {
 	private Progreso progreso;
 	private Map<Integer, Pregunta> mapPreguntas;
 	private Map<Pregunta, Integer> mapIndexPreguntas;
+	int puntosLastCurso;
 
 	public Curso(EspecificacionCurso especificacionCurso, EstrategiaAprendizaje estrategia) {
 		this.especificacionCurso = especificacionCurso;
