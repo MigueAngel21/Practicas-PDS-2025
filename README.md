@@ -2,6 +2,8 @@
 
 Proyecto de la asignatura PDS 2024-2025
 
+[![Java CI with Maven](https://github.com/MigueAngel21/Practicas-PDS-2025/actions/workflows/maven.yml/badge.svg)](https://github.com/MigueAngel21/Practicas-PDS-2025/actions/workflows/maven.yml)
+
 Hecho por:
   * Daniel Antonio Martínez Sánchez
   * Miguel Ángel Marín Valero
