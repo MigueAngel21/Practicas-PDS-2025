@@ -32,8 +32,8 @@ public class Curso {
 		this.progreso = progreso;
 	}
 	
-
-	public Integer getIndexPregunta(Pregunta pregunta) {
+//cambio a private, si falla volver a public
+	private Integer getIndexPregunta(Pregunta pregunta) {
 		return mapIndexPreguntas.get(pregunta)+1;
 	}
 

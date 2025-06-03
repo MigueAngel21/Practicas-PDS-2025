@@ -101,6 +101,22 @@
     "correcta" : 1,
     "pregunta" : "",
     "contieneImagen" : true
+  }, {
+	"tipo" : "verdaderoFalso",
+	"enunciado" : "Responde a la siguiente pregunta de Verdadero o Falso:",
+	"numOpciones" : 0,
+	"opciones": [],
+	"correcta" : 1,
+	"pregunta" : "La selección española de fútbol ha ganado un mundial",
+	"contieneImagen" : false
+  }, {
+	"tipo" : "verdaderoFalso",
+	"enunciado" : "Responde a la siguiente pregunta de Verdadero o Falso:",
+	"numOpciones" : 1,
+	"opciones" : ["/umu/pds/resources/Havertz.jpg"],
+	"correcta" : 0,
+	"pregunta": "El siguiente jugador ha jugado en el Real Madrid",
+	"contieneImagen" : true
   } ],
   "imagen" : "/umu/pds/resources/furbo.jpg"
 }

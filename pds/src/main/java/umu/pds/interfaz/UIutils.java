@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import umu.pds.dominio.Flashcard;
 import umu.pds.dominio.MultipleChoice;
 import umu.pds.dominio.Pregunta;
+import umu.pds.dominio.VerdaderoFalso;
 
 public class UIutils {
 
@@ -48,6 +49,8 @@ public class UIutils {
             return new MultipleChoiceUI((MultipleChoice) pregunta, numPregunta);
         } else if (pregunta instanceof Flashcard) {
             return new FlashcardUI((Flashcard) pregunta, numPregunta);
+		} else if (pregunta instanceof VerdaderoFalso) {
+			return new VerdaderoFalsoUI((VerdaderoFalso) pregunta, numPregunta);
         } else {
             return null;
         }
