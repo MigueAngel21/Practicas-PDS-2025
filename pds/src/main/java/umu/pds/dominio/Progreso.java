@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
+import umu.pds.dominio.estrategiasAprendizaje.Multijugador;
 
 @Entity
 public class Progreso {
@@ -28,8 +29,14 @@ public class Progreso {
 	// Necesarios para la conexion entre JSON y JPA
 	private String nombreCurso;
 	private String estrategia;
+	private boolean turnoA;
+	private int puntosA;
+	private int puntosB;
 	@Transient
 	private Curso curso;
+	private int puntosFinalA;
+	private int puntosFinalB;
+	
 
 	public Progreso(Curso curso) {
 		this.respuestasCorrectas = new LinkedList<Integer>();
@@ -37,7 +44,12 @@ public class Progreso {
 		this.lastPregunta = 1;
 		this.curso = curso;
 		this.estrategia = curso.getEstrategia().getClass().getSimpleName();
+		System.out.println("Progreso creado con estrategia: " + this.estrategia);
 		this.nombreCurso = curso.getNombre();
+		this.turnoA = true;
+		this.puntosA = 0;
+		this.puntosB = 0;
+		
 	}
 
 	// Constructor por defecto para JPA
@@ -52,10 +64,16 @@ public class Progreso {
 		if (correcta) {
 			respuestasCorrectas.add(lastPregunta-1);
 			correctas++;
+			if (turnoA) {
+				puntosA++;
+			} else {
+				puntosB++;
+			}
 		} else {
 			respuestasIncorrectas.add(lastPregunta-1);
 			incorrectas++;
 		}
+		turnoA = !turnoA; // Cambiamos el turno
 	}
 
 	public int getRespuestasCorrectas() {
@@ -102,6 +120,13 @@ public class Progreso {
 		this.lastPregunta = 1;
 		this.respuestasCorrectas.clear();
 		this.respuestasIncorrectas.clear();
+		this.correctas = 0;
+		this.incorrectas = 0;
+		this.turnoA = true;
+		this.puntosFinalA = this.puntosA;
+		this.puntosFinalB = this.puntosB;
+		this.puntosA = 0;
+		this.puntosB = 0;
 	}
 
 	public List<Integer> getRespuestasCorrectasList() {
@@ -110,6 +135,30 @@ public class Progreso {
 
 	public List<Integer> getRespuestasIncorrectasList() {
 		return Collections.unmodifiableList(respuestasIncorrectas);
+	}
+	
+	public boolean isTurnoA() {
+		return turnoA;
+	}
+	
+	public void setTurnoA(boolean turnoA) {
+		this.turnoA = turnoA;
+	}
+	
+	public int getPuntosA() {
+		return puntosA;
+	}
+	
+	public int getPuntosB() {
+		return puntosB;
+	}
+	
+	public int getPuntosFinalA() {
+		return puntosFinalA;
+	}
+	
+	public int getPuntosFinalB() {
+		return puntosFinalB;
 	}
 
 }

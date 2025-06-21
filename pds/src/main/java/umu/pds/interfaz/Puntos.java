@@ -153,6 +153,8 @@ public class Puntos extends JFrame {
 		gbc_verticalStrut_2.gridy = 5;
 		panel_4.add(verticalStrut_2, gbc_verticalStrut_2);
 		
+		
+		if (!controlador.getCursoActual().getEstrategia().getClass().getSimpleName().equals("Multijugador")) {
 		int pts = controlador.getPuntosLastCurso();
 		String ptsStr = String.valueOf(pts);
 		JLabel puntos = new JLabel(ptsStr);
@@ -162,7 +164,32 @@ public class Puntos extends JFrame {
 		gbc_puntos.gridx = 1;
 		gbc_puntos.gridy = 6;
 		panel_4.add(puntos, gbc_puntos);
-		
+		} else {
+			int puntosA=controlador.getCursoActual().getProgreso().getPuntosFinalA();
+			int puntosB=controlador.getCursoActual().getProgreso().getPuntosFinalB();
+			JLabel puntos = new JLabel("Puntos A: " + puntosA + " | Puntos B: " + puntosB);
+			puntos.setForeground(new Color(0, 128, 255));
+			//indicar quien ha ganado
+			String ganador;
+			if(puntosA > puntosB) {
+				ganador="Jugador A";
+			} else if(puntosB > puntosA) {
+				ganador="Jugador B";
+			} else {
+				ganador="Empate";
+			}
+			JLabel ganadorLabel = new JLabel("Ganador: " + ganador);
+			ganadorLabel.setForeground(new Color(0, 128, 255));
+			ganadorLabel.setFont(new Font("Arial", Font.BOLD, 25));
+			GridBagConstraints gbc_puntos = new GridBagConstraints();
+			gbc_puntos.gridx = 1;
+			gbc_puntos.gridy = 6;
+			panel_4.add(puntos, gbc_puntos);
+			GridBagConstraints gbc_ganadorLabel = new GridBagConstraints();
+			gbc_ganadorLabel.gridx = 1;
+			gbc_ganadorLabel.gridy = 7;
+			panel_4.add(ganadorLabel, gbc_ganadorLabel);
+		}
 
 		
 		this.setVisible(true);

@@ -141,7 +141,7 @@ class ControladorTest {
 	public void testGetEstrategiasAprendizaje() {
 		List<String> estrategias = controlador.getEstrategiasAprendizaje();
 		assertNotNull(estrategias, "La lista de estrategias no debería ser nula.");
-		assertEquals(3, estrategias.size());
+		assertEquals(4, estrategias.size());
 		for (String estrategia : estrategias) {
 			assertFalse(estrategia.isEmpty(), "El nombre de la estrategia no debería estar vacío.");
 		}

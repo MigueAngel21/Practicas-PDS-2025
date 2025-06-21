@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
 @JsonSubTypes({ @JsonSubTypes.Type(value = Flashcard.class, name = "flashcard"),
 		@JsonSubTypes.Type(value = MultipleChoice.class, name = "multipleChoice"),
+		//añado un nuevo tipo de pregunta del tipo "verdadero o falso"
+		@JsonSubTypes.Type(value = VerdaderoFalso.class, name = "verdaderoFalso")
 })
 public abstract class Pregunta { 
 	private String enunciado;

@@ -195,6 +195,30 @@ public class MultipleChoiceUI extends JFrame {
 			sig.setVisible(true);
 		});
 
+		if (controlador.getCursoActual().getEstrategia().getClass().getSimpleName().equals("Multijugador")) {
+		    // Crear un panel para las puntuaciones
+		    JPanel panelPuntuaciones = new JPanel();
+		    panelPuntuaciones.setLayout(new GridLayout(1, 2, 10, 0)); // Espaciado entre los JLabels
+		    panelPuntuaciones.setBackground(Color.WHITE);
+		    panelPuntuaciones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		    // Crear y configurar los JLabels para las puntuaciones
+		    JLabel lblPuntuacionA = new JLabel("Jugador A: " + controlador.getCursoActual().getProgreso().getPuntosA());
+		    lblPuntuacionA.setFont(new Font("Arial", Font.BOLD, 14));
+		    lblPuntuacionA.setForeground(Color.BLACK);
+
+		    JLabel lblPuntuacionB = new JLabel("Jugador B: " + controlador.getCursoActual().getProgreso().getPuntosB());
+		    lblPuntuacionB.setFont(new Font("Arial", Font.BOLD, 14));
+		    lblPuntuacionB.setForeground(Color.BLACK);
+
+		    // Agregar los JLabels al panel de puntuaciones
+		    panelPuntuaciones.add(lblPuntuacionA);
+		    panelPuntuaciones.add(lblPuntuacionB);
+		    panelPrincipal.add(panelPuntuaciones); // Agregar el panel de puntuaciones al panel principal
+		   }
+
+		    // Agregar el panel de puntuaciones al contenedor principal, justo encima de panelPrincipal
+		
 		// Agregar componentes al panel principal
 		if (!pregunta.contieneImagen()) {
 			panelPrincipal.add(lblPregunta);

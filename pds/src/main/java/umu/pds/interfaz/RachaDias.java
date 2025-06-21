@@ -29,7 +29,8 @@ public class RachaDias extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	//variable para la racha de dias
+	private int rachaDias = 0; // Empieza en 0, se incrementa cada vez que el usuario completa una tarea diaria
 	/**
 	 * Launch the application.
 	 */
@@ -46,6 +47,8 @@ public class RachaDias extends JFrame {
 		});
 	}
 
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -153,8 +156,11 @@ public class RachaDias extends JFrame {
 		
 		ImageIcon imagenMascota = new ImageIcon(getClass().getResource("/umu/pds/resources/DuolingoRachaVictorias.jpg"));
         Image img = imagenMascota.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-		
-		JLabel lblNewLabel_1 = new JLabel("2");
+        
+        
+		//variable para el numero de dias de la racha
+		JLabel lblNewLabel_1 = new JLabel(" " + rachaDias+1 + " Días ");
+		rachaDias++; // Incrementar la racha de días
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 25));
 		lblNewLabel_1.setForeground(new Color(255, 128, 0));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();

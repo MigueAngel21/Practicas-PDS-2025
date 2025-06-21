@@ -71,6 +71,8 @@ public class FlashcardUI extends JFrame {
 		lblPregunta.setFont(new Font("Arial", Font.BOLD, 16));
 		lblPregunta.setForeground(Color.BLACK);
 		panelPregunta.add(lblPregunta);
+		//compruebo si la estrategia del curso actual es el multijugador, y en ese caso creo un JLabel para cada jugador que muestre su puntuación
+		
 
 		// Panel de respuesta
 		JPanel panelRespuesta = new JPanel();
@@ -96,6 +98,30 @@ public class FlashcardUI extends JFrame {
 			}
 		});
 
+		if (controlador.getCursoActual().getEstrategia().getClass().getSimpleName().equals("Multijugador")) {
+		    // Crear un panel para las puntuaciones
+		    JPanel panelPuntuaciones = new JPanel();
+		    panelPuntuaciones.setLayout(new GridLayout(1, 2, 10, 0)); // Espaciado entre los JLabels
+		    panelPuntuaciones.setBackground(Color.WHITE);
+		    panelPuntuaciones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		    // Crear y configurar los JLabels para las puntuaciones
+		    JLabel lblPuntuacionA = new JLabel("Jugador A: " + controlador.getCursoActual().getProgreso().getPuntosA());
+		    lblPuntuacionA.setFont(new Font("Arial", Font.BOLD, 14));
+		    lblPuntuacionA.setForeground(Color.BLACK);
+
+		    JLabel lblPuntuacionB = new JLabel("Jugador B: " + controlador.getCursoActual().getProgreso().getPuntosB());
+		    lblPuntuacionB.setFont(new Font("Arial", Font.BOLD, 14));
+		    lblPuntuacionB.setForeground(Color.BLACK);
+
+		    // Agregar los JLabels al panel de puntuaciones
+		    panelPuntuaciones.add(lblPuntuacionA);
+		    panelPuntuaciones.add(lblPuntuacionB);
+
+		    // Agregar el panel de puntuaciones al contenedor principal, justo encima de panelPrincipal
+		    getContentPane().add(panelPuntuaciones, BorderLayout.NORTH);
+		}
+		
 		JPanel panelPrincipal = new JPanel();
 		panelPrincipal.setBackground(Color.WHITE);
 		GridBagLayout gbl_panelPrincipal = new GridBagLayout();
@@ -108,7 +134,8 @@ public class FlashcardUI extends JFrame {
 		gbc.gridy = 0;
 		gbc.insets = new Insets(20, 0, 20, 0);
 		panelPrincipal.add(panelTarjeta, gbc);
-
+		
+		
 		getContentPane().add(panelPrincipal);
 				
 				JPanel panelBtns = new JPanel();
