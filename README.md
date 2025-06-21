@@ -33,12 +33,14 @@ Desde la pantalla principal también podemos elegir la estrategia de aprendizaje
 * Secuencial: Normal, una pregunta tras otra según el orden definido en el fichero
 * Aleatoria: Como la anterior, pero en este caso el orden de las preguntas es aleatorio
 * Repetición Espaciada: Como secuencial, pero en este caso las preguntas que el usuario falle se irán añadiendo al final de la cola otra vez hasta que las responda correctamente
+* Multijugador: Como secuencial, pero se van turnando jugadorA y jugadorB para responder las preguntas, ganando quien consiga responder correctamente al mayor número de preguntas
 
 Gracias a la persistencia de la aplicación, se puede cerrar un curso en cualquier momento y volver a empezar por donde uno estaba (nota: el mismo curso, pero con otra estrategia de aprendizaje se considera un curso diferente). Además, desde la pestaña de perfil podemos ver nuestras estadísticas referentes a sus cursos y en general. Los cursos tienen tres tipos de preguntas
 
 * MultipleChoice: Una pregunta con N respuestas textuales posibles
 * Flashcard: Una tarjeta que al clicarla se voltea mostrando la solución, el usuario puede indicar si lo sabía (bien) o no (mal)
 * MultiplceChoice con Imagen: Una pregunta con N respuestas en forma de imagen.
+* VerdaderoFalso: Un enunciado que puede ir acompañado de cero o más imágenes al cual se responde pulsando o el botón de "Verdadero" o "Falso"
 
 ## Funcionalidad adicional
 
