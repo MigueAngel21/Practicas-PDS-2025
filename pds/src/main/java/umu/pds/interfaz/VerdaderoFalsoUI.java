@@ -173,14 +173,43 @@ public class VerdaderoFalsoUI extends JFrame {
 			JFrame sig = UIutils.creaPreguntaUI(p, numPregunta + 1);
 			sig.setVisible(true);
 		});
+		
+		if (controlador.getCursoActual().getEstrategia().getClass().getSimpleName().equals("Multijugador")) {
+		    // Crear un panel para las puntuaciones
+		    JPanel panelPuntuaciones = new JPanel();
+		    panelPuntuaciones.setLayout(new GridLayout(1, 2, 10, 0)); // Espaciado entre los JLabels
+		    panelPuntuaciones.setBackground(Color.WHITE);
+		    // Configurar el borde del panel de puntuaciones de forma que lo que haya debajo esté justo debajo
+		    panelPuntuaciones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		    // Crear y configurar los JLabels para las puntuaciones
+		    JLabel lblPuntuacionA = new JLabel("Jugador A: " + controlador.getCursoActual().getProgreso().getPuntosA());
+		    lblPuntuacionA.setFont(new Font("Arial", Font.BOLD, 14));
+		    lblPuntuacionA.setForeground(Color.BLACK);
+
+		    JLabel lblPuntuacionB = new JLabel("Jugador B: " + controlador.getCursoActual().getProgreso().getPuntosB());
+		    lblPuntuacionB.setFont(new Font("Arial", Font.BOLD, 14));
+		    lblPuntuacionB.setForeground(Color.BLACK);
+
+		    // Agregar los JLabels al panel de puntuaciones
+		    panelPuntuaciones.add(lblPuntuacionA);
+		    panelPuntuaciones.add(lblPuntuacionB);
+		    panelPrincipal.add(panelPuntuaciones); // Agregar el panel de puntuaciones al contenedor principal, justo encima de panelPrincipal
+		  }
+
 
 		// Agregar componentes al panel principal
 		panelPrincipal.add(lblPregunta);
+		//añador espacio entre la pregunta y la imagen
+		if (pregunta.contieneImagen()) {
+			panelPrincipal.add(Box.createVerticalStrut(70));
+			panelPrincipal.add(lblFrase);
+		}
 		if (!pregunta.contieneImagen()) {
-		    panelPrincipal.add(Box.createVerticalStrut(10));
+		    panelPrincipal.add(Box.createVerticalStrut(30));
 		    panelPrincipal.add(lblFrase);
 		}
-		panelPrincipal.add(Box.createVerticalStrut(15));
+		panelPrincipal.add(Box.createVerticalStrut(30));
 		panelPrincipal.add(panelOpciones);       // vacío o con imágenes
 		panelPrincipal.add(Box.createVerticalStrut(15));
 		panelPrincipal.add(panelRespuestas);     // botones Verdadero/Falso
